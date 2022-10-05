@@ -1,0 +1,134 @@
+{
+    "Womp Rats": [
+        {
+            "name": "Womp Rat 1",
+            "health": 11,
+            "ac": 13,
+            "dexMod": 2,
+            "initiative": 10,
+            "attacks": {
+                "bite": {
+                    "hitBonus": 4,
+                    "attackBonus": 2,
+                    "diceType": 4,
+                    "diceCount": 2,
+                    "damageType": "kinetic"
+                }
+            }
+        },
+        {
+            "name": "Womp Rat 2",
+            "health": 11,
+            "ac": 13,
+            "dexMod": 2,
+            "initiative": 6,
+            "attacks": {
+                "bite": {
+                    "hitBonus": 4,
+                    "attackBonus": 2,
+                    "diceType": 4,
+                    "diceCount": 2,
+                    "damageType": "kinetic"
+                }
+            }
+        },
+        {
+            "name": "Womp Rat 3",
+            "health": 11,
+            "ac": 13,
+            "dexMod": 2,
+            "initiative": 14,
+            "attacks": {
+                "bite": {
+                    "hitBonus": 4,
+                    "attackBonus": 2,
+                    "diceType": 4,
+                    "diceCount": 2,
+                    "damageType": "kinetic"
+                }
+            }
+        },
+        {
+            "name": "Womp Rat 4",
+            "health": 11,
+            "ac": 13,
+            "dexMod": 2,
+            "initiative": 13,
+            "attacks": {
+                "bite": {
+                    "hitBonus": 4,
+                    "attackBonus": 2,
+                    "diceType": 4,
+                    "diceCount": 2,
+                    "damageType": "kinetic"
+                }
+            }
+        }
+    ],
+    "Imperial Scouts": [
+        {
+            "name": "Imperial Scout 1",
+            "health": 13,
+            "ac": 15,
+            "dexMod": 2,
+            "initiative": 12,
+            "attacks": {
+                "Hold-out Blaster": {
+                    "hitBonus": 4,
+                    "attackBonus": 2,
+                    "diceType": 4,
+                    "diceCount": 1,
+                    "damageType": "energy"
+                },
+                "Vibrodagger": {
+                    "hitBonus": 4,
+                    "attackBonus": 2,
+                    "diceType": 4,
+                    "diceCount": 1,
+                    "damageType": "kinetic"
+                }
+            }
+        },
+        {
+            "name": "Imperial Scout 2",
+            "health": 13,
+            "ac": 15,
+            "dexMod": 2,
+            "initiative": 15,
+            "attacks": {
+                "Hold-out Blaster": {
+                    "hitBonus": 4,
+                    "attackBonus": 2,
+                    "diceType": 4,
+                    "diceCount": 1,
+                    "damageType": "energy"
+                },
+                "Vibrodagger": {
+                    "hitBonus": 4,
+                    "attackBonus": 2,
+                    "diceType": 4,
+                    "diceCount": 1,
+                    "damageType": "kinetic"
+                }
+            }
+        }
+    ],
+    "Townspeople": [
+        {
+            "name": "Small Mob",
+            "health": 46,
+            "ac": 11,
+            "dexMod": 0,
+            "initiative": 6,
+            "attacks": {
+                "Improvised Weapons": {
+                    "hitBonus": 3,
+                    "attackBonus": [1, 0],
+                    "diceType": [6, 6],
+                    "diceCount": [2, 2],
+                    "damageType": ["kinetic", "fire"]
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,102 @@
+#data-table-parent {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.data-table-input {
+    max-width: 3.5em;
+    text-align: center;
+    color: #fdc597;
+    background-color: #6e6e6b;
+    box-shadow: 0 0 10px 2px rgb(59, 59, 59);
+    border: none;
+    border-radius: 0.4em;
+    padding: 0.3em;
+}
+
+.data-table-input:active {
+    border: none !important;
+}
+
+.data-table-health {
+    max-width: 3.5em;
+    text-align: center;
+}
+
+.data-table-initiative {
+    max-width: 3.5em;
+    text-align: center;
+}
+
+#data-table-box {
+    padding: 0.8em;
+    max-width: fit-content;
+    border-radius: 0.6em;
+    box-shadow: 0 0 10px 3px rgb(11, 11, 11);
+    background-color: #262628;
+    min-width: 100%;
+}
+
+.data-table-btn {
+    margin-top: 1em;
+    margin-right: 1em;
+    padding: 0.35em 0.5em 0.35em 0.5em;
+    color: #f3c49e;
+    background-color: #49494d;
+    font-size: 16px;
+    border: none;
+    box-shadow: 0 0 7px 2px rgb(26, 26, 26);
+    border-radius: 0.3em;
+    cursor: pointer;
+}
+
+.data-table-btn:hover {
+    background-color: #3f3f42;
+}
+
+.data-table-btn:active {
+    color: #d7b08f;
+    background-color: #363639;
+}
+
+.data-table-bordered {
+    border: 2px solid #5a5a5a;
+    text-align: center;
+    padding: 8px;
+}
+
+.data-table-header {
+    background-color: rgb(54, 54, 54);
+    color: #e0bc9f;
+}
+
+.data-table-row:nth-child(even) {
+    background-color: rgb(54, 54, 54);
+}
+
+.data-table-row:nth-child(even) .data-table-input {
+    box-shadow: 0 0 10px 2px rgb(45, 45, 45);
+}
+
+.data-table-row:nth-child(odd) {
+    background-color: #4d4d4d;
+}
+
+#data-table-starve-days {
+    font-weight: bold;
+    text-align: center;
+    color: #e0bc9f;
+}
+
+.data-table-update-btn {
+    color: #f2c8a5;
+    background: none;
+    font-weight: bolder;
+    text-align: center;
+    margin: 0 0.4em 0 0.4em;
+    min-width: 1.5rem;
+    min-height: 1.5rem;
+    border: 2px solid #e7c9b0c3;
+    cursor: pointer;
+}
