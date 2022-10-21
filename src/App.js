@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
+import { saveSync } from 'save-file';
 import playersJson from './data/players.json';
 import enemiesJson from './data/enemies.json';
 import DataTable from './DataTable';
 import OrderedTable from './OrderedTable';
 import Selector from './Selector';
-import Modal from './Modal';
+import AttackModal from './AttackModal';
 import './App.css';
 
 function App() {
     const [initiative, setInitiative] = useState(playersJson.map(value => value.initiative));
-    const [encounterData, setEncounter] = useState(undefined);
+    const [encounterData, setEncounterData] = useState(undefined);
+    const [encounterName, setEncounterName] = useState('');
     const [showModal, setShowModal] = useState(false);
 
     const encounterOptions = Object.keys(enemiesJson);
@@ -21,15 +23,38 @@ function App() {
             .map(value => value.initiative);
 
         setInitiative(defaultInitiative);
-        setEncounter(enemiesData);
+        setEncounterData(enemiesData);
+        setEncounterName(key);
+    }
+
+    function savePlayers(health, starveDays) {
+        const updatedPlayersJson = [...playersJson];
+        for (const i in updatedPlayersJson) {
+            updatedPlayersJson[i].health = health[i];
+            updatedPlayersJson[i].starveDays = starveDays[i];
+        }
+        saveSync(JSON.stringify(updatedPlayersJson, null, 4), 'players.json');
+    }
+
+    function saveEnemies(health) {
+        if (encounterName === '') {
+            return;
+        }
+        const updatedEnemiesJson = {...enemiesJson};
+        for (const i in updatedEnemiesJson[encounterName]) {
+            updatedEnemiesJson[encounterName][i].health = health[i];
+        }
+        saveSync(JSON.stringify(updatedEnemiesJson, null, 4), 'enemies.json');
     }
 
     return (
         <div id="app-parent">
             <div id="app-modal">
-                <Modal 
+                <AttackModal 
                     show={showModal} 
-                    close={() => setShowModal(false)} />
+                    close={() => setShowModal(false)} 
+                    targets={playersJson.map(({ name }) => name)}
+                    encounterData={encounterData} />
             </div>
 
             <div className="app-widgets">
@@ -40,7 +65,7 @@ function App() {
                         setInitiative={setInitiative} 
                         canRest={true} 
                         canStarve={true} 
-                        fileName={'players.json'} />
+                        save={savePlayers} />
                 </div>
 
                 {encounterData && <div id="app-enemies">
@@ -51,7 +76,7 @@ function App() {
                         initiativeIndex={playersJson.length} 
                         canAttack={true} 
                         attack={() => {/*setShowModal(true)*/}} 
-                        fileName={'enemies.json'} />
+                        save={saveEnemies} />
                 </div>}
             </div>
 

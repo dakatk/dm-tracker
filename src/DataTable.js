@@ -1,31 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './DataTable.css';
 
 function DataTable(props) {
     const defaultHealth = props.data.map(({ health }) => health);
-    const defaultStarveDays = props.data.map(({ starveDays }) => starveDays);
+    const defaultStarveDays = props.data.map(({ starveDays }) => starveDays || 0);
+
+    const maxHealth = props.data.map(({ maxHealth }) => maxHealth);
+    const maxStarveDays = props.data.map(({ conMod }) => Math.max(1, conMod + 1));
+
     const initiativeIndex = props.initiativeIndex || 0;
 
     const [health, setHealth] = useState(defaultHealth);
     const [starveDays, setStarveDays] = useState(defaultStarveDays);
 
-    function save() {
-        if (!props.fileName) {
-            return;
-        }
-        // const newData = props.data.map((value, index) => {
-        //     return {
-        //         ...value,
-        //         health: health[index],
-        //         staveDays: starveDays[index]
-        //     };
-        // });
-        // fs.writeFileSync(props.fileName, JSON.stringify(newData));
-    }
+    console.log(props.save);
+
+    useEffect(() => {
+        setHealth(defaultHealth);
+        setStarveDays(defaultStarveDays);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.data]);
 
     function allRest() {
-        setHealth(defaultHealth);
+        setHealth(maxHealth);
     }
+    // TODO Individual player rest?
 
     function allStarve() {
         const currentStarveDays = [...starveDays];
@@ -33,7 +32,7 @@ function DataTable(props) {
     }
 
     function allEat() {
-        setStarveDays(defaultStarveDays);
+        setStarveDays(maxStarveDays);
     }
 
     function playerStarve(index) {
@@ -44,7 +43,7 @@ function DataTable(props) {
 
     function playerEat(index) {
         const currentStarveDays = [...starveDays];
-        currentStarveDays[index] = defaultStarveDays[index];
+        currentStarveDays[index] = maxStarveDays[index];
         setStarveDays(currentStarveDays);
     }
 
@@ -66,6 +65,12 @@ function DataTable(props) {
                 <td className="data-table-bordered">{name}</td>
                 <td className="data-table-bordered">{ac}</td>
                 <td className="data-table-bordered">
+                    <button 
+                        title="Rest"
+                        style={{ fontSize: '11px', marginRight: '0.5em' }}
+                        className="data-table-update-btn"
+                        onClick={() => playerEat(index)}>✓
+                    </button>
                     <input 
                         className="data-table-input"
                         type="number" 
@@ -88,11 +93,13 @@ function DataTable(props) {
                 {props.canStarve && 
                     <td id="data-table-starve-days" className="data-table-bordered">
                         <button 
+                            title="Starve"
                             className="data-table-update-btn"
                             onClick={() => playerStarve(index)}>-
                         </button>
                         &nbsp;{starveDays[index]}&nbsp;
                         <button 
+                            title="Eat"
                             style={{ fontSize: '11px' }}
                             className="data-table-update-btn"
                             onClick={() => playerEat(index)}>✓
@@ -135,7 +142,10 @@ function DataTable(props) {
                 <button className="data-table-btn" onClick={() => allStarve()}>All Starve</button>
                 <button className="data-table-btn" onClick={() => allEat()}>All Eat</button>
             </>}
-            <button disabled={!props.fileName} className="data-table-btn" onClick={() => save()}>Save</button>
+            <button 
+                className="data-table-btn" 
+                onClick={() => props.save(health, starveDays)}
+            >Save</button>
         </div>
     );
 }

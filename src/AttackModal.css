@@ -1,4 +1,4 @@
-#modal-parent {
+#attack-modal-parent {
     background-color: white;
     margin: auto;
     width: 70%;
@@ -7,7 +7,7 @@
     z-index: 999 !important;
 }
 
-#modal-close-btn {
+#attack-modal-close-btn {
     font-weight: bold;
     float: right;
 }

@@ -3,8 +3,10 @@
         {
             "name": "Womp Rat 1",
             "health": 11,
+            "maxHealth": 11,
             "ac": 13,
             "dexMod": 2,
+            "conMod": 1,
             "initiative": 10,
             "attacks": {
                 "bite": {
@@ -19,8 +21,10 @@
         {
             "name": "Womp Rat 2",
             "health": 11,
+            "maxHealth": 11,
             "ac": 13,
             "dexMod": 2,
+            "conMod": 1,
             "initiative": 6,
             "attacks": {
                 "bite": {
@@ -35,8 +39,10 @@
         {
             "name": "Womp Rat 3",
             "health": 11,
+            "maxHealth": 11,
             "ac": 13,
             "dexMod": 2,
+            "conMod": 1,
             "initiative": 14,
             "attacks": {
                 "bite": {
@@ -51,8 +57,10 @@
         {
             "name": "Womp Rat 4",
             "health": 11,
+            "maxHealth": 11,
             "ac": 13,
             "dexMod": 2,
+            "conMod": 1,
             "initiative": 13,
             "attacks": {
                 "bite": {
@@ -69,8 +77,10 @@
         {
             "name": "Imperial Scout 1",
             "health": 13,
+            "maxHealth": 13,
             "ac": 15,
             "dexMod": 2,
+            "conMod": 1,
             "initiative": 12,
             "attacks": {
                 "Hold-out Blaster": {
@@ -92,8 +102,10 @@
         {
             "name": "Imperial Scout 2",
             "health": 13,
+            "maxHealth": 13,
             "ac": 15,
             "dexMod": 2,
+            "conMod": 1,
             "initiative": 15,
             "attacks": {
                 "Hold-out Blaster": {
@@ -116,9 +128,11 @@
     "Townspeople": [
         {
             "name": "Small Mob",
-            "health": 46,
+            "health": 0,
+            "maxHealth": 46,
             "ac": 11,
             "dexMod": 0,
+            "conMod": 0,
             "initiative": 6,
             "attacks": {
                 "Improvised Weapons": {
