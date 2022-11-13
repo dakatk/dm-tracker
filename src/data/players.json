@@ -1,8 +1,8 @@
 [
     {
         "name": "Bartholomew",
-        "health": 6,
-        "maxHealth": 6,
+        "health": 12,
+        "maxHealth": 12,
         "ac": 10, 
         "dexMod": 0,
         "conMod": 1,
@@ -11,32 +11,32 @@
     },
     {
         "name": "Admay Adlanha",
-        "health": 9,
-        "maxHealth": 9,
+        "health": 13,
+        "maxHealth": 13,
         "ac": 13,
         "dexMod": 2,
-        "conMod": 2,
-        "starveDays": 3,
+        "conMod": 1,
+        "starveDays": 2,
         "initiative": 0
     },
     {
         "name": "Sevastor Regis",
-        "health": 12,
-        "maxHealth": 12,
+        "health": 23,
+        "maxHealth": 23,
         "ac": 15,
-        "dexMod": 2,
-        "conMod": 3,
-        "starveDays": 4,
+        "dexMod": 3,
+        "conMod": 2,
+        "starveDays": 3,
         "initiative": 0
     },
     {
-        "name": "Devan",
-        "health": 9,
-        "maxHealth": 9,
-        "ac": 13,
+        "name": "Devan Ronnar",
+        "health": 15,
+        "maxHealth": 15,
+        "ac": 14,
         "dexMod": 2,
-        "conMod": 2,
-        "starveDays": 3,
+        "conMod": 1,
+        "starveDays": 2,
         "initiative": 0
     }
 ]

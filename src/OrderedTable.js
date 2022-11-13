@@ -1,5 +1,5 @@
 import React from 'react';
-import './OrderedTable.css';
+import './OrderedTable.scss';
 
 function OrderedTable({firstDataSet, secondDataSet, initiative}) {
     function orderedData() {
@@ -47,7 +47,7 @@ function OrderedTable({firstDataSet, secondDataSet, initiative}) {
     }
 
     return (
-        <div id="ordered-table-box">
+        <div id="widget-box">
             <table id="ordered-table-parent">
                 <thead>
                     <tr className="ordered-table-header">

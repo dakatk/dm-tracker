@@ -1,0 +1,25 @@
+{
+    "list": [
+        {
+            "name": "Han Solo",
+            "type": "Friend",
+            "occupation": "Smuggler",
+            "description": "Pilot of the Millenium Falcon. Gave the party a strange communication device that appears to have localized tracking"
+        },
+        {
+            "name": "Second Sister",
+            "type": "Enemy",
+            "occupation": "Inquisitor",
+            "description": "Appears human, but horribly disfigured. Sevastor has an unexplained fear of her"
+        },
+        {
+            "name": "Runa Tiille",
+            "type": "Friend",
+            "occupation": "Pilot",
+            "description": "Rescued from an Imperial outpost on Bogano. Not much else is known about her"
+        }
+    ],
+    "descriptorKeys": [
+        "type", "occupation", "description"
+    ]
+}

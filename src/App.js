@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import { saveSync } from 'save-file';
 import playersJson from './data/players.json';
 import enemiesJson from './data/enemies.json';
+import npcsJson from './data/npcs.json';
+import questsJson from './data/quests.json';
 import DataTable from './DataTable';
 import OrderedTable from './OrderedTable';
 import Selector from './Selector';
 import AttackModal from './AttackModal';
-import './App.css';
+import NameList from './NameList';
+import './App.scss';
 
+// TODO Generic styles + color theme selector?
 function App() {
     const [initiative, setInitiative] = useState(playersJson.map(value => value.initiative));
     const [encounterData, setEncounterData] = useState(undefined);
@@ -94,6 +98,15 @@ function App() {
                         secondDataSet={encounterData}
                         initiative={initiative}
                     />}
+                </div>
+            </div>
+
+            <div className="app-widgets" id="app-name-lists">
+                <div id="app-npcs">
+                    <NameList list={npcsJson.list} descriptorKeys={npcsJson.descriptorKeys} />
+                </div>
+                <div id="app-quests">
+                    <NameList list={questsJson.list} descriptorKeys={questsJson.descriptorKeys} />
                 </div>
             </div>
         </div>

@@ -1,0 +1,19 @@
+{
+    "list": [
+        {
+            "name": "Imperial Presence on Bogano",
+            "type": "Bounty",
+            "reward": "1 Level, 4000 Credits",
+            "description": "The Empire has a sudden and alarming presence on Bogano. The party has been sent to find out why. They are to bring back a Stormtrooper helmet as proof."
+        },
+        {
+            "name": "Disturbance on Illum",
+            "type": "Bounty",
+            "reward": "1 Level, 2000 Credits",
+            "description": "An unknown disturbance has been reported at Illum. The party has been sent to investigate."
+        }
+    ],
+    "descriptorKeys": [
+        "type", "reward", "description"
+    ]
+}

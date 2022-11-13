@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './DataTable.css';
+import './DataTable.scss';
 
 function DataTable(props) {
     const defaultHealth = props.data.map(({ health }) => health);
@@ -13,8 +13,6 @@ function DataTable(props) {
     const [health, setHealth] = useState(defaultHealth);
     const [starveDays, setStarveDays] = useState(defaultStarveDays);
 
-    console.log(props.save);
-
     useEffect(() => {
         setHealth(defaultHealth);
         setStarveDays(defaultStarveDays);
@@ -24,7 +22,6 @@ function DataTable(props) {
     function allRest() {
         setHealth(maxHealth);
     }
-    // TODO Individual player rest?
 
     function allStarve() {
         const currentStarveDays = [...starveDays];
@@ -45,6 +42,12 @@ function DataTable(props) {
         const currentStarveDays = [...starveDays];
         currentStarveDays[index] = maxStarveDays[index];
         setStarveDays(currentStarveDays);
+    }
+
+    function playerRest(index) {
+        const currentHealth = [...health];
+        currentHealth[index] = maxHealth[index];
+        setHealth(currentHealth);
     }
 
     function updateHealth(e, index) {
@@ -69,7 +72,7 @@ function DataTable(props) {
                         title="Rest"
                         style={{ fontSize: '11px', marginRight: '0.5em' }}
                         className="data-table-update-btn"
-                        onClick={() => playerEat(index)}>✓
+                        onClick={() => playerRest(index)}>✓
                     </button>
                     <input 
                         className="data-table-input"
@@ -110,9 +113,8 @@ function DataTable(props) {
     }
 
     function renderAllRows() {
-        const rows = [];
-        props.data.forEach((obj, index) => 
-            rows.push(renderSingleRow(obj.name, obj.ac, index))
+        const rows = props.data.map((value, index) => 
+            renderSingleRow(value.name, value.ac, index)
         );
         return (
             <table id="data-table-parent">
@@ -132,7 +134,7 @@ function DataTable(props) {
     }
 
     return (
-        <div id="data-table-box">
+        <div id="widget-box">
             {renderAllRows()}
             {props.canRest && 
                 <button className="data-table-btn" onClick={() => allRest()}>Rest</button>}
