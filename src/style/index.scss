@@ -1,3 +1,6 @@
+$themeTextColor: #efc6a4;
+$themeBackgroundColor: #1e1e1e;
+
 body {
   margin: 0;
   -webkit-font-smoothing: antialiased;
@@ -5,8 +8,8 @@ body {
   font-family: 'Open Sans', sans-serif;
 	line-height: 1.75em;
 	font-size: 16px;
-	background-color: #1e1e1e;
-  color: #efc6a4;
+	background-color: $themeBackgroundColor;
+  color: $themeTextColor;
 }
 
 code {
