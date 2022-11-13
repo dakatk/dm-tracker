@@ -1,5 +1,5 @@
 import React from 'react';
-import './OrderedTable.scss';
+import './style/OrderedTable.scss';
 
 function OrderedTable({firstDataSet, secondDataSet, initiative}) {
     function orderedData() {

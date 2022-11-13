@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Selector.scss';
+import './style/Selector.scss';
 
 function Selector({ options, onConfirm }) {
     const [selection, setSelection] = useState(options[0]);

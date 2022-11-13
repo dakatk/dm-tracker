@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './DataTable.scss';
+import './style/DataTable.scss';
 
 function DataTable(props) {
     const defaultHealth = props.data.map(({ health }) => health);

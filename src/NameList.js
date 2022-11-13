@@ -1,4 +1,4 @@
-import './NameList.scss'
+import './style/NameList.scss'
 
 function NameList({list, descriptorKeys}) {
     console.log(list);

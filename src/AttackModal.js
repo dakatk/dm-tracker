@@ -1,5 +1,5 @@
 import React from "react";
-import './AttackModal.scss';
+import './style/AttackModal.scss';
 
 function AttackModal({ show, close, encounterData }) {
     return show && (

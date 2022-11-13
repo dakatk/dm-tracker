@@ -9,7 +9,7 @@ import OrderedTable from './OrderedTable';
 import Selector from './Selector';
 import AttackModal from './AttackModal';
 import NameList from './NameList';
-import './App.scss';
+import './style/App.scss';
 
 // TODO Generic styles + color theme selector?
 function App() {
