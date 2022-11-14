@@ -20,7 +20,7 @@ function App() {
 
     const encounterOptions = Object.keys(enemiesJson);
 
-    function loadEncounter(key) {
+    const loadEncounter = (key) => {
         const enemiesData = enemiesJson[key];
         const defaultInitiative = playersJson
             .concat(enemiesData)
@@ -31,7 +31,7 @@ function App() {
         setEncounterName(key);
     }
 
-    function savePlayers(health, starveDays) {
+    const savePlayers = (health, starveDays) => {
         const updatedPlayersJson = [...playersJson];
         for (const i in updatedPlayersJson) {
             updatedPlayersJson[i].health = health[i];
@@ -40,7 +40,7 @@ function App() {
         saveSync(JSON.stringify(updatedPlayersJson, null, 4), 'players.json');
     }
 
-    function saveEnemies(health) {
+    const saveEnemies = (health) => {
         if (encounterName === '') {
             return;
         }

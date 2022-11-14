@@ -1,10 +1,38 @@
 @import './widget.scss';
 
-// #name-list-box {
-//     padding: 0.8em;
-//     max-width: fit-content;
-//     border-radius: 0.6em;
-//     box-shadow: 0 0 10px 3px rgb(11, 11, 11);
-//     background-color: #262628;
-//     min-width: 100%;
-// }
+#name-list-table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.name-list-entry {
+    padding: 7px 15px 7px 11px;
+    border: 2px solid #5a5a5a;
+    border-radius: 5px;
+    background-color: rgb(54, 54, 54);
+    margin-bottom: 2px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.name-list-details {
+    background-color: #4a4a4a;
+    margin-top: 4px;
+    cursor: default !important;
+}
+
+.name-list-accordian-arrow {
+    float: right;
+    margin-top: 6px;
+}
+
+$descriptionBorderColor: #696969;
+$descriptionBgColor: #5f5f5f;
+
+.name-list-description-line {
+    background-color: $descriptionBgColor;
+    border: 2px solid $descriptionBorderColor;
+    margin-bottom: 4px;
+    padding: 4px 6px 4px 6px;
+}

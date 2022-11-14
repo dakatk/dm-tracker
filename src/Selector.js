@@ -4,11 +4,11 @@ import './style/Selector.scss';
 function Selector({ options, onConfirm }) {
     const [selection, setSelection] = useState(options[0]);
 
-    function updateSelection(e) {
+    const updateSelection = (e) => {
         setSelection(e.target.value);
     }
 
-    function renderOptions() {
+    const renderOptions = () => {
         const optionTags = [];
         for (const optionValue of options) {
             optionTags.push(

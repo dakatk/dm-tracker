@@ -2,7 +2,7 @@ import React from 'react';
 import './style/OrderedTable.scss';
 
 function OrderedTable({firstDataSet, secondDataSet, initiative}) {
-    function orderedData() {
+    const orderedData = () => {
         if (!firstDataSet || !secondDataSet) {
           return [];
         }
@@ -27,7 +27,7 @@ function OrderedTable({firstDataSet, secondDataSet, initiative}) {
         });
     }
 
-    function renderOrderedData() {
+    const renderOrderedData = () => {
         const dataRows = orderedData();
         const rows = new Array(dataRows.length);
 

@@ -19,50 +19,50 @@ function DataTable(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.data]);
 
-    function allRest() {
+    const allRest = () => {
         setHealth(maxHealth);
     }
 
-    function allStarve() {
+    const allStarve = () => {
         const currentStarveDays = [...starveDays];
         setStarveDays(currentStarveDays.map(value => value - 1));
     }
 
-    function allEat() {
+    const allEat = () => {
         setStarveDays(maxStarveDays);
     }
 
-    function playerStarve(index) {
+    const playerStarve = (index) => {
         const currentStarveDays = [...starveDays];
         currentStarveDays[index] -= 1;
         setStarveDays(currentStarveDays);
     }
 
-    function playerEat(index) {
+    const playerEat = (index) => {
         const currentStarveDays = [...starveDays];
         currentStarveDays[index] = maxStarveDays[index];
         setStarveDays(currentStarveDays);
     }
 
-    function playerRest(index) {
+    const playerRest = (index) => {
         const currentHealth = [...health];
         currentHealth[index] = maxHealth[index];
         setHealth(currentHealth);
     }
 
-    function updateHealth(e, index) {
+    const updateHealth = (e, index) => {
         const currentHealth = [...health];
         currentHealth[index] = e.target.value;
         setHealth(currentHealth);
     }
 
-    function updateInitiative(e, index) {
+    const updateInitiative = (e, index) => {
         const currentInitiative = [...props.initiative];
         currentInitiative[index] = e.target.value;
         props.setInitiative(currentInitiative);
     }
 
-    function renderSingleRow(name, ac, index) {
+    const renderSingleRow = (name, ac, index) => {
         return (
             <tr className="data-table-row" key={index}>
                 <td className="data-table-bordered">{name}</td>
@@ -112,10 +112,11 @@ function DataTable(props) {
         );
     }
 
-    function renderAllRows() {
+    const renderAllRows = () => {
         const rows = props.data.map((value, index) => 
             renderSingleRow(value.name, value.ac, index)
         );
+        
         return (
             <table id="data-table-parent">
                 <thead>
