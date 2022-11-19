@@ -47,7 +47,7 @@ function OrderedTable({firstDataSet, secondDataSet, initiative}) {
     }
 
     return (
-        <div id="widget-box">
+        <div className="widget-box">
             <table id="ordered-table-parent">
                 <thead>
                     <tr className="ordered-table-header">

@@ -1,13 +1,41 @@
 #attack-modal-parent {
     background-color: white;
     margin: auto;
-    width: 70%;
-    height: 70%;
+    left: 0; 
+    right: 0;
+    min-width: fit-content;
+    max-width: fit-content;
+    min-height: fit-content;
+    max-height: fit-content;
     position: absolute;
     z-index: 999 !important;
+    padding: 10px;
+    background-color: #444444;
+}
+
+#attack-modal-header {
+
 }
 
 #attack-modal-close-btn {
     font-weight: bold;
     float: right;
+    cursor: pointer;
+}
+
+#attack-modal-contents {
+    float: left;
+}
+
+.attack-modal-row {
+
+}
+
+#attack-modal-results {
+    float: right;
+}
+
+#attack-modal-footer {
+    min-width: 100%;
+    float: inline-start;
 }

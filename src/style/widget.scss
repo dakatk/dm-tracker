@@ -1,10 +1,11 @@
-$widgetBackgroundColor: #262628;
+$widgetBackgroundColor: #272727;
+$widgetShadowColor: #0b0b0b;
 
-#widget-box {
+.widget-box {
     padding: 0.8em;
     max-width: fit-content;
     border-radius: 0.6em;
-    box-shadow: 0 0 10px 3px rgb(11, 11, 11);
+    box-shadow: 0 0 10px 3px $widgetShadowColor;
     background-color: $widgetBackgroundColor;
     min-width: 100%;
 }

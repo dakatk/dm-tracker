@@ -8,15 +8,16 @@
             "dexMod": 2,
             "conMod": 1,
             "initiative": 10,
-            "attacks": {
-                "bite": {
+            "attacks": [
+                {
+                    "name": "bite",
                     "hitBonus": 4,
                     "attackBonus": 2,
                     "diceType": 4,
                     "diceCount": 2,
                     "damageType": "kinetic"
                 }
-            }
+            ]
         },
         {
             "name": "Womp Rat 2",
@@ -26,15 +27,16 @@
             "dexMod": 2,
             "conMod": 1,
             "initiative": 6,
-            "attacks": {
-                "bite": {
+            "attacks": [
+                {
+                    "name": "bite",
                     "hitBonus": 4,
                     "attackBonus": 2,
                     "diceType": 4,
                     "diceCount": 2,
                     "damageType": "kinetic"
                 }
-            }
+            ]
         },
         {
             "name": "Womp Rat 3",
@@ -44,15 +46,16 @@
             "dexMod": 2,
             "conMod": 1,
             "initiative": 14,
-            "attacks": {
-                "bite": {
+            "attacks": [
+                {
+                    "name": "bite",
                     "hitBonus": 4,
                     "attackBonus": 2,
                     "diceType": 4,
                     "diceCount": 2,
                     "damageType": "kinetic"
                 }
-            }
+            ]
         },
         {
             "name": "Womp Rat 4",
@@ -62,15 +65,16 @@
             "dexMod": 2,
             "conMod": 1,
             "initiative": 13,
-            "attacks": {
-                "bite": {
+            "attacks": [
+                {
+                    "name": "bite",
                     "hitBonus": 4,
                     "attackBonus": 2,
                     "diceType": 4,
                     "diceCount": 2,
                     "damageType": "kinetic"
                 }
-            }
+            ]
         }
     ],
     "Imperial Scouts": [
@@ -82,22 +86,24 @@
             "dexMod": 2,
             "conMod": 1,
             "initiative": 12,
-            "attacks": {
-                "Hold-out Blaster": {
+            "attacks": [
+                {
+                    "name": "Hold-out Blaster",
                     "hitBonus": 4,
                     "attackBonus": 2,
                     "diceType": 4,
                     "diceCount": 1,
                     "damageType": "energy"
                 },
-                "Vibrodagger": {
+                {
+                    "name": "Vibrodagger",
                     "hitBonus": 4,
                     "attackBonus": 2,
                     "diceType": 4,
                     "diceCount": 1,
                     "damageType": "kinetic"
                 }
-            }
+            ]
         },
         {
             "name": "Imperial Scout 2",
@@ -107,22 +113,24 @@
             "dexMod": 2,
             "conMod": 1,
             "initiative": 15,
-            "attacks": {
-                "Hold-out Blaster": {
+            "attacks": [
+                {
+                    "name": "Hold-out Blaster",
                     "hitBonus": 4,
                     "attackBonus": 2,
                     "diceType": 4,
                     "diceCount": 1,
                     "damageType": "energy"
                 },
-                "Vibrodagger": {
+                {
+                    "name": "Vibrodagger",
                     "hitBonus": 4,
                     "attackBonus": 2,
                     "diceType": 4,
                     "diceCount": 1,
                     "damageType": "kinetic"
                 }
-            }
+            ]
         }
     ],
     "Townspeople": [
@@ -134,15 +142,16 @@
             "dexMod": 0,
             "conMod": 0,
             "initiative": 6,
-            "attacks": {
-                "Improvised Weapons": {
+            "attacks": [
+                {
+                    "name": "Improvised Weapons",
                     "hitBonus": 3,
                     "attackBonus": [1, 0],
                     "diceType": [6, 6],
                     "diceCount": [2, 2],
                     "damageType": ["kinetic", "fire"]
                 }
-            }
+            ]
         }
     ]
 }

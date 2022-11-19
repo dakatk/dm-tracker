@@ -1,33 +1,34 @@
 import React, { useState } from 'react';
 import './style/Selector.scss';
+import capitalize from './util/capitalize';
 
+// TODO CSS for disabled confirm button
 function Selector({ options, onConfirm }) {
-    const [selection, setSelection] = useState(options[0]);
+    const [selection, setSelection] = useState("");
 
     const updateSelection = (e) => {
         setSelection(e.target.value);
     }
 
     const renderOptions = () => {
-        const optionTags = [];
-        for (const optionValue of options) {
-            optionTags.push(
-                <option value={optionValue} key={optionValue}>
-                    {optionValue.charAt(0).toUpperCase() + optionValue.slice(1)}
+        return options.map(value => {
+            return (
+                <option value={value} key={value}>
+                    {capitalize(value)}
                 </option>
             );
-        }
-        return optionTags;
+        });
     }
 
     return (
-        <div id="selector-box">
+        <div className="widget-box" id="selector-widget">
             <span id="selection">
                 <select 
                     id="selector-dropdown"
                     className="selector-input"
                     value={selection} 
                     onChange={updateSelection}>
+                        <option value="">Select One...</option>
                         {renderOptions()}
                 </select>
             </span>
@@ -35,6 +36,7 @@ function Selector({ options, onConfirm }) {
             <span id="confirm-button">
                 <button 
                     className="selector-input" 
+                    disabled={selection === ""}
                     onClick={() => onConfirm(selection)}>
                         Confirm
                 </button>

@@ -51,14 +51,19 @@ function App() {
         saveSync(JSON.stringify(updatedEnemiesJson, null, 4), 'enemies.json');
     }
 
+    const damagePlayers = (damageData) => {
+        console.log(damageData);
+    }
+
     return (
         <div id="app-parent">
             <div id="app-modal">
-                <AttackModal 
+                {encounterData && <AttackModal 
                     show={showModal} 
                     close={() => setShowModal(false)} 
-                    targets={playersJson.map(({ name }) => name)}
-                    encounterData={encounterData} />
+                    attack={damagePlayers}
+                    playerData={playersJson.map(({ name, ac }) => { return { name, ac }; })}
+                    encounterData={encounterData} />}
             </div>
 
             <div className="app-widgets">
@@ -79,7 +84,7 @@ function App() {
                         setInitiative={setInitiative} 
                         initiativeIndex={playersJson.length} 
                         canAttack={true} 
-                        attack={() => {/*setShowModal(true)*/}} 
+                        attack={() => setShowModal(true)} 
                         save={saveEnemies} />
                 </div>}
             </div>

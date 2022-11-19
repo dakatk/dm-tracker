@@ -135,7 +135,7 @@ function DataTable(props) {
     }
 
     return (
-        <div id="widget-box">
+        <div className="widget-box">
             {renderAllRows()}
             {props.canRest && 
                 <button className="data-table-btn" onClick={() => allRest()}>Rest</button>}

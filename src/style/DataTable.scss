@@ -11,7 +11,7 @@
     text-align: center;
     color: #fdc597;
     background-color: #6e6e6b;
-    box-shadow: 0 0 10px 2px rgb(59, 59, 59);
+    box-shadow: 0 0 10px 2px #3b3b3b;
     border: none;
     border-radius: 0.4em;
     padding: 0.3em;
@@ -36,16 +36,16 @@
     margin-right: 1em;
     padding: 0.35em 0.5em 0.35em 0.5em;
     color: #f3c49e;
-    background-color: #49494d;
+    background-color: #494949;
     font-size: 16px;
     border: none;
-    box-shadow: 0 0 7px 2px rgb(26, 26, 26);
+    box-shadow: 0 0 7px 2px #1a1a1a;
     border-radius: 0.3em;
     cursor: pointer;
 }
 
 .data-table-btn:hover {
-    background-color: #3f3f42;
+    background-color: #3f3f3f;
 }
 
 .data-table-btn:active {
@@ -60,20 +60,20 @@
 }
 
 .data-table-header {
-    background-color: rgb(54, 54, 54);
+    background-color: #363636;
     color: #e0bc9f;
 }
 
 .data-table-row:nth-child(even) {
-    background-color: rgb(54, 54, 54);
+    background-color: #363636;
 }
 
 .data-table-row:nth-child(even) .data-table-input {
-    box-shadow: 0 0 10px 2px rgb(45, 45, 45);
+    box-shadow: 0 0 10px 2px #2d2d2d;
 }
 
 .data-table-row:nth-child(odd) {
-    background-color: #4d4d4d;
+    background-color: #494949;
 }
 
 #data-table-starve-days {
