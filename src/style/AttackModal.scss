@@ -1,38 +1,66 @@
+@import './widget.scss';
+
 #attack-modal-parent {
-    background-color: white;
     margin: auto;
     left: 0; 
     right: 0;
+    top: 15%;
     min-width: fit-content;
     max-width: fit-content;
     min-height: fit-content;
     max-height: fit-content;
     position: absolute;
     z-index: 999 !important;
-    padding: 10px;
-    background-color: #444444;
+    border-radius: 20px;
+    padding: 2em;
+}
+
+.attack-modal-input {
+    margin-right: 0.8em;
 }
 
 #attack-modal-header {
-
+    border: 2px solid $widgetInputDisabledTextColor;
+    padding: 0.8em;
+    background-color: #303030;
 }
 
 #attack-modal-close-btn {
     font-weight: bold;
     float: right;
     cursor: pointer;
+    margin-right: 0.2em;
+    margin-top: 0.3em;
+    font-size: 20px;
 }
 
 #attack-modal-contents {
     float: left;
+    border: 2px solid $widgetInputDisabledTextColor;
+    border-top: none;
+    padding: 0.8em;
+    margin-bottom: 1.5em;
+    background-color: #303030;
 }
 
 .attack-modal-row {
+    margin-top: 0.8em;
+    background-color: #3a3a3a;
+    border: 2px solid #5a5a5a;
+    border-radius: 10px;
+    padding: 0.8em;
+}
 
+#attack-modal-select-all {
+    padding: 0.5em 0 0.5em 0.8em;
 }
 
 #attack-modal-results {
     float: right;
+    overflow-y: scroll;
+    background-color: #303030;
+    border-right: 2px solid $widgetInputDisabledTextColor;
+    border-bottom: 2px solid $widgetInputDisabledTextColor;
 }
 
 #attack-modal-footer {

@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import './style/Selector.scss';
-import capitalize from './util/capitalize';
+import React, { useState } from "react";
+import capitalize from "./util/capitalize";
+import "./style/Selector.scss";
 
-// TODO CSS for disabled confirm button
 function Selector({ options, onConfirm }) {
     const [selection, setSelection] = useState("");
 
@@ -25,7 +24,7 @@ function Selector({ options, onConfirm }) {
             <span id="selection">
                 <select 
                     id="selector-dropdown"
-                    className="selector-input"
+                    className="widget-input"
                     value={selection} 
                     onChange={updateSelection}>
                         <option value="">Select One...</option>
@@ -35,7 +34,7 @@ function Selector({ options, onConfirm }) {
 
             <span id="confirm-button">
                 <button 
-                    className="selector-input" 
+                    className="widget-input" 
                     disabled={selection === ""}
                     onClick={() => onConfirm(selection)}>
                         Confirm

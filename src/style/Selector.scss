@@ -1,17 +1,5 @@
 @import './widget.scss';
 
-// #selector-box {
-//     padding: 0.6em 0.8em 0.6em 0.8em;
-//     min-width: fit-content;
-//     border-radius: 0.6em;
-//     box-shadow: 0 0 10px 3px rgb(11, 11, 11);
-//     background-color: #2a2a2c;
-//     min-width: 100%;
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-// }
-
 #selector-widget {
     display: flex;
     align-items: center;
@@ -19,31 +7,11 @@
 }
 
 #selector-dropdown {
-    margin-right: 0.5em;
+    margin-right: 0.8em;
     min-width: 60%;
 }
 
 #selector-dropdown:active {
     color: #f3c49e !important;
     background-color: #3f3f42 !important;
-}
-
-.selector-input {
-    padding: 0.4em 0.55em 0.4em 0.55em;
-    color: #f3c49e;
-    background-color: #49494d;
-    font-size: 16px;
-    border: none;
-    box-shadow: 0 0 7px 2px rgb(26, 26, 26);
-    border-radius: 0.3em;
-    cursor: pointer;
-}
-
-.selector-input:hover {
-    background-color: #3f3f42;
-}
-
-.selector-input:active {
-    color: #d7b08f;
-    background-color: #363639;
 }

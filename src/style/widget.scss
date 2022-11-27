@@ -1,6 +1,18 @@
 $widgetBackgroundColor: #272727;
 $widgetShadowColor: #0b0b0b;
 
+$widgetInputTextColor: #f3c49e;
+$widgetInputBackgroundColor: #49494d;
+$widgetInputShadowColor: #1a1a1a;
+
+$widgetInputHoverBgColor: #3f3f42;
+
+$widgetInputActiveTextColor: #d7b08f;
+$widgetInputActiveBgColor: #363639;
+
+$widgetInputDisabledTextColor: #f6d8c09f;
+$widgetInputDisabledBgColor: #49494d82;
+
 .widget-box {
     padding: 0.8em;
     max-width: fit-content;
@@ -8,4 +20,30 @@ $widgetShadowColor: #0b0b0b;
     box-shadow: 0 0 10px 3px $widgetShadowColor;
     background-color: $widgetBackgroundColor;
     min-width: 100%;
+}
+
+.widget-input {
+    padding: 0.4em 0.55em 0.4em 0.55em;
+    color: $widgetInputTextColor;
+    background-color: $widgetInputBackgroundColor;
+    font-size: 16px;
+    border: none;
+    box-shadow: 0 0 7px 2px $widgetInputShadowColor;
+    border-radius: 0.3em;
+    cursor: pointer;
+}
+
+.widget-input:hover {
+    background-color: $widgetInputHoverBgColor;
+}
+
+.widget-input:active {
+    color: $widgetInputActiveTextColor;
+    background-color: $widgetInputActiveBgColor;
+}
+
+.widget-input:disabled {
+    color: $widgetInputDisabledTextColor;
+    background-color: $widgetInputDisabledBgColor;
+    cursor: not-allowed;
 }

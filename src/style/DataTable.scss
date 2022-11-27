@@ -6,7 +6,7 @@
     width: 100%;
 }
 
-.data-table-input {
+.data-table-number-input {
     max-width: 3.5em;
     text-align: center;
     color: #fdc597;
@@ -17,7 +17,7 @@
     padding: 0.3em;
 }
 
-.data-table-input:active {
+.data-table-number-input:active {
     border: none !important;
 }
 
@@ -33,24 +33,7 @@
 
 .data-table-btn {
     margin-top: 1em;
-    margin-right: 1em;
-    padding: 0.35em 0.5em 0.35em 0.5em;
-    color: #f3c49e;
-    background-color: #494949;
-    font-size: 16px;
-    border: none;
-    box-shadow: 0 0 7px 2px #1a1a1a;
-    border-radius: 0.3em;
-    cursor: pointer;
-}
-
-.data-table-btn:hover {
-    background-color: #3f3f3f;
-}
-
-.data-table-btn:active {
-    color: #d7b08f;
-    background-color: #363639;
+    margin-right: 0.8em;
 }
 
 .data-table-bordered {

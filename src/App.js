@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-import { saveSync } from 'save-file';
-import playersJson from './data/players.json';
-import enemiesJson from './data/enemies.json';
-import npcsJson from './data/npcs.json';
-import questsJson from './data/quests.json';
-import DataTable from './DataTable';
-import OrderedTable from './OrderedTable';
-import Selector from './Selector';
-import AttackModal from './AttackModal';
-import NameList from './NameList';
-import './style/App.scss';
+import React, { useState } from "react";
+import { saveSync } from "save-file";
+import playersJson from "./data/players.json";
+import enemiesJson from "./data/enemies.json";
+import npcsJson from "./data/npcs.json";
+import questsJson from "./data/quests.json";
+import DataTable from "./DataTable";
+import OrderedTable from "./OrderedTable";
+import Selector from "./Selector";
+import AttackModal from "./AttackModal";
+import NameList from "./NameList";
+import "./style/App.scss";
 
 // TODO Generic styles + color theme selector?
+// FIXME Update health after attacks
 function App() {
     const [initiative, setInitiative] = useState(playersJson.map(value => value.initiative));
     const [encounterData, setEncounterData] = useState(undefined);
@@ -37,7 +38,7 @@ function App() {
             updatedPlayersJson[i].health = health[i];
             updatedPlayersJson[i].starveDays = starveDays[i];
         }
-        saveSync(JSON.stringify(updatedPlayersJson, null, 4), 'players.json');
+        saveSync(JSON.stringify(updatedPlayersJson, null, 4), "players.json");
     }
 
     const saveEnemies = (health) => {
@@ -48,25 +49,48 @@ function App() {
         for (const i in updatedEnemiesJson[encounterName]) {
             updatedEnemiesJson[encounterName][i].health = health[i];
         }
-        saveSync(JSON.stringify(updatedEnemiesJson, null, 4), 'enemies.json');
+        saveSync(JSON.stringify(updatedEnemiesJson, null, 4), "enemies.json");
     }
 
-    const damagePlayers = (damageData) => {
-        console.log(damageData);
+    const damagePlayers = (attackData) => {
+        for (const attackValues of attackData) {
+            if (!attackValues.damages) {
+                continue;
+            }
+
+            const rawDamage = attackValues.damages.map(({ damage }) => damage);
+            const player = playersJson.find(({ name }) => name === attackValues.target);
+
+            if (player.health === 0) {
+                continue;
+            }
+
+            console.log(player.health);
+            player.health -= rawDamage.reduce((a, b) => a + b, 0);
+            player.health = Math.max(player.health, 0);
+            console.log(player.health);
+            console.log(playersJson);
+        }
     }
+
+    const blurWhenModal = (className) => {
+        return `${className} ${showModal ? "app-blur" : ""}`;
+    } 
 
     return (
         <div id="app-parent">
             <div id="app-modal">
-                {encounterData && <AttackModal 
-                    show={showModal} 
+                {showModal && encounterData && <AttackModal
                     close={() => setShowModal(false)} 
                     attack={damagePlayers}
-                    playerData={playersJson.map(({ name, ac }) => { return { name, ac }; })}
+                    playerData={playersJson
+                        .filter(({ health }) => health > 0)
+                        .map(({ name, ac }) => { return { name, ac }; })
+                    }
                     encounterData={encounterData} />}
             </div>
 
-            <div className="app-widgets">
+            <div className={blurWhenModal("app-widgets")}>
                 <div id="app-players">
                     <DataTable
                         data={playersJson} 
@@ -89,7 +113,7 @@ function App() {
                 </div>}
             </div>
 
-            <div className="app-widgets">
+            <div className={blurWhenModal("app-widgets")}>
                 <div id="app-encounter-selector">
                     {encounterOptions.length && <Selector
                         options={encounterOptions}
@@ -106,7 +130,7 @@ function App() {
                 </div>
             </div>
 
-            <div className="app-widgets" id="app-name-lists">
+            <div className={blurWhenModal("app-widgets")} id="app-name-lists">
                 <div id="app-npcs">
                     <NameList list={npcsJson.list} descriptorKeys={npcsJson.descriptorKeys} />
                 </div>

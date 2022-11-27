@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import capitalize from './util/capitalize';
-import './style/NameList.scss'
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import capitalize from "./util/capitalize";
+import "./style/NameList.scss";
 
 function NameList({ list, descriptorKeys }) {
     const [expanded, setExpanded] = useState([]);

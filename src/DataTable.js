@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import './style/DataTable.scss';
+import React, { useEffect, useState } from "react";
+import "./style/DataTable.scss";
 
 function DataTable(props) {
     const defaultHealth = props.data.map(({ health }) => health);
@@ -75,7 +75,7 @@ function DataTable(props) {
                         onClick={() => playerRest(index)}>✓
                     </button>
                     <input 
-                        className="data-table-input"
+                        className="data-table-number-input"
                         type="number" 
                         max={defaultHealth[index]}
                         min={0}
@@ -85,7 +85,7 @@ function DataTable(props) {
                 </td>
                 <td className="data-table-bordered">
                     <input 
-                        className="data-table-input"
+                        className="data-table-number-input"
                         type="number"
                         max={40}
                         min={-10}
@@ -138,17 +138,31 @@ function DataTable(props) {
         <div className="widget-box">
             {renderAllRows()}
             {props.canRest && 
-                <button className="data-table-btn" onClick={() => allRest()}>Rest</button>}
+                <button 
+                    className="widget-input data-table-btn" 
+                    onClick={() => allRest()}>Rest
+                </button>
+            }
             {props.canAttack &&
-                <button className="data-table-btn" onClick={() => props.attack()}>Attack</button>}
+                <button 
+                    className="widget-input data-table-btn" 
+                    onClick={() => props.attack()}>Attack
+                </button>
+            }
             {props.canStarve && <>
-                <button className="data-table-btn" onClick={() => allStarve()}>All Starve</button>
-                <button className="data-table-btn" onClick={() => allEat()}>All Eat</button>
+                <button 
+                    className="widget-input data-table-btn" 
+                    onClick={() => allStarve()}>All Starve
+                </button>
+                <button 
+                    className="widget-input data-table-btn" 
+                    onClick={() => allEat()}>All Eat
+                </button>
             </>}
             <button 
-                className="data-table-btn" 
-                onClick={() => props.save(health, starveDays)}
-            >Save</button>
+                className="widget-input data-table-btn" 
+                onClick={() => props.save(health, starveDays)}>Save
+            </button>
         </div>
     );
 }

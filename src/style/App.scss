@@ -8,6 +8,10 @@
     float: left;
 }
 
+.app-blur {
+    filter: blur(5px);
+}
+
 #app-players {
     margin-bottom: 1.6em;
     margin-right: 1.2em;

@@ -4,9 +4,10 @@ import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import capitalize from "./util/capitalize";
 import isString from "./util/isString";
 import d from "./util/roll";
-import './style/AttackModal.scss';
+import "./style/AttackModal.scss";
 
-function AttackModal({ show, close, attack, encounterData, playerData }) {
+// TODO Disable widget layer below open modal
+function AttackModal({ close, attack, encounterData, playerData }) {
     const defaultAttackSelection = encounterData.map(value => value?.attacks[0]);
     const defaultTargetSelection = encounterData.map(() => playerData[0]?.name);
     const defaultEnabledRows = encounterData.map(() => false);
@@ -22,7 +23,7 @@ function AttackModal({ show, close, attack, encounterData, playerData }) {
         setEnabledRows(defaultEnabledRows);
         setResults([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [encounterData]);
+    }, [/*playerData, */encounterData]);
 
     const doAttack = () => {
         const attackValues = selectedAttacks.map(attackJson => {
@@ -51,12 +52,8 @@ function AttackModal({ show, close, attack, encounterData, playerData }) {
 
         const hit = d(20);
         const player = playerData.find(({name}) => name === target);
-        // console.log(`hit: ${hit}`);
-        // console.log(`hitBonus: ${attack.hitBonus}`);
-        // console.log(`ac: ${player.ac}`);
-        // console.log(`isHit: ${hit + attack.attackBonus >= player.ac}`);
         
-        let damages = [0];
+        let damages = [];
         let str = `${attackerName} missed.`;
 
         if (hit === 1) {
@@ -67,6 +64,7 @@ function AttackModal({ show, close, attack, encounterData, playerData }) {
             str = `${attackerName} hit ${target} for ${damageData.str}`;
             damages = damageData.values;
         }
+
         return {
             damages,
             str,
@@ -93,26 +91,28 @@ function AttackModal({ show, close, attack, encounterData, playerData }) {
 
     const rollAttackDice = (diceTypes, attackBonuses, diceCounts, damageTypes, critical) => {
         return diceTypes.map((diceType, index) => {
-            const attackBonus = attackBonuses[index];
-            const diceCount = diceCounts[index];
+            const attackBonus = (Array.isArray(attackBonuses) && attackBonuses[index]) || attackBonuses;
+            const diceCount = (Array.isArray(diceCounts) && diceCounts[index]) || diceCounts;
+            const type = (Array.isArray(damageTypes) && damageTypes[index]) || damageTypes;
 
             let damage = d(diceType, diceCount) + attackBonus;
             if (critical) {
                 damage *= 2;
             }
-
-            return {
-                damage,
-                type: damageTypes[index]
-            }
+            
+            return { damage, type };
         });
     }
 
     const showResults = () => {
         return (
-            <div>Results: {results && results.map(
-                (value, index) => <div key={index}>{value.str}</div>
-            )}</div>
+            <div>Results: {results && 
+                <ol>
+                    {results.map((value, index) => 
+                        <li key={index}>{value.str}</li>
+                    )}
+                </ol>
+            }</div>
         );
     }
 
@@ -120,9 +120,10 @@ function AttackModal({ show, close, attack, encounterData, playerData }) {
         return (
             <div className="attack-modal-row" key={index}>
                 <input 
+                    className="widget-input attack-modal-input"
                     checked={enabledRows[index]}
                     onChange={e => enableRow(e, index)} 
-                    type="checkbox" /> {enemy.name} {attackOptions(enemy.attacks, index)} {targetOptions(index)}
+                    type="checkbox" /> {enemy.name}&nbsp;&nbsp;&nbsp;{attackOptions(enemy.attacks, index)} {targetOptions(index)}
             </div>
         );
     }
@@ -133,22 +134,34 @@ function AttackModal({ show, close, attack, encounterData, playerData }) {
         setEnabledRows(nextEnabledRows);
     }
 
+    const enableAllRows = (event) => {
+        const nextEnabledRows = [...enabledRows];
+        nextEnabledRows.fill(event.target.checked); 
+        setEnabledRows(nextEnabledRows);
+    }
+
     const attackOptions = (attacks, rowIndex) => {
         return (
-            <select value={selectedAttacks[rowIndex]} onChange={event => selectOption(event, rowIndex, selectedAttacks, setSelectedAttacks)}>
-                {attacks.map((attack, index) =>
-                    <option key={index} value={JSON.stringify(attack)}>{capitalize(attack.name)}</option>
-                )}
+            <select 
+                className="widget-input attack-modal-input"
+                value={selectedAttacks[rowIndex]} 
+                onChange={event => selectOption(event, rowIndex, selectedAttacks, setSelectedAttacks)}>
+                    {attacks.map((attack, index) =>
+                        <option key={index} value={JSON.stringify(attack)}>{capitalize(attack.name)}</option>
+                    )}
             </select>
         );
     }
 
     const targetOptions = (rowIndex) => {
         return (
-            <select value={selectedTargets[rowIndex]} onChange={event => selectOption(event, rowIndex, selectedTargets, setSelectedTargets)}>
-                {playerData.map(({name}, index) =>
-                    <option key={index} value={name}>{name}</option>
-                )}
+            <select 
+                className="widget-input attack-modal-input"
+                value={selectedTargets[rowIndex]} 
+                onChange={event => selectOption(event, rowIndex, selectedTargets, setSelectedTargets)}>
+                    {playerData.map(({name}, index) =>
+                        <option key={index} value={name}>{name}</option>
+                    )}
             </select>
         );
     }
@@ -161,8 +174,8 @@ function AttackModal({ show, close, attack, encounterData, playerData }) {
         setState(nextState);
     }
 
-    return show && (
-        <div id="attack-modal-parent">
+    return (
+        <div id="attack-modal-parent" className="widget-box">
             <div id="attack-modal-header">
                 Enemy Attacks
                 <FontAwesomeIcon 
@@ -172,6 +185,12 @@ function AttackModal({ show, close, attack, encounterData, playerData }) {
             </div>
 
             <div id="attack-modal-contents">
+                <div id="attack-modal-select-all">
+                    <input
+                        className="widget-input"
+                        onChange={e => enableAllRows(e)}
+                        type="checkbox" />&nbsp;&nbsp;&nbsp;Select All
+                </div>
                 {encounterData.map(attackRow)}
             </div>
 
@@ -180,7 +199,10 @@ function AttackModal({ show, close, attack, encounterData, playerData }) {
             </div>
 
             <div id="attack-modal-footer">
-                <button onClick={() => doAttack()}>Attack</button>
+                <button
+                    className="widget-input attack-modal-input"
+                    onClick={() => doAttack()}>Attack
+                </button>
             </div>
         </div>
     );
