@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { saveSync } from "save-file";
 import playersJson from "./data/players.json";
 import enemiesJson from "./data/enemies.json";
@@ -9,15 +9,16 @@ import OrderedTable from "./OrderedTable";
 import Selector from "./Selector";
 import AttackModal from "./AttackModal";
 import NameList from "./NameList";
+import blurBackground from "./util/blurBackground";
 import "./style/App.scss";
 
 // TODO Generic styles + color theme selector?
-// FIXME Update health after attacks
 function App() {
-    const [initiative, setInitiative] = useState(playersJson.map(value => value.initiative));
+    const [initiative, setInitiative] = useState(playersJson.map(({ initiative }) => initiative));
     const [encounterData, setEncounterData] = useState(undefined);
     const [encounterName, setEncounterName] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [autoDamage, setAutoDamage] = useState([]);
 
     const encounterOptions = Object.keys(enemiesJson);
 
@@ -53,32 +54,33 @@ function App() {
     }
 
     const damagePlayers = (attackData) => {
+        const autoDamageValues = [];
         for (const attackValues of attackData) {
             if (!attackValues.damages) {
                 continue;
             }
 
             const rawDamage = attackValues.damages.map(({ damage }) => damage);
-            const player = playersJson.find(({ name }) => name === attackValues.target);
+            const playerIndex = playersJson.findIndex(({ name }) => name === attackValues.target);
 
-            if (player.health === 0) {
-                continue;
-            }
-
-            console.log(player.health);
-            player.health -= rawDamage.reduce((a, b) => a + b, 0);
-            player.health = Math.max(player.health, 0);
-            console.log(player.health);
-            console.log(playersJson);
+            autoDamageValues.push({
+                index: playerIndex,
+                value: rawDamage.reduce((a, b) => a + b, 0)
+            });
         }
+        setAutoDamage(autoDamageValues);
     }
 
-    const blurWhenModal = (className) => {
-        return `${className} ${showModal ? "app-blur" : ""}`;
-    } 
+    useEffect(() => {
+        for (const {index, value} of autoDamage) {
+            const currHealth = playersJson[index].health;
+            playersJson[index].health = Math.max(0, currHealth - value);
+        }
+    }, [autoDamage]);
 
     return (
         <div id="app-parent">
+            {showModal && <div id="app-modal-mask"></div>}
             <div id="app-modal">
                 {showModal && encounterData && <AttackModal
                     close={() => setShowModal(false)} 
@@ -90,7 +92,7 @@ function App() {
                     encounterData={encounterData} />}
             </div>
 
-            <div className={blurWhenModal("app-widgets")}>
+            <div className={blurBackground("app-widgets", showModal)}>
                 <div id="app-players">
                     <DataTable
                         data={playersJson} 
@@ -98,7 +100,8 @@ function App() {
                         setInitiative={setInitiative} 
                         canRest={true} 
                         canStarve={true} 
-                        save={savePlayers} />
+                        save={savePlayers} 
+                        autoDamage={autoDamage} />
                 </div>
 
                 {encounterData && <div id="app-enemies">
@@ -113,7 +116,7 @@ function App() {
                 </div>}
             </div>
 
-            <div className={blurWhenModal("app-widgets")}>
+            <div className={blurBackground("app-widgets", showModal)}>
                 <div id="app-encounter-selector">
                     {encounterOptions.length && <Selector
                         options={encounterOptions}
@@ -130,7 +133,7 @@ function App() {
                 </div>
             </div>
 
-            <div className={blurWhenModal("app-widgets")} id="app-name-lists">
+            <div className={blurBackground("app-widgets", showModal)} id="app-name-lists">
                 <div id="app-npcs">
                     <NameList list={npcsJson.list} descriptorKeys={npcsJson.descriptorKeys} />
                 </div>

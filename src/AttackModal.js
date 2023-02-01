@@ -159,7 +159,7 @@ function AttackModal({ close, attack, encounterData, playerData }) {
                 className="widget-input attack-modal-input"
                 value={selectedTargets[rowIndex]} 
                 onChange={event => selectOption(event, rowIndex, selectedTargets, setSelectedTargets)}>
-                    {playerData.map(({name}, index) =>
+                    {playerData.map(({name}, index) => 
                         <option key={index} value={name}>{name}</option>
                     )}
             </select>
@@ -185,17 +185,18 @@ function AttackModal({ close, attack, encounterData, playerData }) {
             </div>
 
             <div id="attack-modal-contents">
-                <div id="attack-modal-select-all">
-                    <input
-                        className="widget-input"
-                        onChange={e => enableAllRows(e)}
-                        type="checkbox" />&nbsp;&nbsp;&nbsp;Select All
+                <div id="attack-modal-target">
+                    <div id="attack-modal-select-all">
+                        <input
+                            className="widget-input"
+                            onChange={e => enableAllRows(e)}
+                            type="checkbox" />&nbsp;&nbsp;&nbsp;Select All
+                    </div>
+                    {encounterData.map(attackRow)}
                 </div>
-                {encounterData.map(attackRow)}
-            </div>
-
-            <div id="attack-modal-results">
-                {showResults()}
+                <div id="attack-modal-results">
+                    {showResults()}
+                </div>
             </div>
 
             <div id="attack-modal-footer">

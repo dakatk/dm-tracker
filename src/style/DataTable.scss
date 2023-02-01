@@ -10,9 +10,9 @@
     max-width: 3.5em;
     text-align: center;
     color: #fdc597;
-    background-color: #6e6e6b;
+    background-color: #4e4e4b;
     box-shadow: 0 0 10px 2px #3b3b3b;
-    border: none;
+    border: 2px solid $widgetBorderColor;
     border-radius: 0.4em;
     padding: 0.3em;
 }
@@ -37,9 +37,9 @@
 }
 
 .data-table-bordered {
-    border: 2px solid #5a5a5a;
+    border: 2px solid $widgetBorderColor;
     text-align: center;
-    padding: 8px;
+    padding: 0.6em;
 }
 
 .data-table-header {
@@ -56,7 +56,7 @@
 }
 
 .data-table-row:nth-child(odd) {
-    background-color: #494949;
+    background-color: #303030;
 }
 
 #data-table-starve-days {
@@ -75,4 +75,10 @@
     min-height: 1.5rem;
     border: 2px solid #e7c9b0c3;
     cursor: pointer;
+}
+
+.data-table-rest-btn {
+    margin-right: 1em;
+    font-size: 11px;
+    margin-bottom: 5px;
 }

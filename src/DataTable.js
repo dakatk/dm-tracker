@@ -19,6 +19,18 @@ function DataTable(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.data]);
 
+    useEffect(() => {
+        if (!props.autoDamage) {
+            return;
+        }
+        for (const damage of props.autoDamage) {
+            const currentHealth = [...health];
+            currentHealth[damage.index] = Math.max(currentHealth[damage.index] - damage.value, 0);
+            setHealth(currentHealth);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [props.autoDamage]);
+
     const allRest = () => {
         setHealth(maxHealth);
     }
@@ -32,19 +44,19 @@ function DataTable(props) {
         setStarveDays(maxStarveDays);
     }
 
-    const playerStarve = (index) => {
+    const starve = (index) => {
         const currentStarveDays = [...starveDays];
         currentStarveDays[index] -= 1;
         setStarveDays(currentStarveDays);
     }
 
-    const playerEat = (index) => {
+    const eat = (index) => {
         const currentStarveDays = [...starveDays];
         currentStarveDays[index] = maxStarveDays[index];
         setStarveDays(currentStarveDays);
     }
 
-    const playerRest = (index) => {
+    const rest = (index) => {
         const currentHealth = [...health];
         currentHealth[index] = maxHealth[index];
         setHealth(currentHealth);
@@ -70,9 +82,8 @@ function DataTable(props) {
                 <td className="data-table-bordered">
                     <button 
                         title="Rest"
-                        style={{ fontSize: '11px', marginRight: '0.5em' }}
-                        className="data-table-update-btn"
-                        onClick={() => playerRest(index)}>✓
+                        className="data-table-update-btn data-table-rest-btn"
+                        onClick={() => rest(index)}>✓
                     </button>
                     <input 
                         className="data-table-number-input"
@@ -98,14 +109,14 @@ function DataTable(props) {
                         <button 
                             title="Starve"
                             className="data-table-update-btn"
-                            onClick={() => playerStarve(index)}>-
+                            onClick={() => starve(index)}>-
                         </button>
                         &nbsp;{starveDays[index]}&nbsp;
                         <button 
                             title="Eat"
                             style={{ fontSize: '11px' }}
                             className="data-table-update-btn"
-                            onClick={() => playerEat(index)}>✓
+                            onClick={() => eat(index)}>✓
                         </button>
                     </td>}
             </tr>

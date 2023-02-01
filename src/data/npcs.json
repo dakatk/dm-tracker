@@ -17,7 +17,19 @@
             "type": "Friend",
             "occupation": "Pilot",
             "description": "Rescued from an Imperial outpost on Bogano. Not much else is known about her"
-        }
+        },
+        {
+            "name": "Greg",
+            "type": "??????",
+            "occupation": "Greg",
+            "description": "Commander of the first Greg detachment of the Greg squadron of the Greg battalion"
+        },
+	{
+		"name": "Orar Janraw",
+		"type": "Adversary",
+		"occupation": "Crime Lord",
+		"description": "Former Black Sun, now runs an illegal club on Ord Mantell. Wants to resurrect the Black Suns to their former glory"
+	}
     ],
     "descriptorKeys": [
         "type", "occupation", "description"

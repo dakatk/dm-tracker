@@ -38,5 +38,15 @@
         "conMod": 1,
         "starveDays": 2,
         "initiative": 0
+    },
+    {
+        "name": "Zia",
+        "health": 17,
+        "maxHealth": 17,
+        "ac": 15,
+        "dexMod": 3,
+        "conMod": 1,
+        "starveDays": 2,
+        "initiative": 0
     }
 ]

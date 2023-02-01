@@ -1,0 +1,24 @@
+// Theme base color (default: #efc6a4)
+$themeColor: var(--theme-color);
+
+// Theme background color
+$themeBackgroundColor: #1e1e1e;
+
+// Widget border color
+$widgetBorderColor: #f6d8c09f;
+
+// Widget input field colors
+$widgetInputTextColor: #f3c49e;
+$widgetInputActiveTextColor: #d7b08f;
+$widgetInputDisabledTextColor: #f6d8c09f;
+
+// Widget background/shadow colors
+$widgetBackgroundColor: #272727;
+$widgetShadowColor: #0b0b0b;
+
+// Widget input field background/shadow colors
+$widgetInputBackgroundColor: #49494d;
+$widgetInputShadowColor: #1a1a1a;
+$widgetInputHoverBgColor: #3f3f42;
+$widgetInputActiveBgColor: #363639;
+$widgetInputDisabledBgColor: #49494d82;

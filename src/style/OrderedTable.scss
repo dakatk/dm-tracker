@@ -7,7 +7,7 @@
 }
 
 .ordered-table-bordered {
-    border: 2px solid #5a5a5a;
+    border: 2px solid $widgetBorderColor;
     text-align: center;
     padding: 8px;
 }
@@ -22,7 +22,7 @@
 }
 
 .ordered-table-row:nth-child(odd) {
-    background-color: #494949;
+    background-color: #303030;
 }
 
 #ordered-table-index {
