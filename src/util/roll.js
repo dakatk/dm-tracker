@@ -1,5 +1,5 @@
 const _d = (sides) => {
-    const value = Math.round(Math.random() * sides) + 1;
+    const value = Math.round(Math.random() * (sides - 1)) + 1;
     if (value > sides) {
         return sides;
     } else if (value < 1) {

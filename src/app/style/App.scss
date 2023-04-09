@@ -14,6 +14,11 @@
     z-index: 998 !important;
 }
 
+.app-menu {
+    min-width: 100%;
+    min-height: min-content;
+}
+
 .app-widgets {
     position: relative;
     margin-right: 2.7em;

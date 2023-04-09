@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import capitalize from "./util/capitalize";
-import isString from "./util/isString";
-import d from "./util/roll";
-import "./style/AttackModal.scss";
+import React, { useEffect, useState } from 'react';
 
-// TODO Disable widget layer below open modal
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+
+import capitalize from '../util/capitalize';
+import isString from '../util/isString';
+import d from '../util/roll';
+
+import './style/AttackModal.scss';
+
 function AttackModal({ close, attack, encounterData, playerData }) {
     const defaultAttackSelection = encounterData.map(value => value?.attacks[0]);
     const defaultTargetSelection = encounterData.map(() => playerData[0]?.name);
@@ -118,12 +120,12 @@ function AttackModal({ close, attack, encounterData, playerData }) {
 
     const attackRow = (enemy, index) => {
         return (
-            <div className="attack-modal-row" key={index}>
+            <div className='attack-modal-row' key={index}>
                 <input 
-                    className="widget-input attack-modal-input"
+                    className='widget-input attack-modal-input'
                     checked={enabledRows[index]}
                     onChange={e => enableRow(e, index)} 
-                    type="checkbox" /> {enemy.name}&nbsp;&nbsp;&nbsp;{attackOptions(enemy.attacks, index)} {targetOptions(index)}
+                    type='checkbox' /> {enemy.name}&nbsp;&nbsp;&nbsp;{attackOptions(enemy.attacks, index)} {targetOptions(index)}
             </div>
         );
     }
@@ -143,7 +145,7 @@ function AttackModal({ close, attack, encounterData, playerData }) {
     const attackOptions = (attacks, rowIndex) => {
         return (
             <select 
-                className="widget-input attack-modal-input"
+                className='widget-input attack-modal-input'
                 value={selectedAttacks[rowIndex]} 
                 onChange={event => selectOption(event, rowIndex, selectedAttacks, setSelectedAttacks)}>
                     {attacks.map((attack, index) =>
@@ -156,7 +158,7 @@ function AttackModal({ close, attack, encounterData, playerData }) {
     const targetOptions = (rowIndex) => {
         return (
             <select 
-                className="widget-input attack-modal-input"
+                className='widget-input attack-modal-input'
                 value={selectedTargets[rowIndex]} 
                 onChange={event => selectOption(event, rowIndex, selectedTargets, setSelectedTargets)}>
                     {playerData.map(({name}, index) => 
@@ -175,33 +177,33 @@ function AttackModal({ close, attack, encounterData, playerData }) {
     }
 
     return (
-        <div id="attack-modal-parent" className="widget-box">
-            <div id="attack-modal-header">
+        <div id='attack-modal-parent' className='widget-box'>
+            <div id='attack-modal-header'>
                 Enemy Attacks
                 <FontAwesomeIcon 
                     icon={faXmark} 
-                    id="attack-modal-close-btn"
+                    id='attack-modal-close-btn'
                     onClick={() => close()} />
             </div>
 
-            <div id="attack-modal-contents">
-                <div id="attack-modal-target">
-                    <div id="attack-modal-select-all">
+            <div id='attack-modal-contents'>
+                <div id='attack-modal-target'>
+                    <div id='attack-modal-select-all'>
                         <input
-                            className="widget-input"
+                            className='widget-input'
                             onChange={e => enableAllRows(e)}
-                            type="checkbox" />&nbsp;&nbsp;&nbsp;Select All
+                            type='checkbox' />&nbsp;&nbsp;&nbsp;Select All
                     </div>
                     {encounterData.map(attackRow)}
                 </div>
-                <div id="attack-modal-results">
+                <div id='attack-modal-results'>
                     {showResults()}
                 </div>
             </div>
 
-            <div id="attack-modal-footer">
+            <div id='attack-modal-footer'>
                 <button
-                    className="widget-input attack-modal-input"
+                    className='widget-input attack-modal-input'
                     onClick={() => doAttack()}>Attack
                 </button>
             </div>

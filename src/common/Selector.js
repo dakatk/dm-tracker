@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import capitalize from "./util/capitalize";
-import "./style/Selector.scss";
+import React, { useState } from 'react';
+
+import capitalize from '../util/capitalize';
+
+import './style/Selector.scss';
 
 function Selector({ options, onConfirm }) {
-    const [selection, setSelection] = useState("");
+    const [selection, setSelection] = useState('');
 
     const updateSelection = (e) => {
-        setSelection(e.target.value);
+        const selectedValue = e.target.value;
+        setSelection(selectedValue);
     }
 
     const renderOptions = () => {
@@ -20,22 +23,22 @@ function Selector({ options, onConfirm }) {
     }
 
     return (
-        <div className="widget-box" id="selector-widget">
-            <span id="selection">
+        <div className='widget-box' id='selector-widget'>
+            <span id='selection'>
                 <select 
-                    id="selector-dropdown"
-                    className="widget-input"
+                    id='selector-dropdown'
+                    className='widget-input'
                     value={selection} 
                     onChange={updateSelection}>
-                        <option value="">Select One...</option>
+                        <option value=''>Select One...</option>
                         {renderOptions()}
                 </select>
             </span>
 
-            <span id="confirm-button">
+            <span id='confirm-button'>
                 <button 
-                    className="widget-input" 
-                    disabled={selection === ""}
+                    className='widget-input' 
+                    disabled={selection === ''}
                     onClick={() => onConfirm(selection)}>
                         Confirm
                 </button>

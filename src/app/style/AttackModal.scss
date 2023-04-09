@@ -1,4 +1,4 @@
-@import './widget.scss';
+@import '../../style/widget.scss';
 
 #attack-modal-parent {
     margin: auto;
@@ -39,7 +39,6 @@
     border-top: none;
     margin-bottom: 1.5em;
     background-color: #303030;
-    //min-height: 100%;
     display: flex;
 }
 

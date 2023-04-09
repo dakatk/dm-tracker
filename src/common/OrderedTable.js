@@ -1,5 +1,5 @@
-import React from "react";
-import "./style/OrderedTable.scss";
+import React from 'react';
+import './style/OrderedTable.scss';
 
 function OrderedTable({firstDataSet, secondDataSet, initiative}) {
     const orderedData = () => {
@@ -33,13 +33,13 @@ function OrderedTable({firstDataSet, secondDataSet, initiative}) {
 
         for (const index in orderedData()) {
             rows[index] = (
-                <tr className="ordered-table-row" key={index}>
+                <tr className='ordered-table-row' key={index}>
                     <td 
-                        className="ordered-table-bordered"
-                        id="ordered-table-index">
+                        className='ordered-table-bordered'
+                        id='ordered-table-index'>
                             {Number(index) + 1}
                     </td>
-                    <td className="ordered-table-bordered">{dataRows[index].name}</td>
+                    <td className='ordered-table-bordered'>{dataRows[index].name}</td>
                 </tr>
             );
         }
@@ -47,12 +47,12 @@ function OrderedTable({firstDataSet, secondDataSet, initiative}) {
     }
 
     return (
-        <div className="widget-box">
-            <table id="ordered-table-parent">
+        <div className='widget-box'>
+            <table id='ordered-table-parent'>
                 <thead>
-                    <tr className="ordered-table-header">
-                        <th className="ordered-table-bordered">Order</th>
-                        <th className="ordered-table-bordered">Name</th>
+                    <tr className='ordered-table-header'>
+                        <th className='ordered-table-bordered'>Order</th>
+                        <th className='ordered-table-bordered'>Name</th>
                     </tr>
                 </thead>
                 <tbody>
