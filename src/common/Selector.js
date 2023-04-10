@@ -28,7 +28,8 @@ function Selector({ options, onConfirm }) {
                 <select 
                     id='selector-dropdown'
                     className='widget-input'
-                    value={selection} 
+                    value={selection}
+                    title={selection}
                     onChange={updateSelection}>
                         <option value=''>Select One...</option>
                         {renderOptions()}

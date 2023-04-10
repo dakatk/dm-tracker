@@ -14,9 +14,14 @@
     z-index: 998 !important;
 }
 
-.app-menu {
-    min-width: 100%;
-    min-height: min-content;
+.app-header {
+    position: relative;
+    margin-right: 1.6em;
+    float: top;
+}
+
+#app-menu {
+    margin-bottom: 1.6em;
 }
 
 .app-widgets {
@@ -36,10 +41,6 @@
 
 #app-enemies {
     margin-right: 1.2em;
-}
-
-#app-encounter-selector {
-    margin-bottom: 1.6em;
 }
 
 #app-name-lists {

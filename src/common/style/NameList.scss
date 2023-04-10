@@ -21,14 +21,20 @@
 }
 
 .name-list-details {
-    // background-color: #414141;
     margin-top: 4px;
     cursor: default !important;
+}
+
+.name-list-delete {
+    float: right;
+    margin-top: 6px;
+    color: #a34040;
 }
 
 .name-list-accordian-arrow {
     float: right;
     margin-top: 6px;
+    margin-left: 1em;
 }
 
 $descriptionBorderColor: $widgetBorderColor;
@@ -40,4 +46,8 @@ $descriptionBgColor: #313131;
     border-radius: 6px;
     margin-bottom: 4px;
     padding: 4px 6px 4px 6px;
+}
+
+.name-list-add-btn {
+    margin-top: 0.4em;
 }

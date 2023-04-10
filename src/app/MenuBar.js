@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import './style/MenuBar.scss';
 
+// TODO Fix CSS (Maybe add background to menu so it also looks like a widget?)
 function MenuBar({ onSave, onLoad }) {
     const openFile = useRef(null);
     const [fileCount, setFileCount] = useState(1);
@@ -20,15 +21,15 @@ function MenuBar({ onSave, onLoad }) {
         }
     }
 
-    return <div className='menu-bar'>
+    return <div className='widget-box' id='menu-widget'>
         <button 
-            className='menu-button' 
+            className='widget-input menu-button' 
             onClick={() => saveFile()}
         >Save
         </button>
 
         <button 
-            className='menu-button'
+            className='widget-input menu-button'
             onClick={() => loadFile()}
         >Load
         </button>

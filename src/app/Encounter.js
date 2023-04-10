@@ -3,11 +3,21 @@ import React from 'react';
 import Selector from '../common/Selector';
 import OrderedTable from '../common/OrderedTable';
 
-function Encounter({ encounterOptions, selectEncounter, enemies, players }) {
-    const playerInitiative = players.map(({ initiative }) => initiative);
-    const enemyInitiative = enemies.map(({ initiative }) => initiative);
+import './style/Encounter.scss';
 
-    const initiative = [...playerInitiative, ...enemyInitiative];
+function Encounter({ encounterOptions, selectEncounter, enemies, players }) {
+    const initiative = () => {
+        let playerInitiative = [];
+        let enemyInitiative = [];
+
+        if (players?.length) {
+            playerInitiative = players.map(({ initiative }) => initiative);
+        }
+        if (enemies?.length) {
+            enemyInitiative = enemies.map(({ initiative }) => initiative);
+        }
+        return [...playerInitiative, ...enemyInitiative]
+    }
 
     return <>
         <div id='encounter-selector'>
@@ -21,7 +31,7 @@ function Encounter({ encounterOptions, selectEncounter, enemies, players }) {
             {players?.length && enemies?.length && <OrderedTable
                 firstDataSet={players}
                 secondDataSet={enemies}
-                initiative={initiative}
+                initiative={initiative()}
             />}
         </div>
     </>

@@ -1,19 +1,11 @@
 @import '../../style/widget.scss';
 
-.menu-bar {
-    min-width: 100%;
-    min-height: 5em;
+#menu-widget {
+    display: flex;
+    align-items: right;
+    justify-content: right;
 }
 
 .menu-button {
-    float: right;
-    color: #f2c8a5;
-    background: none;
-    font-weight: bolder;
-    text-align: center;
-    margin: 0 0.4em 0 0.4em;
-    min-width: 1.5rem;
-    min-height: 1.5rem;
-    border: 2px solid #e7c9b0c3;
-    cursor: pointer;
+    margin-left: 0.8em;
 }
