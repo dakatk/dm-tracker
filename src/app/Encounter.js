@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Selector from '../common/Selector';
 import OrderedTable from '../common/OrderedTable';
 
 import './style/Encounter.scss';
 
-function Encounter({ encounterOptions, selectEncounter, enemies, players }) {
+function Encounter({ encounterOptions, currentEncounter, selectEncounter, players }) {
+    const defaultEncounterNames = Object.keys(encounterOptions);
+    const [encounterNames, setEncounterNames] = useState(defaultEncounterNames);
+
     const initiative = () => {
         let playerInitiative = [];
         let enemyInitiative = [];
+
+        const enemies = encounterOptions[currentEncounter];
 
         if (players?.length) {
             playerInitiative = players.map(({ initiative }) => initiative);
@@ -19,18 +24,24 @@ function Encounter({ encounterOptions, selectEncounter, enemies, players }) {
         return [...playerInitiative, ...enemyInitiative]
     }
 
+    useEffect(() => {
+        setEncounterNames(defaultEncounterNames);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [encounterOptions]);
+
     return <>
         <div id='encounter-selector'>
-            {encounterOptions?.length && <Selector
-                options={encounterOptions}
+            <Selector
+                options={encounterNames}
+                currentSelection={currentEncounter}
                 onConfirm={selectEncounter}
-            />}
+            />
         </div>
 
         <div id='encounter-ordered-table'>
-            {players?.length && enemies?.length && <OrderedTable
+            {players?.length && (currentEncounter in encounterOptions) && <OrderedTable
                 firstDataSet={players}
-                secondDataSet={enemies}
+                secondDataSet={encounterOptions[currentEncounter]}
                 initiative={initiative()}
             />}
         </div>

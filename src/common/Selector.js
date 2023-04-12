@@ -4,8 +4,8 @@ import capitalize from '../util/capitalize';
 
 import './style/Selector.scss';
 
-function Selector({ options, onConfirm }) {
-    const [selection, setSelection] = useState('');
+function Selector({ options, currentSelection, onConfirm }) {
+    const [selection, setSelection] = useState(currentSelection || '');
 
     const updateSelection = (e) => {
         const selectedValue = e.target.value;
@@ -22,10 +22,14 @@ function Selector({ options, onConfirm }) {
         });
     }
 
+    // TODO Change default option to 'Create New...' and change button text to be 'Create'
+    // when the default option is selected. Upon pressing this button, a modal should appear
+    // that allows the user to create new enemies with stats/attacks/weaknesses and save as a
+    // new encounter (modal should contain a text box at the top for the encounter name)
     return (
         <div className='widget-box' id='selector-widget'>
             <span id='selection'>
-                <select 
+                <select
                     id='selector-dropdown'
                     className='widget-input'
                     value={selection}

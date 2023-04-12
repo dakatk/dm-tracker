@@ -1,23 +1,23 @@
 import React from 'react';
 import NameList from '../common/NameList';
 
-function Npcs({ npcsJson, updateNpcs }) {
+function Npcs({ npcs, updateNpcs }) {
     const descriptorKeys = ['type', 'occupation', 'description'];
 
     const addNpc = (newNpc) => {
-        const updatedNpcs = [...npcsJson, newNpc];
+        const updatedNpcs = [...npcs, newNpc];
         updateNpcs(updatedNpcs);
     }
 
     const removeNpc = (index) => {
-        const updatedNpcs = [...npcsJson];
+        const updatedNpcs = [...npcs];
         updatedNpcs.splice(index, 1);
         updateNpcs(updatedNpcs);
     }
 
-    if (npcsJson?.length) {
+    if (npcs?.length) {
         return <NameList 
-            list={npcsJson} 
+            list={npcs} 
             descriptorKeys={descriptorKeys} 
             onAdd={addNpc} 
             onRemove={removeNpc} />

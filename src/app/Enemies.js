@@ -1,10 +1,10 @@
 import React from 'react';
 import DataTable from '../common/DataTable';
 
-function Enemies({ enemiesJson, updateHealth, updateInitiative, onAttack }) {
-    if (enemiesJson?.length) {
+function Enemies({ encounterOptions, currentEncounter, updateHealth, updateInitiative, onAttack }) {
+    if (currentEncounter in encounterOptions) {
         return <DataTable
-            data={enemiesJson}
+            data={encounterOptions[currentEncounter]}
             updateInitiative={updateInitiative}
             updateHealth={updateHealth}
             canAttack={true}

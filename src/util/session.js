@@ -1,10 +1,14 @@
-export const saveSession = (players, enemies, npcs, quests) => {
+export const saveSession = (players, encounterOptions, currentEncounter, npcs, quests) => {    
     if (players !== null && players !== undefined) {
         localStorage.setItem('PLAYERS_JSON', JSON.stringify(players));
     }
 
-    if (enemies !== null && enemies !== undefined) {
-        localStorage.setItem('ENEMIES_JSON', JSON.stringify(enemies));
+    if (encounterOptions !== null && encounterOptions !== undefined) {
+        localStorage.setItem('ENCOUNTER_OPTIONS_JSON', JSON.stringify(encounterOptions));
+    }
+
+    if (currentEncounter !== null && currentEncounter !== undefined) {
+        localStorage.setItem('CURRENT_ENCOUNTER', currentEncounter);
     }
 
     if (npcs !== null && npcs !== undefined) {
@@ -18,12 +22,14 @@ export const saveSession = (players, enemies, npcs, quests) => {
 
 export const loadFromSession = () => {
     const playersJson = localStorage.getItem('PLAYERS_JSON');
-    const enemiesJson = localStorage.getItem('ENEMIES_JSON');
+    const encounterOptionsJson = localStorage.getItem('ENCOUNTER_OPTIONS_JSON');
+    const currentEncounterJson = localStorage.getItem('CURRENT_ENCOUNTER_JSON');
     const npcsJson = localStorage.getItem('NPCS_JSON');
     const questsJson = localStorage.getItem('QUESTS_JSON');
 
     let players = [];
-    let enemies = {};
+    let encounterOptions = {};
+    let currentEncounter = '';
     let npcs = [];
     let quests = [];
 
@@ -31,8 +37,12 @@ export const loadFromSession = () => {
         players = JSON.parse(playersJson);
     }
 
-    if (enemiesJson !== null) {
-        enemies = JSON.parse(enemiesJson);
+    if (encounterOptionsJson !== null) {
+        encounterOptions = JSON.parse(encounterOptionsJson);
+    }
+
+    if (currentEncounterJson !== null) {
+        currentEncounter = currentEncounterJson;
     }
 
     if (npcsJson !== null) {
@@ -45,7 +55,8 @@ export const loadFromSession = () => {
 
     return {
         players,
-        enemies,
+        encounterOptions,
+        currentEncounter,
         npcs,
         quests
     };

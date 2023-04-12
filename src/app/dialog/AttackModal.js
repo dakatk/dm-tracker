@@ -3,20 +3,22 @@ import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-import capitalize from '../util/capitalize';
-import isString from '../util/isString';
-import d from '../util/roll';
+import capitalize from '../../util/capitalize';
+import isString from '../../util/isString';
+import d from '../../util/roll';
 
 import './style/AttackModal.scss';
 
-function AttackModal({ close, attack, encounterData, playerData }) {
-    const defaultAttackSelection = encounterData.map(value => value?.attacks[0]);
-    const defaultTargetSelection = encounterData.map(() => playerData[0]?.name);
-    const defaultEnabledRows = encounterData.map(() => false);
+function AttackModal({ currentEncounter, encounterOptions, close, attack, playerData }) {
+    const enemies = encounterOptions[currentEncounter];
+    
+    const defaultAttackSelection = enemies?.map(value => value?.attacks[0]);
+    const defaultTargetSelection = enemies?.map(() => playerData[0]?.name);
+    const defaultEnabledRows = enemies?.map(() => false);
 
-    const [selectedAttacks, setSelectedAttacks] = useState(defaultAttackSelection);
-    const [selectedTargets, setSelectedTargets] = useState(defaultTargetSelection);
-    const [enabledRows, setEnabledRows] = useState(defaultEnabledRows);
+    const [selectedAttacks, setSelectedAttacks] = useState(defaultAttackSelection ?? []);
+    const [selectedTargets, setSelectedTargets] = useState(defaultTargetSelection ?? []);
+    const [enabledRows, setEnabledRows] = useState(defaultEnabledRows ?? []);
     const [results, setResults] = useState([]);
 
     useEffect(() => {
@@ -25,7 +27,7 @@ function AttackModal({ close, attack, encounterData, playerData }) {
         setEnabledRows(defaultEnabledRows);
         setResults([]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [/*playerData, */encounterData]);
+    }, [currentEncounter, encounterOptions]);
 
     const doAttack = () => {
         const attackValues = selectedAttacks.map(attackJson => {
@@ -50,7 +52,7 @@ function AttackModal({ close, attack, encounterData, playerData }) {
     const parseResults = (index, attacks, targets) => {
         const attack = attacks[index];
         const target = targets[index];
-        const attackerName = encounterData[index].name;
+        const attackerName = enemies[index].name;
 
         const hit = d(20);
         const player = playerData.find(({name}) => name === target);
@@ -194,7 +196,7 @@ function AttackModal({ close, attack, encounterData, playerData }) {
                             onChange={e => enableAllRows(e)}
                             type='checkbox' />&nbsp;&nbsp;&nbsp;Select All
                     </div>
-                    {encounterData.map(attackRow)}
+                    {enemies?.map(attackRow)}
                 </div>
                 <div id='attack-modal-results'>
                     {showResults()}

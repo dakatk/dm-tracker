@@ -1,10 +1,10 @@
 import React from 'react';
 import DataTable from '../common/DataTable';
 
-function Players({ playersJson, updateHealth, updateInitiative, updateStarveDays, autoDamage }) {
-    if (playersJson?.length) {
+function Players({ players, updateHealth, updateInitiative, updateStarveDays, autoDamage }) {
+    if (players?.length) {
         return <DataTable
-            data={playersJson}
+            data={players}
             updateInitiative={updateInitiative}
             updateHealth={updateHealth}
             updateStarveDays={updateStarveDays}

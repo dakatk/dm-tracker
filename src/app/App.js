@@ -4,8 +4,9 @@ import { saveSync } from 'save-file';
 import blurBackground from '../util/blurBackground';
 import { saveSession } from '../util/session';
 
+import AttackModal from './dialog/AttackModal';
+
 import MenuBar from './MenuBar';
-import AttackModal from './AttackModal';
 import Players from './Players';
 import Enemies from './Enemies';
 import Encounter from './Encounter';
@@ -16,13 +17,10 @@ import './style/App.scss';
 
 function App({ session }) {    
     const [players, setPlayers] = useState(session.players);
-    const [enemies, setEnemies] = useState(session.enemies);
+    const [encounterOptions, setEncounterOptions] = useState(session.encounterOptions)
+    const [currentEncounter, setCurrentEncounter] = useState(session.encounterName);
     const [npcs, setNpcs] = useState(session.npcs);
     const [quests, setQuests] = useState(session.quests);
-    
-    const [encounterOptions, setEncounterOptions] = useState([]);
-    const [encounterData, setEncounterData] = useState(undefined);
-    const [encounterName, setEncounterName] = useState('');
 
     const [showModal, setShowModal] = useState(false);
     const [autoDamage, setAutoDamage] = useState([]);
@@ -48,26 +46,23 @@ function App({ session }) {
         if (index === undefined) {
             return;
         }
-        enemies[encounterName][index][property] = newValue;
-        setEnemies(enemies);
-    }
+        const updatedState = [...encounterOptions[currentEncounter]];
+        updatedState[index][property] = newValue;
 
-    const loadEncounter = (name) => {
-        const enemiesData = enemies[name];
-        setEncounterData(enemiesData);
-        setEncounterName(name);
+        setEncounterOptions({...encounterOptions, [currentEncounter]: updatedState});
     }
 
     const saveJson = (fileName) => {
         const combined = {
             players,
-            enemies,
+            encounterOptions,
+            currentEncounter,
             npcs,
             quests
         };
 
         saveSync(JSON.stringify(combined, null, 4), fileName);
-        saveSession(players, enemies, npcs, quests);
+        saveSession(players, encounterOptions, currentEncounter, npcs, quests);
     }
 
     const loadFromJson = (file) => {
@@ -75,16 +70,18 @@ function App({ session }) {
             .then(text => {
                 const combined = JSON.parse(text);
                 const playersJson = combined['players'] || [];
-                const enemiesJson = combined['enemies'] || {};
+                const encounterOptionsJson = combined['encounterOptions'] || {};
+                const currentEncounterJson = combined['currentEncounter'] || '';
                 const npcsJson = combined['npcs'] || [];
                 const questsJson = combined['quests'] || [];
 
                 setPlayers(playersJson);
-                setEnemies(enemiesJson);
+                setEncounterOptions(encounterOptionsJson);
+                setCurrentEncounter(currentEncounterJson);
                 setNpcs(npcsJson);
                 setQuests(questsJson);
 
-                saveSession(playersJson, enemiesJson, npcsJson, questsJson);
+                saveSession(playersJson, encounterOptionsJson, currentEncounterJson, npcsJson, questsJson);
             });
     }
 
@@ -116,37 +113,38 @@ function App({ session }) {
     }, [autoDamage]);
 
     useEffect(() => {
-        setEncounterOptions(Object.keys(enemies));
-    }, [enemies]);
-
-    useEffect(() => {
         saveSession(players);
     }, [players]);
 
     useEffect(() => {
-        saveSession(null, enemies);
-    }, [enemies]);
+        saveSession(null, encounterOptions);
+    }, [encounterOptions]);
 
     useEffect(() => {
-        saveSession(null, null, npcs);
+        saveSession(null, null, currentEncounter);
+    }, [currentEncounter]);
+
+    useEffect(() => {
+        saveSession(null, null, null, npcs);
     }, [npcs]);
 
     useEffect(() => {
-        saveSession(null, null, null, quests);
+        saveSession(null, null, null, null, quests);
     }, [quests]);
 
     return (
         <div id='app-parent'>
             {showModal && <div id='app-modal-mask'></div>}
             <div id='app-modal'>
-                {showModal && encounterData && <AttackModal
+                {showModal && <AttackModal
+                    encounterOptions={encounterOptions}
+                    currentEncounter={currentEncounter}
                     close={() => setShowModal(false)} 
                     attack={damagePlayers}
                     playerData={players
                         .filter(({ health }) => health > 0)
                         .map(({ name, ac }) => { return { name, ac }; })
-                    }
-                    encounterData={encounterData} />}
+                    } />}
             </div>
 
             <div className={blurBackground('app-header', showModal)}>
@@ -160,7 +158,7 @@ function App({ session }) {
             <div className={blurBackground('app-widgets', showModal)}>
                 <div id='app-players'>
                     <Players
-                        playersJson={players}
+                        players={players}
                         updateHealth={
                             (health, index) => updatePlayerState(health, index, 'health')
                         }
@@ -175,7 +173,8 @@ function App({ session }) {
 
                 <div id='app-enemies'>
                     <Enemies
-                        enemiesJson={encounterData}
+                        encounterOptions={encounterOptions}
+                        currentEncounter={currentEncounter}
                         updateHealth={
                             (health, index) => updateEnemyState(health, index, 'health')
                         }
@@ -189,20 +188,20 @@ function App({ session }) {
             <div className={blurBackground('app-widgets', showModal)}>
                 <Encounter
                     encounterOptions={encounterOptions}
-                    selectEncounter={loadEncounter}
-                    enemies={encounterData}
+                    currentEncounter={currentEncounter}
+                    selectEncounter={setCurrentEncounter}
                     players={players} />
             </div>
 
             <div className={blurBackground('app-widgets', showModal)} id='app-name-lists'>
                 <div id='app-npcs'>
                     <Npcs
-                        npcsJson={npcs}
+                        npcs={npcs}
                         updateNpcs={(npcs) => setNpcs(npcs)} />
                 </div>
                 <div id='app-quests'>
                     <Quests
-                        questsJson={quests} 
+                        quests={quests} 
                         updateQuests={(quests) => setQuests(quests)} />
                 </div>
             </div>
