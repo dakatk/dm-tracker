@@ -29,23 +29,25 @@ function Encounter({ encounterOptions, currentEncounter, selectEncounter, player
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [encounterOptions]);
 
-    return <>
-        <div id='encounter-selector'>
-            <Selector
-                options={encounterNames}
-                currentSelection={currentEncounter}
-                onConfirm={selectEncounter}
-            />
-        </div>
+    if (players?.length) {
+        return <>
+            <div id='encounter-selector'>
+                <Selector
+                    options={encounterNames}
+                    currentSelection={currentEncounter}
+                    onConfirm={selectEncounter}
+                />
+            </div>
 
-        <div id='encounter-ordered-table'>
-            {players?.length && (currentEncounter in encounterOptions) && <OrderedTable
-                firstDataSet={players}
-                secondDataSet={encounterOptions[currentEncounter]}
-                initiative={initiative()}
-            />}
-        </div>
-    </>
+            <div id='encounter-ordered-table'>
+                {(currentEncounter in encounterOptions) && <OrderedTable
+                    firstDataSet={players}
+                    secondDataSet={encounterOptions[currentEncounter]}
+                    initiative={initiative()}
+                />}
+            </div>
+        </>
+    }
 }
 
 export default Encounter;
