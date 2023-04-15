@@ -1,45 +1,7 @@
 @import '../../../style/widget.scss';
 
-#attack-modal-parent {
-    margin: auto;
-    left: 0; 
-    right: 0;
-    top: 15%;
-    min-width: fit-content;
-    max-width: fit-content;
-    min-height: fit-content;
-    max-height: fit-content;
-    position: absolute;
-    z-index: 999 !important;
-    border-radius: 20px;
-    padding: 2em;
-}
-
 .attack-modal-input {
     margin-right: 0.8em;
-}
-
-#attack-modal-header {
-    border: 2px solid $widgetInputDisabledTextColor;
-    padding: 0.8em;
-    background-color: #303030;
-}
-
-#attack-modal-close-btn {
-    font-weight: bold;
-    float: right;
-    cursor: pointer;
-    margin-right: 0.2em;
-    margin-top: 0.3em;
-    font-size: 20px;
-}
-
-#attack-modal-contents {
-    border: 2px solid $widgetInputDisabledTextColor;
-    border-top: none;
-    margin-bottom: 1.5em;
-    background-color: #303030;
-    display: flex;
 }
 
 .attack-modal-row {
@@ -63,9 +25,4 @@
     overflow-y: scroll;
     padding: 0.8em;
     min-width: 20em;
-}
-
-#attack-modal-footer {
-    min-width: 100%;
-    float: inline-start;
 }

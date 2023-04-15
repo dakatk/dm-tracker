@@ -1,0 +1,26 @@
+{
+    "title": "New NPC",
+    "fields": [
+        {
+            "label": "Name",
+            "prop": "name",
+            "required": true
+        },
+        {
+            "label": "Type",
+            "prop": "type",
+            "required": true
+        },
+        {
+            "label": "Occupation",
+            "prop": "occupation",
+            "required": true
+        },
+        {
+            "label": "Description",
+            "prop": "description",
+            "type": "textarea",
+            "rows": 3
+        }
+    ]
+}

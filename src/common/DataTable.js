@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+
 import './style/DataTable.scss';
 
 function DataTable(props) {
@@ -8,20 +9,6 @@ function DataTable(props) {
 
     const maxHealth = props.data.map(({ maxHealth }) => maxHealth);
     const maxStarveDays = props.data.map(({ conMod }) => Math.max(1, conMod + 1));
-
-    useEffect(() => {
-        if (!props.autoDamage) {
-            return;
-        }
-
-        for (const damage of props.autoDamage) {
-            const currentHealth = health[damage.index];
-            health[damage.index] = Math.max(currentHealth - damage.value, 0);
-        }
-        
-        props.updateHealth(health);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.autoDamage]);
 
     const allRest = () => {
         if (props.updateHealth !== undefined) {
@@ -92,7 +79,7 @@ function DataTable(props) {
                         className='data-table-number-input'
                         type='number'
                         max={40}
-                        min={-10}
+                        min={-5}
                         value={initiative[index]} 
                         onChange={e => updateInitiative(e, index)}
                     ></input>
@@ -141,28 +128,38 @@ function DataTable(props) {
     return (
         <div className='widget-box'>
             {renderAllRows()}
-            {props.canRest && 
-                <button 
-                    className='widget-input data-table-btn' 
-                    onClick={() => allRest()}>Rest
-                </button>
-            }
-            {props.canAttack &&
-                <button 
-                    className='widget-input data-table-btn' 
-                    onClick={() => props.attack()}>Attack
-                </button>
-            }
+            {props.canRest && <button 
+                className='widget-input data-table-btn' 
+                onClick={() => allRest()}
+            >Rest
+            </button>}
+            {props.canAttack && <button 
+                className='widget-input data-table-btn' 
+                onClick={() => props.onAttack()}
+            >Attack
+            </button>}
             {props.canStarve && <>
                 <button 
                     className='widget-input data-table-btn' 
-                    onClick={() => allStarve()}>All Starve
+                    onClick={() => allStarve()}
+                >All Starve
                 </button>
                 <button 
                     className='widget-input data-table-btn' 
-                    onClick={() => allEat()}>All Eat
+                    onClick={() => allEat()}
+                >All Eat
                 </button>
             </>}
+            {props.canAdd && <button 
+                className='widget-input data-table-btn'
+                onClick={() => props.onAdd()}
+            >Add
+            </button>}
+            {props.canEdit && <button 
+                className='widget-input data-table-btn'
+                onClick={() => props.onEdit()}
+            >Edit
+            </button>}
         </div>
     );
 }

@@ -21,11 +21,7 @@ function Selector({ options, currentSelection, onConfirm }) {
             );
         });
     }
-
-    // TODO Change default option to 'Create New...' and change button text to be 'Create'
-    // when the default option is selected. Upon pressing this button, a modal should appear
-    // that allows the user to create new enemies with stats/attacks/weaknesses and save as a
-    // new encounter (modal should contain a text box at the top for the encounter name)
+    
     return (
         <div className='widget-box' id='selector-widget'>
             <span id='selection'>
@@ -35,17 +31,17 @@ function Selector({ options, currentSelection, onConfirm }) {
                     value={selection}
                     title={selection}
                     onChange={updateSelection}>
-                        <option value=''>Select One...</option>
+                        <option value=''>Create New...</option>
                         {renderOptions()}
                 </select>
             </span>
 
-            <span id='confirm-button'>
+            <span id='selector-confirm-button'>
                 <button 
-                    className='widget-input' 
-                    disabled={selection === ''}
-                    onClick={() => onConfirm(selection)}>
-                        Confirm
+                    className='widget-input'
+                    onClick={() => onConfirm(selection)}
+                >
+                    {selection === '' ? 'Create' : 'Confirm'}
                 </button>
             </span>
         </div>

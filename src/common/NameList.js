@@ -83,7 +83,7 @@ function NameList({ list, descriptorKeys, onAdd, onRemove }) {
 
             <button 
                 className='widget-input name-list-add-btn'
-                onClick={() => {}}
+                onClick={() => onAdd()}
             >Add
             </button>
         </div>

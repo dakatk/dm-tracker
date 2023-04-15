@@ -30,23 +30,25 @@ function Encounter({ encounterOptions, currentEncounter, selectEncounter, player
     }, [encounterOptions]);
 
     if (players?.length) {
-        return <>
-            <div id='encounter-selector'>
-                <Selector
-                    options={encounterNames}
-                    currentSelection={currentEncounter}
-                    onConfirm={selectEncounter}
-                />
-            </div>
+        return (
+            <>
+                <div id='encounter-selector'>
+                    <Selector
+                        options={encounterNames}
+                        currentSelection={currentEncounter}
+                        onConfirm={selectEncounter}
+                    />
+                </div>
 
-            <div id='encounter-ordered-table'>
-                {(currentEncounter in encounterOptions) && <OrderedTable
-                    firstDataSet={players}
-                    secondDataSet={encounterOptions[currentEncounter]}
-                    initiative={initiative()}
-                />}
-            </div>
-        </>
+                <div id='encounter-ordered-table'>
+                    {(currentEncounter in encounterOptions) && <OrderedTable
+                        firstDataSet={players}
+                        secondDataSet={encounterOptions[currentEncounter]}
+                        initiative={initiative()}
+                    />}
+                </div>
+            </>
+        );
     }
 }
 

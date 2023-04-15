@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import Modal from '../../common/Modal';
 
 import capitalize from '../../util/capitalize';
 import isString from '../../util/isString';
@@ -178,17 +177,9 @@ function AttackModal({ currentEncounter, encounterOptions, close, attack, player
         setState(nextState);
     }
 
-    return (
-        <div id='attack-modal-parent' className='widget-box'>
-            <div id='attack-modal-header'>
-                Enemy Attacks
-                <FontAwesomeIcon 
-                    icon={faXmark} 
-                    id='attack-modal-close-btn'
-                    onClick={() => close()} />
-            </div>
-
-            <div id='attack-modal-contents'>
+    const modalContents = () => {
+        return (
+            <>
                 <div id='attack-modal-target'>
                     <div id='attack-modal-select-all'>
                         <input
@@ -201,15 +192,26 @@ function AttackModal({ currentEncounter, encounterOptions, close, attack, player
                 <div id='attack-modal-results'>
                     {showResults()}
                 </div>
-            </div>
+            </>
+        );
+    }
 
-            <div id='attack-modal-footer'>
-                <button
-                    className='widget-input attack-modal-input'
-                    onClick={() => doAttack()}>Attack
-                </button>
-            </div>
-        </div>
+    const modalFooter = () => {
+        return (
+            <button
+                className='widget-input attack-modal-input'
+                onClick={() => doAttack()}>Attack
+            </button>
+        )
+    }
+
+    return (
+        <Modal 
+            title="Enemy Attacks"
+            close={close}
+            contents={modalContents()}
+            footer={modalFooter()}
+        />
     );
 }
 

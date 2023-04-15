@@ -1,13 +1,9 @@
 import React from 'react';
+
 import NameList from '../common/NameList';
 
-function Quests({ quests, updateQuests }) {
+function Quests({ quests, updateQuests, onAdd }) {
     const descriptorKeys = ['type', 'reward', 'description'];
-
-    const addNpc = (newNpc) => {
-        const updatedQuests = [...quests, newNpc];
-        updateQuests(updatedQuests);
-    }
 
     const removeNpc = (index) => {
         const updatedQuests = [...quests];
@@ -16,11 +12,14 @@ function Quests({ quests, updateQuests }) {
     }
 
     if (quests?.length) {
-        return <NameList 
-            list={quests} 
-            descriptorKeys={descriptorKeys}
-            onAdd={addNpc} 
-            onRemove={removeNpc} />
+        return (
+            <NameList 
+                list={quests} 
+                descriptorKeys={descriptorKeys}
+                onAdd={onAdd}
+                onRemove={removeNpc} 
+            />
+        );
     }
 }
 

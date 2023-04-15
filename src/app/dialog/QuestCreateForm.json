@@ -1,0 +1,31 @@
+{
+    "title": "New Quest",
+    "fields": [
+        {
+            "label": "Name",
+            "prop": "name",
+            "required": true
+        },
+        {
+            "label": "Type",
+            "prop": "type",
+            "options": [
+                "Bounty",
+                "Errand",
+                "Sidequest"
+            ],
+            "type": "select",
+            "required": true
+        },
+        {
+            "label": "Reward",
+            "prop": "reward"
+        },
+        {
+            "label": "Description",
+            "prop": "description",
+            "type": "textarea",
+            "rows": 3
+        }
+    ]
+}
