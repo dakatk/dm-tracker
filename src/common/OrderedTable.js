@@ -1,7 +1,7 @@
 import React from 'react';
 import './style/OrderedTable.scss';
 
-function OrderedTable({firstDataSet, secondDataSet, initiative}) {
+function OrderedTable({ firstDataSet, secondDataSet, initiative }) {
     const orderedData = () => {
         if (!firstDataSet || !secondDataSet) {
           return [];

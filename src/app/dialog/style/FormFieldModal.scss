@@ -1,23 +1,32 @@
 @import '../../../style/widget.scss';
 
 #form-field-modal-body {
-
+    margin: 0.75em;
+    margin-bottom: 0.25em;
+    min-width: 4em;
 }
 
 .form-field-modal-btn {
-
+    margin-right: 0.8em;
 }
 
-.form-field-modal-textbox {
+.form-field-modal-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5em;
+}
 
+.form-field-modal-input:hover {
+    color: $widgetInputTextColor !important;
+    background-color: $widgetInputBackgroundColor !important;
 }
 
 .form-field-modal-label {
-
+    display: block;
 }
 
 .form-field-modal-text-input {
-
+    cursor: text !important;
 }
 
 .form-field-modal-select-input {
@@ -25,7 +34,8 @@
 }
 
 .form-field-modal-textarea-input {
-    
+    min-width: 25em;
+    cursor: text !important;
 }
 
 .form-field-modal-checkbox-input {

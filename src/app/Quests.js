@@ -2,7 +2,7 @@ import React from 'react';
 
 import NameList from '../common/NameList';
 
-function Quests({ quests, updateQuests, onAdd }) {
+function Quests({ quests, updateQuests, onAdd, disabled }) {
     const descriptorKeys = ['type', 'reward', 'description'];
 
     const removeNpc = (index) => {
@@ -17,7 +17,8 @@ function Quests({ quests, updateQuests, onAdd }) {
                 list={quests} 
                 descriptorKeys={descriptorKeys}
                 onAdd={onAdd}
-                onRemove={removeNpc} 
+                onRemove={removeNpc}
+                disabled={disabled}
             />
         );
     }

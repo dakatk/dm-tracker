@@ -8,11 +8,15 @@ import capitalize from '../util/capitalize';
 
 import './style/NameList.scss';
 
-function NameList({ list, descriptorKeys, onAdd, onRemove }) {
+function NameList({ list, descriptorKeys, onAdd, onRemove, disabled }) {
     const [expanded, setExpanded] = useState([]);
 
     const toggleExpand = (index) => {
-        let nextExpanded = [...expanded];
+        if (disabled) {
+            return;
+        }
+
+        const nextExpanded = [...expanded];
         if (nextExpanded[index] !== undefined) {
             nextExpanded[index] = undefined;
         } else {
@@ -20,6 +24,13 @@ function NameList({ list, descriptorKeys, onAdd, onRemove }) {
         }
         setExpanded(nextExpanded);
     };
+
+    const onRemoveClicked = (index) => {
+        if (disabled) {
+            return;
+        }
+        onRemove(index);
+    }
 
     const description = (key, value, bordered) => {
         return (
@@ -36,7 +47,7 @@ function NameList({ list, descriptorKeys, onAdd, onRemove }) {
                 key={`details-${index}`}>
                     <div className='name-list-description'>
                         {descriptorKeys.map((key, index) => {
-                            let bordered = index < description.length - 1;
+                            const bordered = index < description.length - 1;
                             return description(key, value, bordered);
                         })}
                     </div>
@@ -51,21 +62,25 @@ function NameList({ list, descriptorKeys, onAdd, onRemove }) {
                     <div 
                         className='name-list-entry name-list-heading'
                         onClick={() => toggleExpand(index)}
-                        key={`name-${index}`}>
-                            {value.name}
+                        key={`name-${index}`}
+                        disabled={disabled}
+                    >
+                        {value.name}
 
-                            <FontAwesomeIcon
-                                title='Expand'
-                                key={`expand-icon-${index}`}
-                                icon={expanded[index] ? faChevronUp : faChevronDown} 
-                                className='name-list-accordian-arrow' />
+                        <FontAwesomeIcon
+                            title='Expand'
+                            key={`expand-icon-${index}`}
+                            icon={expanded[index] ? faChevronUp : faChevronDown} 
+                            className='name-list-accordian-arrow'
+                        />
 
-                            <FontAwesomeIcon
-                                title={`Delete ${value.name}`}
-                                key={`delete-icon-${index}`}
-                                icon={faTrashCan} 
-                                className='name-list-delete'
-                                onClick={() => onRemove(index)} />
+                        <FontAwesomeIcon
+                            title={`Delete ${value.name}`}
+                            key={`delete-icon-${index}`}
+                            icon={faTrashCan} 
+                            className='name-list-delete'
+                            onClick={() => onRemoveClicked(index)}
+                        />
                     </div>
                     {expanded[index] && details(value, index)}
                 </td>
@@ -84,6 +99,7 @@ function NameList({ list, descriptorKeys, onAdd, onRemove }) {
             <button 
                 className='widget-input name-list-add-btn'
                 onClick={() => onAdd()}
+                disabled={disabled}
             >Add
             </button>
         </div>

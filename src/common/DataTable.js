@@ -2,56 +2,60 @@ import React from 'react';
 
 import './style/DataTable.scss';
 
-function DataTable(props) {
-    const health = props.data.map(({ health }) => health);
-    const initiative = props.data.map(({ initiative }) => initiative);
-    const starveDays = props.data.map(({ starveDays }) => starveDays || 0);
+function DataTable({ data, updateHealth, updateInitiative, updateStarveDays, canRest, canAttack, canStarve, canAdd, canEdit, onAttack, onAdd, onEdit, disabled }) {
+    const health = data.map(({ health }) => health);
+    const initiative = data.map(({ initiative }) => initiative);
+    const starveDays = data.map(({ starveDays }) => starveDays || 0);
 
-    const maxHealth = props.data.map(({ maxHealth }) => maxHealth);
-    const maxStarveDays = props.data.map(({ conMod }) => Math.max(1, conMod + 1));
+    const maxHealth = data.map(({ maxHealth }) => maxHealth);
+    const maxStarveDays = data.map(({ conMod }) => Math.max(1, conMod + 1));
 
     const allRest = () => {
-        if (props.updateHealth !== undefined) {
-            props.updateHealth(maxHealth);
+        if (updateHealth?.call) {
+            updateHealth(maxHealth);
         }
     }
 
     const allStarve = () => {
-        if (props.updateStarveDays !== undefined) {
-            props.updateStarveDays(starveDays.map(value => value - 1));
+        if (updateStarveDays?.call) {
+            updateStarveDays(starveDays.map(value => value - 1));
         }
     }
 
     const allEat = () => {
-        if (props.updateStarveDays !== undefined) {
-            props.updateStarveDays(maxStarveDays);
+        if (updateStarveDays?.call) {
+            updateStarveDays(maxStarveDays);
         }
     }
 
     const starve = (index) => {
-        if (props.updateStarveDays !== undefined) {
-            props.updateStarveDays(starveDays[index] - 1, index);
+        if (updateStarveDays?.call) {
+            updateStarveDays(starveDays[index] - 1, index);
         }
     }
 
     const eat = (index) => {
-        if (props.updateStarveDays !== undefined) {
-            props.updateStarveDays(maxStarveDays[index], index);
+        if (updateStarveDays?.call) {
+            updateStarveDays(maxStarveDays[index], index);
         }
     }
 
     const rest = (index) => {
-        if (props.updateHealth !== undefined) {
-            props.updateHealth(maxHealth[index], index);
+        if (updateHealth?.call) {
+            updateHealth(maxHealth[index], index);
         }
     }
 
-    const updateHealth = (e, index) => {
-        props.updateHealth(e.target.value, index);
+    const setHealth = (e, index) => {
+        if (updateHealth?.call) {
+            updateHealth(e.target.value, index);
+        }
     }
 
-    const updateInitiative = (e, index) => {
-        props.updateInitiative(e.target.value, index);
+    const setInitiative = (e, index) => {
+        if (updateInitiative?.call) {
+            updateInitiative(e.target.value, index);
+        }
     }
 
     const renderSingleRow = (name, ac, index) => {
@@ -63,7 +67,9 @@ function DataTable(props) {
                     <button 
                         title='Rest'
                         className='data-table-update-btn data-table-rest-btn'
-                        onClick={() => rest(index)}>✓
+                        onClick={() => rest(index)}
+                        disabled={disabled}
+                    >✓
                     </button>
                     <input 
                         className='data-table-number-input'
@@ -71,7 +77,8 @@ function DataTable(props) {
                         max={maxHealth[index]}
                         min={0}
                         value={health[index]} 
-                        onChange={e => updateHealth(e, index)}
+                        onChange={e => setHealth(e, index)}
+                        disabled={disabled}
                     ></input>
                 </td>
                 <td className='data-table-bordered'>
@@ -81,22 +88,27 @@ function DataTable(props) {
                         max={40}
                         min={-5}
                         value={initiative[index]} 
-                        onChange={e => updateInitiative(e, index)}
+                        onChange={e => setInitiative(e, index)}
+                        disabled={disabled}
                     ></input>
                 </td>
-                {props.canStarve && 
+                {canStarve && 
                     <td id='data-table-starve-days' className='data-table-bordered'>
                         <button 
                             title='Starve'
                             className='data-table-update-btn'
-                            onClick={() => starve(index)}>-
+                            onClick={() => starve(index)}
+                            disabled={disabled}
+                        >-
                         </button>
                         &nbsp;{starveDays[index]}&nbsp;
                         <button 
                             title='Eat'
                             style={{ fontSize: '11px' }}
                             className='data-table-update-btn'
-                            onClick={() => eat(index)}>✓
+                            onClick={() => eat(index)}
+                            disabled={disabled}
+                        >✓
                         </button>
                     </td>}
             </tr>
@@ -104,7 +116,7 @@ function DataTable(props) {
     }
 
     const renderAllRows = () => {
-        const rows = props.data.map((value, index) => 
+        const rows = data.map((value, index) => 
             renderSingleRow(value.name, value.ac, index)
         );
         
@@ -116,7 +128,7 @@ function DataTable(props) {
                         <th className='data-table-bordered'>AC</th>
                         <th className='data-table-bordered'>Health</th>
                         <th className='data-table-bordered'>Init.</th>
-                        {props.canStarve && 
+                        {canStarve && 
                             <th className='data-table-bordered'>Starve Days</th>}
                     </tr>
                 </thead>
@@ -128,36 +140,42 @@ function DataTable(props) {
     return (
         <div className='widget-box'>
             {renderAllRows()}
-            {props.canRest && <button 
+            {canRest && <button
                 className='widget-input data-table-btn' 
                 onClick={() => allRest()}
+                disabled={disabled}
             >Rest
             </button>}
-            {props.canAttack && <button 
+            {canAttack && <button
                 className='widget-input data-table-btn' 
-                onClick={() => props.onAttack()}
+                onClick={() => onAttack?.call()}
+                disabled={disabled}
             >Attack
             </button>}
-            {props.canStarve && <>
+            {canStarve && <>
                 <button 
                     className='widget-input data-table-btn' 
                     onClick={() => allStarve()}
+                    disabled={disabled}
                 >All Starve
                 </button>
-                <button 
+                <button
                     className='widget-input data-table-btn' 
                     onClick={() => allEat()}
+                    disabled={disabled}
                 >All Eat
                 </button>
             </>}
-            {props.canAdd && <button 
+            {canAdd && <button
                 className='widget-input data-table-btn'
-                onClick={() => props.onAdd()}
+                onClick={() => onAdd?.call()}
+                disabled={disabled}
             >Add
             </button>}
-            {props.canEdit && <button 
+            {canEdit && <button
                 className='widget-input data-table-btn'
-                onClick={() => props.onEdit()}
+                onClick={() => onEdit?.call()}
+                disabled={disabled}
             >Edit
             </button>}
         </div>

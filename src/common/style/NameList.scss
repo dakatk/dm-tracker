@@ -16,6 +16,10 @@
     cursor: pointer;
 }
 
+.name-list-entry:disabled {
+    cursor: default !important;
+}
+
 .name-list-heading {
     color: #e0bc9f;
 }

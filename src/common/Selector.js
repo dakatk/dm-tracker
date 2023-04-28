@@ -4,7 +4,7 @@ import capitalize from '../util/capitalize';
 
 import './style/Selector.scss';
 
-function Selector({ options, currentSelection, onConfirm }) {
+function Selector({ options, currentSelection, onConfirm, disabled }) {
     const [selection, setSelection] = useState(currentSelection || '');
 
     const updateSelection = (e) => {
@@ -30,9 +30,11 @@ function Selector({ options, currentSelection, onConfirm }) {
                     className='widget-input'
                     value={selection}
                     title={selection}
-                    onChange={updateSelection}>
-                        <option value=''>Create New...</option>
-                        {renderOptions()}
+                    onChange={updateSelection}
+                    disabled={disabled}
+                >
+                    <option value=''>Create New...</option>
+                    {renderOptions()}
                 </select>
             </span>
 
@@ -40,8 +42,8 @@ function Selector({ options, currentSelection, onConfirm }) {
                 <button 
                     className='widget-input'
                     onClick={() => onConfirm(selection)}
-                >
-                    {selection === '' ? 'Create' : 'Confirm'}
+                    disabled={disabled}
+                >{selection === '' ? 'Create' : 'Confirm'}
                 </button>
             </span>
         </div>

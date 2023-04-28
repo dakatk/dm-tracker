@@ -50,7 +50,7 @@ function FormFieldModal({ form, save, close, defaultValues }) {
     const textInput = (field) => {
         return (
             <input 
-                className='form-field-modal-text-input widget-input' 
+                className='widget-input form-field-modal-input form-field-modal-text-input' 
                 type='text'
                 id={formInputId(field)}
                 name={formInputId(field)}
@@ -62,7 +62,7 @@ function FormFieldModal({ form, save, close, defaultValues }) {
     const selectInput = (field) => {
         return (
             <select 
-                className='form-field-modal-select-input widget-input'
+                className='widget-input form-field-modal-input form-field-modal-select-input'
                 id={formInputId(field)}
                 name={formInputId(field)}
                 onChange={(e) => updateField(field, e.target.value)}
@@ -84,7 +84,7 @@ function FormFieldModal({ form, save, close, defaultValues }) {
     const textAreaInput = (field) => {
         return (
             <textarea
-                className='form-field-textarea-input widget-input'
+                className='widget-input form-field-modal-input form-field-modal-textarea-input'
                 id={formInputId(field)}
                 name={formInputId(field)}
                 rows={field.rows ?? 1}
@@ -96,7 +96,7 @@ function FormFieldModal({ form, save, close, defaultValues }) {
     const checkboxInput = (field) => {
         return (
             <input 
-                className='form-field-modal-checkbox-input widget-input' 
+                className='widget-input form-field-modal-input form-field-modal-checkbox-input' 
                 type='checkbox'
                 id={formInputId(field)}
                 name={formInputId(field)}
@@ -129,14 +129,14 @@ function FormFieldModal({ form, save, close, defaultValues }) {
             return (
                 <div 
                     key={field.prop} 
-                    className='form-field-modal-textbox'
+                    className='form-field-modal-row'
                 >
                     <label 
                         className='form-field-modal-label'
-                        for={formInputId(field)}
-                    >
-                        {field.label}
+                        htmlFor={formInputId(field)}
+                    >{field.label}
                     </label>
+
                     {renderFieldInput(field)}
                     {renderValidationError(field)}
                 </div>

@@ -11,7 +11,7 @@
     min-width: 60%;
 }
 
-#selector-dropdown:active {
+#selector-dropdown:active:not([disabled]) {
     color: #f3c49e !important;
     background-color: #3f3f42 !important;
 }

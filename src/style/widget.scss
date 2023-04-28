@@ -20,11 +20,11 @@
     cursor: pointer;
 }
 
-.widget-input:hover {
+.widget-input:hover:not([disabled]) {
     background-color: $widgetInputHoverBgColor;
 }
 
-.widget-input:active {
+.widget-input:active:not([disabled]) {
     color: $widgetInputActiveTextColor;
     background-color: $widgetInputActiveBgColor;
 }
@@ -32,5 +32,5 @@
 .widget-input:disabled {
     color: $widgetInputDisabledTextColor;
     background-color: $widgetInputDisabledBgColor;
-    cursor: not-allowed;
+    cursor: default;
 }

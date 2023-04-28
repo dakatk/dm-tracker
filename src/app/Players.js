@@ -2,7 +2,7 @@ import React from 'react';
 
 import DataTable from '../common/DataTable';
 
-function Players({ players, updateHealth, updateInitiative, updateStarveDays, onAdd, onEdit }) {
+function Players({ players, updateHealth, updateInitiative, updateStarveDays, onAdd, onEdit, disabled }) {
     if (players?.length) {
         return (
             <DataTable
@@ -16,6 +16,7 @@ function Players({ players, updateHealth, updateInitiative, updateStarveDays, on
                 onAdd={onAdd}
                 canEdit={true}
                 onEdit={onEdit}
+                disabled={disabled}
             />
         );
     }

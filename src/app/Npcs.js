@@ -1,7 +1,7 @@
 import React from 'react';
 import NameList from '../common/NameList';
 
-function Npcs({ npcs, updateNpcs, onAdd }) {
+function Npcs({ npcs, updateNpcs, onAdd, disabled }) {
     const descriptorKeys = ['type', 'occupation', 'description'];
 
     const removeNpc = (index) => {
@@ -17,6 +17,7 @@ function Npcs({ npcs, updateNpcs, onAdd }) {
                 descriptorKeys={descriptorKeys} 
                 onAdd={onAdd} 
                 onRemove={removeNpc}
+                disabled={disabled}
             />
         );
     }

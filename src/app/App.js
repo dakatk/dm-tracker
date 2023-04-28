@@ -167,6 +167,7 @@ function App({ session }) {
                     <MenuBar
                         onSave={saveJson}
                         onLoad={loadFromJson}
+                        disabled={showModal}
                     />
                 </div>
             </div>
@@ -186,6 +187,7 @@ function App({ session }) {
                         }
                         onAdd={() => setShowModal(NEW_PLAYER_MODAL)}
                         onEdit={() => setShowModal(EDIT_PLAYERS_MODAL)}
+                        disabled={showModal}
                     />
                 </div>
 
@@ -199,7 +201,8 @@ function App({ session }) {
                         updateInitiative={
                             (initiative, index) => updateEnemyState(initiative, index, 'initiative')
                         }
-                        onAttack={() => setShowModal(ATTACK_MODAL)} 
+                        onAttack={() => setShowModal(ATTACK_MODAL)}
+                        disabled={showModal}
                     />
                 </div>
             </div>
@@ -209,7 +212,8 @@ function App({ session }) {
                     encounterOptions={encounterOptions}
                     currentEncounter={currentEncounter}
                     selectEncounter={updateEncounter}
-                    players={players} 
+                    players={players}
+                    disabled={showModal}
                 />
             </div>
 
@@ -219,6 +223,7 @@ function App({ session }) {
                         npcs={npcs}
                         updateNpcs={(npcs) => setNpcs(npcs)}
                         onAdd={() => setShowModal(NEW_NPC_MODAL)}
+                        disabled={showModal}
                     />
                 </div>
                 <div id='app-quests'>
@@ -226,6 +231,7 @@ function App({ session }) {
                         quests={quests} 
                         updateQuests={(quests) => setQuests(quests)}
                         onAdd={() => setShowModal(NEW_QUEST_MODAL)}
+                        disabled={showModal}
                     />
                 </div>
             </div>

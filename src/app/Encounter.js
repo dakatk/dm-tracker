@@ -5,7 +5,7 @@ import OrderedTable from '../common/OrderedTable';
 
 import './style/Encounter.scss';
 
-function Encounter({ encounterOptions, currentEncounter, selectEncounter, players }) {
+function Encounter({ encounterOptions, currentEncounter, selectEncounter, players, disabled }) {
     const defaultEncounterNames = Object.keys(encounterOptions);
     const [encounterNames, setEncounterNames] = useState(defaultEncounterNames);
 
@@ -37,6 +37,7 @@ function Encounter({ encounterOptions, currentEncounter, selectEncounter, player
                         options={encounterNames}
                         currentSelection={currentEncounter}
                         onConfirm={selectEncounter}
+                        disabled={disabled}
                     />
                 </div>
 

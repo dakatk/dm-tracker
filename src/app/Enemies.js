@@ -2,7 +2,7 @@ import React from 'react';
 
 import DataTable from '../common/DataTable';
 
-function Enemies({ encounterOptions, currentEncounter, updateHealth, updateInitiative, onAttack }) {
+function Enemies({ encounterOptions, currentEncounter, updateHealth, updateInitiative, onAttack, disabled }) {
     if (currentEncounter in encounterOptions) {
         return (
             <DataTable
@@ -11,6 +11,7 @@ function Enemies({ encounterOptions, currentEncounter, updateHealth, updateIniti
                 updateHealth={updateHealth}
                 canAttack={true}
                 onAttack={onAttack}
+                disabled={disabled}
             />
         );
     }

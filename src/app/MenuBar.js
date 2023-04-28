@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 
 import './style/MenuBar.scss';
 
-function MenuBar({ onSave, onLoad }) {
+function MenuBar({ onSave, onLoad, disabled }) {
     const openFile = useRef(null);
     const [fileCount, setFileCount] = useState(1);
 
@@ -25,12 +25,14 @@ function MenuBar({ onSave, onLoad }) {
         <button 
             className='widget-input menu-button' 
             onClick={() => saveFile()}
+            disabled={disabled}
         >Save
         </button>
 
         <button 
             className='widget-input menu-button'
             onClick={() => loadFile()}
+            disabled={disabled}
         >Load
         </button>
 
@@ -39,7 +41,9 @@ function MenuBar({ onSave, onLoad }) {
             id='menu-file-dialog'
             type='file'
             onChange={onFileChange}
-            ref={openFile} />
+            ref={openFile}
+            disabled={disabled}
+        />
     </div>
 }
 
