@@ -1,0 +1,42 @@
+@import '../../style/widget.scss';
+
+.tab-labels-container {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.tab-label {
+    flex-direction: column;
+    border: 1px solid $widgetBorderColor !important;
+    border-bottom: 2px solid $widgetBorderColor !important;
+    border-top: none !important;
+    border-radius: 0 !important;
+    color: $widgetInputActiveTextColor !important;
+    background-color: $widgetBackgroundColor !important;
+    //box-shadow: inset 0 0 5px 1px $widgetInputShadowColor !important;
+}
+
+.tab-first {
+    border-left: none !important;
+}
+
+.tab-last {
+    border-right: none !important;
+}
+
+.tab-label:active {
+    background-color: $widgetBackgroundColor !important;
+}
+
+.tab-active {
+    color: $widgetInputTextColor !important;
+    background-color: $widgetBackgroundColor2 !important;
+    z-index: 999;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+.tab-contents-container {
+    background-color: $widgetBackgroundColor2;
+    padding: 0.7em;
+}

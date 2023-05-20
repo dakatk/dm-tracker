@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import Modal from '../../common/Modal';
 
-import capitalize from '../../util/capitalize';
-import isString from '../../util/isString';
+import { isString, capitalize } from '../../util/string';
 import d from '../../util/roll';
 
 import './style/AttackModal.scss';

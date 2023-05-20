@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { saveSync } from 'save-file';
 
-import blurBackground from '../util/blurBackground';
+import blurBackground from '../util/dialog';
 import { saveSession } from '../util/session';
+import { saveJson, loadFromJson } from '../util/io';
 
-import Dialog, { 
+import { 
     ATTACK_MODAL,
     NEW_QUEST_MODAL,
     NEW_NPC_MODAL,
     NEW_PLAYER_MODAL,
     EDIT_PLAYERS_MODAL,
     NEW_ENCOUNTER_MODAL
-} from './Dialog';
+} from './dialog/constants';
 
+import Dialog from './Dialog';
 import MenuBar from './MenuBar';
 import Players from './Players';
 import Enemies from './Enemies';
@@ -30,6 +31,7 @@ function App({ session }) {
     const [quests, setQuests] = useState(session.quests);
     const [showModal, setShowModal] = useState(null);
 
+    // TODO Re-write?
     const updatePlayerState = (newValue, index, property) => {
         const updatedState = [...players];
 
@@ -84,7 +86,7 @@ function App({ session }) {
                 setPlayers([...players, modalValues]);
                 break;
             case EDIT_PLAYERS_MODAL:
-                // TODO 
+                setPlayers(modalValues);
                 break;
             case NEW_ENCOUNTER_MODAL:
                 const encounterName = modalValues.name;
@@ -96,39 +98,6 @@ function App({ session }) {
             default:
                 break;
         }
-    }
-
-    const saveJson = (fileName) => {
-        const combined = {
-            players,
-            encounterOptions,
-            currentEncounter,
-            npcs,
-            quests
-        };
-
-        saveSync(JSON.stringify(combined, null, 4), fileName);
-        saveSession(players, encounterOptions, currentEncounter, npcs, quests);
-    }
-
-    const loadFromJson = (file) => {
-        file.text()
-            .then(text => {
-                const combined = JSON.parse(text);
-                const playersJson = combined['players'] || [];
-                const encounterOptionsJson = combined['encounterOptions'] || {};
-                const currentEncounterJson = combined['currentEncounter'] || '';
-                const npcsJson = combined['npcs'] || [];
-                const questsJson = combined['quests'] || [];
-
-                setPlayers(playersJson);
-                setEncounterOptions(encounterOptionsJson);
-                setCurrentEncounter(currentEncounterJson);
-                setNpcs(npcsJson);
-                setQuests(questsJson);
-
-                saveSession(playersJson, encounterOptionsJson, currentEncounterJson, npcsJson, questsJson);
-            });
     }
 
     useEffect(() => {
@@ -165,8 +134,26 @@ function App({ session }) {
             <div className={blurBackground('app-header', !!showModal)}>
                 <div id='app-menu'>
                     <MenuBar
-                        onSave={saveJson}
-                        onLoad={loadFromJson}
+                        onSave={(fileName) => {
+                                saveJson(fileName, { 
+                                    players, 
+                                    encounterOptions, 
+                                    currentEncounter, 
+                                    npcs,
+                                    quests
+                                });
+                            }
+                        }
+                        onLoad={(file) => {
+                                loadFromJson(file, {
+                                    setPlayers,
+                                    setEncounterOptions,
+                                    setCurrentEncounter,
+                                    setNpcs,
+                                    setQuests
+                                })
+                            }
+                        }
                         disabled={showModal}
                     />
                 </div>

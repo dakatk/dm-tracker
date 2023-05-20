@@ -16,9 +16,9 @@
 }
 
 #modal-header {
-    border: 2px solid $widgetInputDisabledTextColor;
+    border: 2px solid $widgetBorderColor;
     padding: 0.8em;
-    background-color: #303030;
+    background-color: $widgetBackgroundColor2;
 }
 
 #modal-close-btn {
@@ -31,10 +31,10 @@
 }
 
 #modal-contents {
-    border: 2px solid $widgetInputDisabledTextColor;
+    border: 2px solid $widgetBorderColor;
     border-top: none;
     margin-bottom: 1.5em;
-    background-color: #303030;
+    background-color: $widgetBackgroundColor2;
     display: flex;
 }
 

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 
-import capitalize from '../util/capitalize';
+import { capitalize } from '../util/string';
 
 import './style/NameList.scss';
 
@@ -55,12 +55,21 @@ function NameList({ list, descriptorKeys, onAdd, onRemove, disabled }) {
         )
     };
 
+    const rowClassNames = () => {
+        let classNames = 'name-list-entry name-list-heading';
+
+        if (disabled) {
+            classNames += ' disabled';
+        }
+        return classNames;
+    }
+
     const displayRow = (value, index) => {
         return (
             <tr key={`tr-${index}`}>
                 <td key={`td-${index}`}>
                     <div 
-                        className='name-list-entry name-list-heading'
+                        className={rowClassNames()}
                         onClick={() => toggleExpand(index)}
                         key={`name-${index}`}
                         disabled={disabled}

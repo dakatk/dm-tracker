@@ -3,42 +3,58 @@ import React from 'react';
 import AttackModal from './dialog/AttackModal';
 import FormFieldModal from './dialog/FormFieldModal';
 
-import QuestCreateForm from './dialog/QuestCreateForm.json';
-import NpcCreateForm from './dialog/NpcCreateForm.json';
+import QuestCreateForm from './dialog/forms/QuestCreateForm.json';
+import NpcCreateForm from './dialog/forms/NpcCreateForm.json';
+import EditPlayersForm from './dialog/forms/EditPlayersForm.json';
 
-const ATTACK_MODAL = 'attack';
-const NEW_QUEST_MODAL = 'new-quest';
-const NEW_NPC_MODAL = 'new-npc';
-const NEW_PLAYER_MODAL = 'new-player';
-const EDIT_PLAYERS_MODAL = 'edit-players';
-const NEW_ENCOUNTER_MODAL = 'new-encounter';
-
-const modalOptions = [
+import { 
     ATTACK_MODAL,
     NEW_QUEST_MODAL,
     NEW_NPC_MODAL,
     NEW_PLAYER_MODAL,
     EDIT_PLAYERS_MODAL,
-    NEW_ENCOUNTER_MODAL
-];
+    NEW_ENCOUNTER_MODAL,
+    isModal
+} from './dialog/constants';
+import FormPageModal from './dialog/FormPageModal';
 
 const modalForms = {
     [NEW_QUEST_MODAL]: QuestCreateForm,
-    [NEW_NPC_MODAL]: NpcCreateForm
+    [NEW_NPC_MODAL]: NpcCreateForm,
+    [NEW_PLAYER_MODAL]: null,
+    [EDIT_PLAYERS_MODAL]: EditPlayersForm,
+    [NEW_ENCOUNTER_MODAL]: null
 };
 
-export {
-    ATTACK_MODAL,
-    NEW_QUEST_MODAL,
-    NEW_NPC_MODAL,
-    NEW_PLAYER_MODAL,
+const pageModals = [
     EDIT_PLAYERS_MODAL,
     NEW_ENCOUNTER_MODAL
-}
+]
 
 function Dialog({ modalName, players, encounterOptions, currentEncounter, onSave, onClose }) {
-    const isAttackModal = () => modalName === ATTACK_MODAL;
-    const isFormFieldModal = () => modalName in modalForms;
+    const formPages = () => {
+        switch (modalName) {
+            case EDIT_PLAYERS_MODAL:
+                return players.map(({ name }) => name);
+            case NEW_ENCOUNTER_MODAL:
+                return ['Enemies', 'Attacks'];
+            default:
+                break;
+        }
+    }
+
+    const formDefaultValues = () => {
+        switch (modalName) {
+            case EDIT_PLAYERS_MODAL:
+                const playerFormValues = {};
+                for(const player of players) {
+                    playerFormValues[player.name] = player;
+                }
+                return playerFormValues;
+            default:
+                break;
+        }
+    }
 
     const damagePlayers = (attackData) => {
         const autoDamageValues = [];
@@ -58,25 +74,48 @@ function Dialog({ modalName, players, encounterOptions, currentEncounter, onSave
         onSave(autoDamageValues);
     }
 
-    if (modalOptions.includes(modalName)) {
+    const renderSelectedModal = () => {
+        if (modalName === ATTACK_MODAL) {
+            return (
+                <AttackModal
+                    encounterOptions={encounterOptions}
+                    currentEncounter={currentEncounter}
+                    close={onClose}
+                    attack={damagePlayers}
+                    playerData={players
+                        .filter(({ health }) => health > 0)
+                        .map(({ name, ac }) => { return { name, ac }; })
+                    }
+                />
+            );
+        } else if (pageModals.includes(modalName)) {
+            return (
+                <FormPageModal
+                    form={modalForms[modalName]}
+                    save={onSave}
+                    close={onClose}
+                    defaultValues={formDefaultValues()}
+                    pages={formPages()}
+                />
+            );
+        } else {
+            return (
+                <FormFieldModal
+                    form={modalForms[modalName]}
+                    save={onSave}
+                    close={onClose}
+                    defaultValues={formDefaultValues()}
+                />
+            );
+        }
+    }
+
+    if (isModal(modalName)) {
         return (
             <>
                 {<div id='dialog-modal-mask'></div>}
                 <div id='dialog-modal'>
-                    {isAttackModal() && <AttackModal
-                        encounterOptions={encounterOptions}
-                        currentEncounter={currentEncounter}
-                        close={onClose}
-                        attack={damagePlayers}
-                        playerData={players
-                            .filter(({ health }) => health > 0)
-                            .map(({ name, ac }) => { return { name, ac }; })
-                        } />}
-                    {isFormFieldModal() && <FormFieldModal
-                        form={modalForms[modalName]}
-                        save={onSave}
-                        close={onClose}
-                    />}
+                    {renderSelectedModal()}
                 </div>
             </>
         );

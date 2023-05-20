@@ -1,14 +1,40 @@
 import { useState } from 'react';
+
 import Modal from '../../common/Modal';
 
 import './style/FormFieldModal.scss';
 
-function FormFieldModal({ form, save, close, defaultValues }) {
+function FormFieldModal({ form, save, close, defaultValues, onUpdateField, onSaveForm, getFormValue, renderModalContents }) {
     const [formValues, setFormValues] = useState(defaultValues || {});
     const [validationErrors, setValidationErrors] = useState({});
 
     const updateField = (field, value) => {
-        setFormValues({ ...formValues, [field.prop]: value });
+        if (onUpdateField?.call) {
+            onUpdateField(formValues, setFormValues, field, value);
+        } else {
+            setFormValues({ ...formValues, [field.prop]: value });
+        }
+    }
+
+    const defaultInputValue = (type) => {
+        switch (type) {
+            case 'number':
+                return 0;
+            case 'checkbox':
+                return false;
+            default:
+                return '';
+        }
+    }
+
+    const fieldValue = (field, page) => {
+        if (page && (page in formValues)) {
+            return formValues[page][field.prop] ||
+                defaultInputValue(field.type);
+        } else {
+            return formValues[field.prop] || 
+                defaultInputValue(field.type);
+        }
     }
 
     const validateForm = () => {
@@ -18,9 +44,18 @@ function FormFieldModal({ form, save, close, defaultValues }) {
             if (!field.required) {
                 continue;
             }
+            
+            let formValue;
+            if (getFormValue?.call) {
+                formValue = getFormValue(formValues, field.prop);
+            } else {
+                formValue = formValues[field.prop];
+            }
 
-            const formValue = formValues[field.prop];
-            if (!formValue || !formValue?.trim()) {
+            if (
+                (formValue === null || formValue === undefined) ||
+                (formValue?.trim && !formValue?.trim())
+            ) {
                 validationResults[field.prop] = `'${field.label}' is required`;
             }
         }
@@ -32,7 +67,11 @@ function FormFieldModal({ form, save, close, defaultValues }) {
         setValidationErrors(validationResults);
 
         if (Object.keys(validationResults).length === 0) {
-            save(formValues);
+            if (onSaveForm?.call) {
+                onSaveForm(formValues);
+            } else {
+                save(formValues);
+            }
         }
     }
 
@@ -47,33 +86,34 @@ function FormFieldModal({ form, save, close, defaultValues }) {
             .toLowerCase();
     } 
 
-    const textInput = (field) => {
+    const basicInput = (field, page, type) => {
         return (
-            <input 
+            <input
                 className='widget-input form-field-modal-input form-field-modal-text-input' 
-                type='text'
+                type={type || 'text'}
                 id={formInputId(field)}
                 name={formInputId(field)}
-                onChange={(e) => updateField(field, e.target.value)}
+                value={fieldValue(field, page)}
+                onChange={(e) => updateField(field, page, e.target.value)}
             />
         );
     }
 
-    const selectInput = (field) => {
+    const selectInput = (field, page) => {
         return (
             <select 
                 className='widget-input form-field-modal-input form-field-modal-select-input'
                 id={formInputId(field)}
                 name={formInputId(field)}
-                onChange={(e) => updateField(field, e.target.value)}
+                // value={fieldValue(field, page)}
+                onChange={(e) => updateField(field, page, e.target.value)}
             >
                 {field.options?.map(
                     fieldOption => (
                         <option
                             key={`${field.prop}-${fieldOption}`}
                             value={fieldOption}
-                        >
-                            {fieldOption}
+                        >{fieldOption}
                         </option>
                     )
                 )}
@@ -81,40 +121,45 @@ function FormFieldModal({ form, save, close, defaultValues }) {
         );
     }
 
-    const textAreaInput = (field) => {
+    const textAreaInput = (field, page) => {
         return (
             <textarea
                 className='widget-input form-field-modal-input form-field-modal-textarea-input'
                 id={formInputId(field)}
                 name={formInputId(field)}
                 rows={field.rows ?? 1}
+                // value={fieldValue(field, page)}
+                onChange={(e) => updateField(field, page, e.target.value)}
             >
             </textarea>
         );
     }
 
-    const checkboxInput = (field) => {
+    const checkboxInput = (field, page) => {
         return (
             <input 
                 className='widget-input form-field-modal-input form-field-modal-checkbox-input' 
                 type='checkbox'
                 id={formInputId(field)}
                 name={formInputId(field)}
-                onChange={(e) => updateField(field, e.target.checked)}
+                checked={!!fieldValue(field, page)}
+                onChange={(e) => updateField(field, page, e.target.checked)}
             />
         );
     }
 
-    const renderFieldInput = (field) => {
+    const renderFieldInput = (field, page) => {
         switch (field.type?.toLowerCase()) {
             case 'select':
-                return selectInput(field);
+                return selectInput(field, page);
             case 'textarea':
-                return textAreaInput(field);
+                return textAreaInput(field, page);
             case 'checkbox':
-                return checkboxInput(field);
+                return checkboxInput(field, page);
+            case 'number':
+                return basicInput(field, page, 'number');
             default:
-                return textInput(field);
+                return basicInput(field, page);
         }
     }
 
@@ -124,11 +169,11 @@ function FormFieldModal({ form, save, close, defaultValues }) {
         }
     }
 
-    const renderField = (field) => {
+    const renderField = (field, page) => {
         if (field.prop) {
             return (
-                <div 
-                    key={field.prop} 
+                <div
+                    key={field.prop}
                     className='form-field-modal-row'
                 >
                     <label 
@@ -137,19 +182,27 @@ function FormFieldModal({ form, save, close, defaultValues }) {
                     >{field.label}
                     </label>
 
-                    {renderFieldInput(field)}
+                    {renderFieldInput(field, page)}
                     {renderValidationError(field)}
                 </div>
             );
         }
     }
 
-    const modalContents = () => {
+    const renderFormFields = (page) => {
         return (
-            <div id='form-field-modal-body'>
-                {form.fields.map(renderField)}
+            <div className='form-field-modal-body tabbed'>
+                {form.fields.map(field => renderField(field, page))}
             </div>
         );
+    }
+
+    const modalContents = () => {
+        if (renderModalContents?.call) {
+            return renderModalContents(renderFormFields);
+        } else {
+            return renderFormFields();
+        }
     }
 
     const modalFooter = () => {
@@ -157,12 +210,14 @@ function FormFieldModal({ form, save, close, defaultValues }) {
             <>
                 <button
                     className='widget-input form-field-modal-btn'
-                    onClick={() => saveForm()}>Save
+                    onClick={() => saveForm()}
+                >Save
                 </button>
 
                 <button
                     className='widget-input form-field-modal-btn'
-                    onClick={() => close()}>Close
+                    onClick={() => close()}
+                >Close
                 </button>
             </>
         )

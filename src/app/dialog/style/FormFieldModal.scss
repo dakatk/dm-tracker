@@ -1,9 +1,14 @@
 @import '../../../style/widget.scss';
 
-#form-field-modal-body {
+.form-field-modal-body {
     margin: 0.75em;
     margin-bottom: 0.25em;
     min-width: 4em;
+}
+
+.form-field-modal-body.tabbed {
+    z-index: 999;
+    margin-top: 0 !important;
 }
 
 .form-field-modal-btn {
@@ -30,7 +35,7 @@
 }
 
 .form-field-modal-select-input {
-
+    
 }
 
 .form-field-modal-textarea-input {

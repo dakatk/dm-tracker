@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import capitalize from '../util/capitalize';
+import { capitalize } from '../util/string';
 
 import './style/Selector.scss';
 
