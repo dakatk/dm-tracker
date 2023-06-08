@@ -1,10 +1,13 @@
 import React from 'react';
 
 import AttackModal from './dialog/AttackModal';
+import NewEncounterModal from './dialog/NewEncounterModal';
+import FormPageModal from './dialog/FormPageModal';
 import FormFieldModal from './dialog/FormFieldModal';
 
 import QuestCreateForm from './dialog/forms/QuestCreateForm.json';
 import NpcCreateForm from './dialog/forms/NpcCreateForm.json';
+import NewPlayerForm from './dialog/forms/NewPlayerForm.json';
 import EditPlayersForm from './dialog/forms/EditPlayersForm.json';
 
 import { 
@@ -16,14 +19,12 @@ import {
     NEW_ENCOUNTER_MODAL,
     isModal
 } from './dialog/constants';
-import FormPageModal from './dialog/FormPageModal';
 
 const modalForms = {
     [NEW_QUEST_MODAL]: QuestCreateForm,
     [NEW_NPC_MODAL]: NpcCreateForm,
-    [NEW_PLAYER_MODAL]: null,
-    [EDIT_PLAYERS_MODAL]: EditPlayersForm,
-    [NEW_ENCOUNTER_MODAL]: null
+    [NEW_PLAYER_MODAL]: NewPlayerForm,
+    [EDIT_PLAYERS_MODAL]: EditPlayersForm
 };
 
 const pageModals = [
@@ -86,6 +87,12 @@ function Dialog({ modalName, players, encounterOptions, currentEncounter, onSave
                         .filter(({ health }) => health > 0)
                         .map(({ name, ac }) => { return { name, ac }; })
                     }
+                />
+            );
+        } else if (modalName === NEW_ENCOUNTER_MODAL) {
+            return (
+                <NewEncounterModal
+
                 />
             );
         } else if (pageModals.includes(modalName)) {
