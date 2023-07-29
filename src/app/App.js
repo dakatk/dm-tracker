@@ -98,6 +98,7 @@ function App({ session }) {
             default:
                 break;
         }
+        setShowModal(null);
     }
 
     useEffect(() => {

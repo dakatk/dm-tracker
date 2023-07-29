@@ -1,0 +1,27 @@
+@import './FormFields.scss';
+
+.edit-players-contents {
+    display: flex;
+    flex-direction: column;
+
+    .edit-players-input {
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+    }
+
+    .edit-players-contents-top-row {
+        border-bottom: 2px solid $widgetBorderColor;
+        padding: 0.5em;
+    }
+    
+    .edit-players-contents-bottom-row {
+        display: flex;
+        flex-direction: row;
+
+        .edit-players-contents-bottom-section {
+            display: flex;
+            flex-direction: column;
+            padding: 0.5em;
+        }
+    }
+}

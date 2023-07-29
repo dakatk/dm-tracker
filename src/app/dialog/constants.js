@@ -7,11 +7,11 @@ const NEW_ENCOUNTER_MODAL = 'new-encounter';
 
 const modalOptions = [
     ATTACK_MODAL,
-    NEW_QUEST_MODAL,
+    EDIT_PLAYERS_MODAL,
+    NEW_ENCOUNTER_MODAL,
     NEW_NPC_MODAL,
     NEW_PLAYER_MODAL,
-    EDIT_PLAYERS_MODAL,
-    NEW_ENCOUNTER_MODAL
+    NEW_QUEST_MODAL,
 ];
 
 const isModal = (modalName) => {
@@ -20,10 +20,10 @@ const isModal = (modalName) => {
 
 export {
     ATTACK_MODAL,
-    NEW_QUEST_MODAL,
-    NEW_NPC_MODAL,
-    NEW_PLAYER_MODAL,
     EDIT_PLAYERS_MODAL,
     NEW_ENCOUNTER_MODAL,
+    NEW_NPC_MODAL,
+    NEW_PLAYER_MODAL,
+    NEW_QUEST_MODAL,
     isModal
 }

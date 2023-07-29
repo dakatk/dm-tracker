@@ -7,7 +7,7 @@ import d from '../../util/roll';
 
 import './style/AttackModal.scss';
 
-function AttackModal({ currentEncounter, encounterOptions, close, attack, playerData }) {
+function AttackModal({ currentEncounter, encounterOptions, onClose, onAttack, playerData }) {
     const enemies = encounterOptions[currentEncounter];
     
     const defaultAttackSelection = enemies?.map(value => value?.attacks[0]);
@@ -44,7 +44,7 @@ function AttackModal({ currentEncounter, encounterOptions, close, attack, player
         }).filter(value => value !== undefined);
         
         setResults(newResults);
-        attack(newResults);
+        onAttack(newResults);
     }
 
     const parseResults = (index, attacks, targets) => {
@@ -206,8 +206,8 @@ function AttackModal({ currentEncounter, encounterOptions, close, attack, player
 
     return (
         <Modal 
-            title="Enemy Attacks"
-            close={close}
+            title='Enemy Attacks'
+            close={onClose}
             contents={modalContents()}
             footer={modalFooter()}
         />

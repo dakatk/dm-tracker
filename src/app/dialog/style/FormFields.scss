@@ -34,8 +34,9 @@
     cursor: text !important;
 }
 
-.form-field-modal-select-input {
-    
+.form-field-modal-number-input {
+    max-width: 6em;
+    cursor: text !important;
 }
 
 .form-field-modal-textarea-input {
@@ -43,6 +44,7 @@
     cursor: text !important;
 }
 
-.form-field-modal-checkbox-input {
-    
+.form-field-modal-validation {
+    font-size: small;
+    color: $widgetErrorTextColor;
 }

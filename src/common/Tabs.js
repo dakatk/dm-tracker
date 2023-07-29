@@ -1,13 +1,34 @@
-import { useState } from 'react';
+import { useEffect, useReducer } from 'react';
 
 import './style/Tabs.scss';
 
-function Tabs({ labels, content, onChange }) {
-    const [selectedTab, updateSelectedTab] = useState(labels[0]);
+function Tabs({ labels, value, content, onChange }) {
+    const changeTabReducer = (state, action) => {
+        if (labels.includes(action)) {
+            return action;
+        } else {
+            return state;
+        }
+    };
+
+    const [selectedTab, dispatchSelectedTab] = useReducer(changeTabReducer, labels[0]);//useState(value);
+
+    useEffect(() => {
+        console.log(value);
+        dispatchSelectedTab(value);
+    }, [value]);
+    // useEffect(() => {
+    //     console.log(value);
+    //     // if (value in labels) {
+    //     //     updateSelectedTab(value);
+    //     // } else {
+    //     //     updateSelectedTab(labels[0]);
+    //     // }
+    // }, [value]);
 
     const onTabSelect = (label) => {
         if (selectedTab !== label) {
-            updateSelectedTab(label);
+            dispatchSelectedTab(label);
 
             if (onChange?.call) {
                 onChange(label);
@@ -44,7 +65,7 @@ function Tabs({ labels, content, onChange }) {
                 )}
             </div>
             <div className='tab-contents-container'>
-                {content && content[selectedTab]}
+                {content && content(selectedTab)}
             </div>
         </div>
     );
