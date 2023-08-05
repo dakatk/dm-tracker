@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { CampaignContext, FormContext } from './Context';
 
 import DataTable from '../common/DataTable';
 
-function Enemies({ encounterOptions, currentEncounter, updateHealth, updateInitiative, onAttack, disabled }) {
-    if (currentEncounter in encounterOptions) {
+function Enemies({ currentEncounter, updateHealth, updateInitiative, disabled }) {
+    const campaign = useContext(CampaignContext);
+    const form = useContext(FormContext);
+
+    const onAttack = () => {
+        form.openAttackForm();
+    }
+    
+    if (campaign.encounterOptions && (currentEncounter in campaign.encounterOptions)) {
         return (
             <DataTable
-                data={encounterOptions[currentEncounter]}
+                data={campaign.encounterOptions[currentEncounter]}
                 updateInitiative={updateInitiative}
                 updateHealth={updateHealth}
                 canAttack={true}

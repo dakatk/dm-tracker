@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
+
+import { CampaignContext, FormContext } from './Context';
 
 import Selector from '../common/Selector';
 import OrderedTable from '../common/OrderedTable';
 
 import './style/Encounter.scss';
 
-function Encounter({ encounterOptions, currentEncounter, selectEncounter, players, disabled }) {
-    const defaultEncounterNames = Object.keys(encounterOptions);
-    const [encounterNames, setEncounterNames] = useState(defaultEncounterNames);
+function Encounter({ currentEncounter, setCurrentEncounter, disabled }) {
+    const campaign = useContext(CampaignContext);
+    const form = useContext(FormContext);
+
+    const encounterOptions = campaign.encounterOptions || {};
+    const encounterNames = Object.keys(encounterOptions);
 
     const initiative = () => {
         let playerInitiative = [];
@@ -15,8 +20,8 @@ function Encounter({ encounterOptions, currentEncounter, selectEncounter, player
 
         const enemies = encounterOptions[currentEncounter];
 
-        if (players?.length) {
-            playerInitiative = players.map(({ initiative }) => initiative);
+        if (campaign.players?.length) {
+            playerInitiative = campaign.players.map(({ initiative }) => initiative);
         }
         if (enemies?.length) {
             enemyInitiative = enemies.map(({ initiative }) => initiative);
@@ -24,12 +29,15 @@ function Encounter({ encounterOptions, currentEncounter, selectEncounter, player
         return [...playerInitiative, ...enemyInitiative]
     }
 
-    useEffect(() => {
-        setEncounterNames(defaultEncounterNames);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [encounterOptions]);
+    const selectEncounter = (encounterName) => {
+        if (!encounterName) {
+            form.openNewEncounterForm();
+        } else {
+            setCurrentEncounter(encounterName);
+        }
+    }
 
-    if (players?.length) {
+    if (campaign.players?.length) {
         return (
             <>
                 <div id='encounter-selector'>
@@ -43,7 +51,7 @@ function Encounter({ encounterOptions, currentEncounter, selectEncounter, player
 
                 <div id='encounter-ordered-table'>
                     {(currentEncounter in encounterOptions) && <OrderedTable
-                        firstDataSet={players}
+                        firstDataSet={campaign.players}
                         secondDataSet={encounterOptions[currentEncounter]}
                         initiative={initiative()}
                     />}

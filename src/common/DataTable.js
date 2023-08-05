@@ -148,7 +148,7 @@ function DataTable({ data, updateHealth, updateInitiative, updateStarveDays, can
             </button>}
             {canAttack && <button
                 className='widget-input data-table-btn' 
-                onClick={() => onAttack?.call()}
+                onClick={() => onAttack()}
                 disabled={disabled}
             >Attack
             </button>}
@@ -168,13 +168,13 @@ function DataTable({ data, updateHealth, updateInitiative, updateStarveDays, can
             </>}
             {canAdd && <button
                 className='widget-input data-table-btn'
-                onClick={() => onAdd?.call()}
+                onClick={() => onAdd()}
                 disabled={disabled}
             >Add
             </button>}
             {canEdit && <button
                 className='widget-input data-table-btn'
-                onClick={() => onEdit?.call()}
+                onClick={() => onEdit()}
                 disabled={disabled}
             >Edit
             </button>}

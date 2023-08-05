@@ -11,7 +11,7 @@ const saveJson = (fileName, { players, encounterOptions, currentEncounter, npcs,
     };
 
     saveSync(JSON.stringify(combined, null, 4), fileName);
-    saveSession(players, encounterOptions, currentEncounter, npcs, quests);
+    saveSession({ players, encounterOptions, currentEncounter, npcs, quests });
 }
 
 const loadFromJson = (file, { setPlayers, setEncounterOptions, setCurrentEncounter, setNpcs, setQuests }) => {
@@ -30,7 +30,13 @@ const loadFromJson = (file, { setPlayers, setEncounterOptions, setCurrentEncount
             setNpcs?.call && setNpcs(npcsJson);
             setQuests?.call && setQuests(questsJson);
 
-            saveSession(playersJson, encounterOptionsJson, currentEncounterJson, npcsJson, questsJson);
+            saveSession({
+                players: playersJson,
+                encounterOptions: encounterOptionsJson,
+                currentEncounter: currentEncounterJson,
+                npcs: npcsJson,
+                quests: questsJson
+            });
         });
 }
 

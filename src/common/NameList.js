@@ -16,13 +16,15 @@ function NameList({ list, descriptorKeys, onAdd, onRemove, disabled }) {
             return;
         }
 
-        const nextExpanded = [...expanded];
-        if (nextExpanded[index] !== undefined) {
-            nextExpanded[index] = undefined;
-        } else {
-            nextExpanded[index] = true;
-        }
-        setExpanded(nextExpanded);
+        setExpanded(prevState => {
+            const updatedState = [...prevState];
+            if (updatedState[index] !== undefined) {
+                updatedState[index] = undefined;
+            } else {
+                updatedState[index] = true;
+            }
+            return updatedState;
+        });
     };
 
     const onRemoveClicked = (index) => {
@@ -34,7 +36,10 @@ function NameList({ list, descriptorKeys, onAdd, onRemove, disabled }) {
 
     const description = (key, value, bordered) => {
         return (
-            <div className={`name-list-description-line ${bordered && 'name-list-separator'}`}>
+            <div
+                className={`name-list-description-line ${bordered && 'name-list-separator'}`}
+                key={key}
+            >
                 {capitalize(key)}: {value[key]}
             </div>
         );

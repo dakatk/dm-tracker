@@ -1,4 +1,4 @@
-export const saveSession = (players, encounterOptions, currentEncounter, npcs, quests) => {    
+export const saveSession = ({ players, encounterOptions, currentEncounter, npcs, quests }) => {    
     if (players !== null && players !== undefined) {
         localStorage.setItem('PLAYERS_JSON', JSON.stringify(players));
     }

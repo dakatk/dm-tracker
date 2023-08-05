@@ -1,26 +1,32 @@
-import React, { useState } from 'react';
-import  { FormField, FormFooter, validate } from './FormFields';
+import React, { useContext, useState } from 'react';
 
-import Modal from '../../common/Modal';
+import { CampaignContext } from '../Context';
+
 import Tabs from '../../common/Tabs';
+import Form from '../../common/Form';
+import  { FormField } from '../../common/FormField';
 
-import './style/EditPlayersModal.scss';
+import './style/EditPlayersForm.scss';
 
-function EditPlayersModal({ players, pages, onSave, onClose }) {
+function EditPlayersForm({ onUpdatePlayers }) {
+    const campaign = useContext(CampaignContext);
+
+    const tabNames = campaign.players.map(({ name }) => name);
+    const players = campaign.players;
+
     const [allPlayers, updateAllPlayers] = useState(players.map(player => {
         return {...player}
     }));
-    const [currentTab, updateCurrentTab] = useState(pages[0]);
+    const [currentTab, updateCurrentTab] = useState(tabNames[0]);
     const [name, updateName] = useState(players[0].name);
     const [maxHealth, updateMaxHealth] = useState(players[0].maxHealth);
     const [ac, updateAc] = useState(players[0].ac);
     const [dexMod, updateDexMod] = useState(players[0].dexMod);
     const [conMod, updateConMod] = useState(players[0].conMod);
-    const [validationErrors, updateValidationErrors] = useState({});
 
     const updatePlayer = (playerName, prop, value) => {
         const nextAllPlayers = [...allPlayers];
-        const playerIndex = pages.indexOf(playerName);
+        const playerIndex = tabNames.indexOf(playerName);
         const player = nextAllPlayers[playerIndex];
 
         player[prop] = value;
@@ -28,21 +34,38 @@ function EditPlayersModal({ players, pages, onSave, onClose }) {
         updateAllPlayers(allPlayers);
     }
 
-    const tabContents = (tabName) => {
+    const onChangeTab = (tabName) => {
+        const playerIndex = tabNames.indexOf(tabName);
+        const player = allPlayers[playerIndex];
+
+        updateName(player.name);
+        updateMaxHealth(player.maxHealth);
+        updateAc(player.ac);
+        updateDexMod(player.dexMod);
+        updateConMod(player.conMod);
+    }
+
+    const onValidationError = (formFieldId) => {
+        const tabName = formFieldId.split('-').slice(-1);
+        updateCurrentTab(tabName);
+        onChangeTab(tabName);
+    }
+
+    const tabContents = () => {
         return (
             <div className='edit-players-contents'>
                 <div className='edit-players-contents-top-row'>
                     <FormField
                         type='text'
                         label='Name'
-                        id='edit-players-name'
+                        id={`edit-players-name-${currentTab}`}
                         className='edit-players-input'
+                        required={true}
                         value={name}
                         updateValue={(value) => {
                             updateName(value);
-                            updatePlayer(tabName, 'name', value);
+                            updatePlayer(currentTab, 'name', value);
                         }}
-                        validationMessage={validationErrors[tabName]?.name}
                     />
                 </div>
 
@@ -53,24 +76,26 @@ function EditPlayersModal({ players, pages, onSave, onClose }) {
                             label='Max Health'
                             id='edit-players-max-health'
                             className='edit-players-input'
+                            required={true}
                             value={maxHealth}
                             updateValue={(value) => {
                                 updateMaxHealth(value);
-                                updatePlayer(tabName, 'maxHealth', value);
+                                updatePlayer(currentTab, 'maxHealth', value);
                             }}
-                            validationMessage={validationErrors[tabName]?.maxHealth}
+                            validate={(value) => value < 5 ? "'Max Health' cannot be less than 5" : null}
                         />
                         <FormField
                             type='number'
                             label='Armor Class'
                             id='edit-players-ac'
                             className='edit-players-input'
+                            required={true}
                             value={ac}
                             updateValue={(value) => {
                                 updateAc(value);
-                                updatePlayer(tabName, 'ac', value);
+                                updatePlayer(currentTab, 'ac', value);
                             }}
-                            validationMessage={validationErrors[tabName]?.ac}
+                            validate={(value) => value < 10 ? "'AC' cannot be less than 10" : null}
                         />
                     </div>
                     <div className='edit-players-contents-bottom-section'>
@@ -79,24 +104,26 @@ function EditPlayersModal({ players, pages, onSave, onClose }) {
                             label='Con. Mod'
                             id='edit-players-con-mod'
                             className='edit-players-input'
+                            required={true}
                             value={conMod}
                             updateValue={(value) => {
                                 updateConMod(value);
-                                updatePlayer(tabName, 'conMod', value);
+                                updatePlayer(currentTab, 'conMod', value);
                             }}
-                            validationMessage={validationErrors[tabName]?.conMod}
+                            validate={(value) => value < -2 ? "'Con. Mod' cannot be less than -2" : null}
                         />
                         <FormField
                             type='number'
                             label='Dex. Mod'
                             id='edit-players-dex-mod'
                             className='edit-players-input'
+                            required={true}
                             value={dexMod}
                             updateValue={(value) => {
                                 updateDexMod(value);
-                                updatePlayer(tabName, 'dexMod', value);
+                                updatePlayer(currentTab, 'dexMod', value);
                             }}
-                            validationMessage={validationErrors[tabName]?.dexMod}
+                            validate={(value) => value < -2 ? "'Dex. Mod' cannot be less than -2" : null}
                         />
                     </div>
                 </div>
@@ -104,81 +131,20 @@ function EditPlayersModal({ players, pages, onSave, onClose }) {
         );
     }
 
-    const onChangeTab = (tabName) => {
-        const playerIndex = pages.indexOf(tabName);
-        const player = allPlayers[playerIndex];
-
-        updateName(player.name);
-        updateMaxHealth(player.maxHealth);
-        updateAc(player.ac);
-        updateDexMod(player.dexMod);
-        updateConMod(player.conMod);
-    }
-
-    const modalContents = () => {
-        return (
+    return (
+        <Form
+            title='Edit Players'
+            onSubmit={() => onUpdatePlayers(allPlayers)}
+            onValidationError={onValidationError}
+        >
             <Tabs 
-                labels={pages}
+                labels={tabNames}
                 value={currentTab}
                 content={tabContents}
                 onChange={onChangeTab}
             />
-        );
-    }
-
-    const onAttemptSave = () => {
-        let hasError = false;
-        const allValidationErrors = {};
-
-        for (const playerIndex in allPlayers) {
-            const player = allPlayers[playerIndex];
-            const tabName = pages[playerIndex];
-
-            const nextValidationErrors = {
-                ...validate(player.name, 'name', 'Name'),
-                ...validate(player.maxHealth, 'maxHealth', 'Max Health'),
-                ...validate(player.ac, 'ac', 'Armor Class'),
-                ...validate(player.conMod, 'conMod', 'Con, Mod'),
-                ...validate(player.dexMod, 'dexMod', 'Dex. Mod')
-            };
-
-            if (!nextValidationErrors.ac && player.ac < 10) {
-                nextValidationErrors.ac = 'AC cannot be less than 10';
-            }
-
-            if (Object.keys(nextValidationErrors).length) {
-                if (!hasError) {
-                    updateCurrentTab(tabName);
-                    onChangeTab(tabName);
-                }
-                allValidationErrors[tabName] = nextValidationErrors;
-                hasError = true;
-            }
-        }
-
-        if (!hasError) {
-            onSave(allPlayers);
-        }
-        updateValidationErrors(allValidationErrors);
-    }
-
-    const modalFooter = () => {
-        return (
-            <FormFooter 
-                onSave={onAttemptSave}
-                onClose={onClose}
-            />
-        );
-    }
-
-    return (
-        <Modal
-            title='Edit Players'
-            close={onClose}
-            contents={modalContents()}
-            footer={modalFooter()}
-        />
+        </Form>
     );
 }
 
-export default EditPlayersModal;
+export default EditPlayersForm;

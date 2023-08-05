@@ -1,229 +1,199 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 
-import blurBackground from '../util/dialog';
+import { CampaignContext } from './Context';
+
+import { blurBackground } from '../util/style';
 import { saveSession } from '../util/session';
 import { saveJson, loadFromJson } from '../util/io';
+import { playerReducer, encounterReducer } from '../util/reducers';
 
-import { 
-    ATTACK_MODAL,
-    NEW_QUEST_MODAL,
-    NEW_NPC_MODAL,
-    NEW_PLAYER_MODAL,
-    EDIT_PLAYERS_MODAL,
-    NEW_ENCOUNTER_MODAL
-} from './dialog/constants';
-
-import Dialog from './Dialog';
+import FormController from './FormController';
 import MenuBar from './MenuBar';
 import Players from './Players';
 import Enemies from './Enemies';
 import Encounter from './Encounter';
-import Npcs from './Npcs';
-import Quests from './Quests';
+import { Npcs, Quests } from './Details';
 
 import './style/App.scss';
 
-function App({ session }) {    
-    const [players, setPlayers] = useState(session.players);
-    const [encounterOptions, setEncounterOptions] = useState(session.encounterOptions)
+function App({ session }) {
+    const [players, dispatchPlayers] = useReducer(playerReducer, session.players);
+    const [encounterOptions, dispatchEncounters] = useReducer(encounterReducer, session.encounterOptions)
     const [currentEncounter, setCurrentEncounter] = useState(session.encounterName);
     const [npcs, setNpcs] = useState(session.npcs);
     const [quests, setQuests] = useState(session.quests);
-    const [showModal, setShowModal] = useState(null);
 
-    // TODO Re-write?
-    const updatePlayerState = (newValue, index, property) => {
-        const updatedState = [...players];
-
-        if (index === undefined) {
-            for (const [i, value] of Object.entries(newValue ?? {})) {
-                updatedState[i][property] = value;
-            }
-        } else if (Array.isArray(index)) {
-            for (const [i, value] of Object.entries(index)) {
-                updatedState[value][property] = newValue[i];
-            }
-        } else {
-            updatedState[index][property] = newValue;
-        }
-        setPlayers(updatedState);
+    const attackPlayers = (damageValues) => {
+        dispatchPlayers({ type: 'damage', value: damageValues });
     }
 
-    const updateEnemyState = (newValue, index, property) => {
-        if (index === undefined) {
-            return;
-        }
-        const updatedState = [...encounterOptions[currentEncounter]];
-        updatedState[index][property] = newValue;
-
-        setEncounterOptions({...encounterOptions, [currentEncounter]: updatedState});
+    const addQuest = (quest) => {
+        setQuests(prevState => [...prevState, quest]);
     }
 
-    const updateEncounter = (encounterName) => {
-        if (!encounterName) {
-            setShowModal(NEW_ENCOUNTER_MODAL);
-        } else {
-            setCurrentEncounter(encounterName);
-        }
+    const addNpc = (npc) => {
+        setNpcs(prevState => [...prevState, npc]);
     }
 
-    const updateAppState = (modalValues) => {
-        switch (showModal) {
-            case ATTACK_MODAL:
-                for (const {index, value} of modalValues) {
-                    const currHealth = players[index].health;
-                    players[index].health = Math.max(0, currHealth - value);
-                }
-                setPlayers(players);
-                break;
-            case NEW_QUEST_MODAL:
-                setQuests([...quests, modalValues]);
-                break;
-            case NEW_NPC_MODAL:
-                setNpcs([...npcs, modalValues]);
-                break;
-            case NEW_PLAYER_MODAL:
-                setPlayers([...players, modalValues]);
-                break;
-            case EDIT_PLAYERS_MODAL:
-                setPlayers(modalValues);
-                break;
-            case NEW_ENCOUNTER_MODAL:
-                const encounterName = modalValues.name;
-                setEncounterOptions({
-                    ...encounterOptions, 
-                    [encounterName]: modalValues.enemies
-                });
-                break;
-            default:
-                break;
-        }
-        setShowModal(null);
+    const addPlayer = (player) => {
+        dispatchPlayers({ type: 'add', value: player });
+    }
+
+    const updatePlayers = (updatedPlayers) => {
+        dispatchPlayers({ type: 'set', value: updatedPlayers });
+    }
+
+    const addEncounter = ({ name, enemies }) => {
+        dispatchEncounters({ type: 'add', value: enemies, name });
+    }
+
+    const updateEncounters = (updatedEncounters) => {
+        dispatchEncounters({ type: 'set', value: updateEncounters });
     }
 
     useEffect(() => {
-        saveSession(players);
+        saveSession({ players });
     }, [players]);
 
     useEffect(() => {
-        saveSession(null, encounterOptions);
+        saveSession({ encounterOptions });
     }, [encounterOptions]);
 
     useEffect(() => {
-        saveSession(null, null, currentEncounter);
+        saveSession({ currentEncounter });
     }, [currentEncounter]);
 
     useEffect(() => {
-        saveSession(null, null, null, npcs);
+        saveSession({ npcs });
     }, [npcs]);
 
     useEffect(() => {
-        saveSession(null, null, null, null, quests);
+        saveSession({ quests });
     }, [quests]);
 
-    return (
-        <div id='app-parent'>
-            <Dialog
-                modalName={showModal}
-                players={players}
-                encounterOptions={encounterOptions}
-                currentEncounter={currentEncounter}
-                onSave={updateAppState}
-                onClose={() => setShowModal(null)}
-            />
-
-            <div className={blurBackground('app-header', !!showModal)}>
-                <div id='app-menu'>
-                    <MenuBar
-                        onSave={(fileName) => {
-                                saveJson(fileName, { 
-                                    players, 
-                                    encounterOptions, 
-                                    currentEncounter, 
-                                    npcs,
-                                    quests
-                                });
+    const renderAppContents = (isFormOpen) => {
+        return (
+            <div id='app-parent'>
+                <div className={blurBackground('app-header', isFormOpen)}>
+                    <div id='app-menu'>
+                        <MenuBar
+                            onSave={(fileName) => {
+                                    saveJson(fileName, { 
+                                        players, 
+                                        encounterOptions, 
+                                        currentEncounter, 
+                                        npcs,
+                                        quests
+                                    });
+                                }
                             }
-                        }
-                        onLoad={(file) => {
-                                loadFromJson(file, {
-                                    setPlayers,
-                                    setEncounterOptions,
-                                    setCurrentEncounter,
-                                    setNpcs,
-                                    setQuests
+                            onLoad={(file) => {
+                                    loadFromJson(file, {
+                                        setPlayers: updatePlayers,
+                                        setEncounterOptions: updateEncounters,
+                                        setCurrentEncounter,
+                                        setNpcs,
+                                        setQuests
+                                    })
+                                }
+                            }
+                            disabled={isFormOpen}
+                        />
+                    </div>
+                </div>
+
+                <div className={blurBackground('app-widgets', isFormOpen)}>
+                    <div id='app-players'>
+                        <Players
+                            updateHealth={
+                                (health, index) => dispatchPlayers({
+                                    type: 'health',
+                                    value: health,
+                                    index 
                                 })
                             }
-                        }
-                        disabled={showModal}
-                    />
-                </div>
-            </div>
+                            updateInitiative={
+                                (initiative, index) => dispatchPlayers({ 
+                                    type: 'intiative',
+                                    value: initiative,
+                                    index
+                                })
+                            }
+                            updateStarveDays={
+                                (starveDays, index) => dispatchPlayers({
+                                    type: 'starveDays',
+                                    value: starveDays,
+                                    index
+                                })
+                            }
+                            disabled={isFormOpen}
+                        />
+                    </div>
 
-            <div className={blurBackground('app-widgets', !!showModal)}>
-                <div id='app-players'>
-                    <Players
-                        players={players}
-                        updateHealth={
-                            (health, index) => updatePlayerState(health, index, 'health')
-                        }
-                        updateInitiative={
-                            (initiative, index) => updatePlayerState(initiative, index, 'initiative')
-                        }
-                        updateStarveDays={
-                            (starveDays, index) => updatePlayerState(starveDays, index, 'starveDays')
-                        }
-                        onAdd={() => setShowModal(NEW_PLAYER_MODAL)}
-                        onEdit={() => setShowModal(EDIT_PLAYERS_MODAL)}
-                        disabled={showModal}
-                    />
+                    <div id='app-enemies'>
+                        <Enemies
+                            currentEncounter={currentEncounter}
+                            updateHealth={
+                                (health, index) => dispatchEncounters({
+                                    type: 'health',
+                                    value: health,
+                                    index,
+                                    currentEncounter
+                                })
+                            }
+                            updateInitiative={
+                                (initiative, index) => dispatchEncounters({
+                                    type: 'initiative',
+                                    value: initiative,
+                                    index,
+                                    currentEncounter
+                                })
+                            }
+                            disabled={isFormOpen}
+                        />
+                    </div>
                 </div>
 
-                <div id='app-enemies'>
-                    <Enemies
-                        encounterOptions={encounterOptions}
+                <div className={blurBackground('app-widgets', isFormOpen)}>
+                    <Encounter
                         currentEncounter={currentEncounter}
-                        updateHealth={
-                            (health, index) => updateEnemyState(health, index, 'health')
-                        }
-                        updateInitiative={
-                            (initiative, index) => updateEnemyState(initiative, index, 'initiative')
-                        }
-                        onAttack={() => setShowModal(ATTACK_MODAL)}
-                        disabled={showModal}
+                        setCurrentEncounter={setCurrentEncounter}
+                        disabled={isFormOpen}
                     />
                 </div>
-            </div>
 
-            <div className={blurBackground('app-widgets', !!showModal)}>
-                <Encounter
-                    encounterOptions={encounterOptions}
-                    currentEncounter={currentEncounter}
-                    selectEncounter={updateEncounter}
-                    players={players}
-                    disabled={showModal}
-                />
+                <div className={blurBackground('app-widgets', isFormOpen)} id='app-name-lists'>
+                    <div id='app-npcs'>
+                        <Npcs
+                            npcs={npcs}
+                            updateNpcs={setNpcs}
+                            disabled={isFormOpen}
+                        />
+                    </div>
+                    <div id='app-quests'>
+                        <Quests
+                            quests={quests}
+                            updateQuests={setQuests}
+                            disabled={isFormOpen}
+                        />
+                    </div>
+                </div>
             </div>
+        );
+    }
 
-            <div className={blurBackground('app-widgets', !!showModal)} id='app-name-lists'>
-                <div id='app-npcs'>
-                    <Npcs
-                        npcs={npcs}
-                        updateNpcs={(npcs) => setNpcs(npcs)}
-                        onAdd={() => setShowModal(NEW_NPC_MODAL)}
-                        disabled={showModal}
-                    />
-                </div>
-                <div id='app-quests'>
-                    <Quests
-                        quests={quests} 
-                        updateQuests={(quests) => setQuests(quests)}
-                        onAdd={() => setShowModal(NEW_QUEST_MODAL)}
-                        disabled={showModal}
-                    />
-                </div>
-            </div>
-        </div>
+    return (
+        <CampaignContext.Provider value={{ players, npcs, quests, encounterOptions, currentEncounter }}>
+            <FormController
+                renderMainContents={renderAppContents}
+                onAttackPlayers={attackPlayers}
+                onCreateQuest={addQuest}
+                onCreateNpc={addNpc}
+                onCreatePlayer={addPlayer}
+                onEditPlayers={updatePlayers}
+                onCreateEncounter={addEncounter}
+            />
+        </CampaignContext.Provider>
     );
 }
 

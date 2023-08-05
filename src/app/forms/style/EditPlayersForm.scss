@@ -1,24 +1,24 @@
-@import './FormFields.scss';
+@import '../../../common/style/FormField.scss';
 
-.new-player-contents {
+.edit-players-contents {
     display: flex;
     flex-direction: column;
 
-    .new-player-input {
+    .edit-players-input {
         margin-left: 0.5em;
         margin-right: 0.5em;
     }
 
-    .new-player-contents-top-row {
+    .edit-players-contents-top-row {
         border-bottom: 2px solid $widgetBorderColor;
         padding: 0.5em;
     }
     
-    .new-player-contents-bottom-row {
+    .edit-players-contents-bottom-row {
         display: flex;
         flex-direction: row;
 
-        .new-player-contents-bottom-section {
+        .edit-players-contents-bottom-section {
             display: flex;
             flex-direction: column;
             padding: 0.5em;

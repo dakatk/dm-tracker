@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
+
+import { CampaignContext, FormContext } from './Context';
 
 import DataTable from '../common/DataTable';
 
-function Players({ players, updateHealth, updateInitiative, updateStarveDays, onAdd, onEdit, disabled }) {
-    if (players?.length) {
+function Players({ updateHealth, updateInitiative, updateStarveDays, disabled }) {
+    const campaign = useContext(CampaignContext);
+    const form = useContext(FormContext);
+
+    const onAdd = () => {
+        form.openNewPlayerForm();
+    }
+
+    const onEdit = () => {
+        form.openEditPlayersForm();
+    }
+    
+    if (campaign.players?.length) {
         return (
             <DataTable
-                data={players}
+                data={campaign.players}
                 updateInitiative={updateInitiative}
                 updateHealth={updateHealth}
                 updateStarveDays={updateStarveDays}

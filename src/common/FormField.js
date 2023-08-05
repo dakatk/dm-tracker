@@ -1,4 +1,8 @@
-import './style/FormFields.scss';
+import { useContext } from 'react';
+
+import { FormContext } from '../app/Context';
+
+import './style/FormField.scss';
 
 const textInput = (id, value, updateValue) => {
     return (
@@ -91,7 +95,10 @@ const renderInputType = (type, id, value, updateValue, metadata) => {
     }
 }
 
-const FormField = ({ type, label, id, className, value, updateValue, validationMessage, metadata }) => {
+const FormField = ({ type, label, id, className, required, value, updateValue, metadata }) => {
+    const form = useContext(FormContext);
+
+    // TODO Render orange asterisk next to required field labels
     return (
         <div
             key={metadata?.key}
@@ -105,11 +112,23 @@ const FormField = ({ type, label, id, className, value, updateValue, validationM
             </label>
 
             {renderInputType(type, id, value, updateValue, metadata)}
-            {validationMessage && 
+            {form.validationErrors[id] && 
                 <div 
                     className='form-field-modal-validation'
-                >{validationMessage}
-            </div>}
+                >
+                    {form.validationErrors[id]}
+                </div>
+            }
+        </div>
+    );
+}
+
+function FormFields({ className, children }) {
+    this.props = children.map(child => child.props);
+
+    return (
+        <div className={className}>
+            {children}
         </div>
     );
 }
@@ -121,21 +140,23 @@ const FormFooter = ({ onSave, onClose, saveToolTip, closeToolTip }) => {
                 className='widget-input form-field-modal-btn'
                 title={saveToolTip ?? 'Save'}
                 onClick={() => onSave()}
-            >Save
+            >
+                Save
             </button>
 
             <button
                 className='widget-input form-field-modal-btn'
                 title={closeToolTip ?? 'Close'}
                 onClick={() => onClose()}
-            >Close
+            >
+                Close
             </button>
         </>
     )
 }
 
 const validate = (value, prop, label) => {
-    if (value !== 0 && (value === '' || !value)) {
+    if (!(value === 0 || value === '0') && (value === '' || !value)) {
         return { [prop]: `Missing value for '${label || prop}'` };
     } else {
         return {};
@@ -144,6 +165,7 @@ const validate = (value, prop, label) => {
 
 export {
     FormField,
+    FormFields,
     FormFooter,
     validate
 }

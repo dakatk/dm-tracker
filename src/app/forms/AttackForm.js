@@ -1,17 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
+
+import { CampaignContext } from '../Context';
 
 import Modal from '../../common/Modal';
 
 import { isString, capitalize } from '../../util/string';
 import d from '../../util/roll';
 
-import './style/AttackModal.scss';
+import './style/AttackForm.scss';
 
-function AttackModal({ currentEncounter, encounterOptions, onClose, onAttack, playerData }) {
-    const enemies = encounterOptions[currentEncounter];
+function AttackForm({ onAttackPlayers }) {
+    const campaign = useContext(CampaignContext);
+
+    const playerOptions = campaign.players
+        .filter(({ health }) => health > 0)
+        .map(({ name, ac }) => { return { name, ac }; });
+    
+    const enemies = campaign.encounterOptions[campaign.currentEncounter];
     
     const defaultAttackSelection = enemies?.map(value => value?.attacks[0]);
-    const defaultTargetSelection = enemies?.map(() => playerData[0]?.name);
+    const defaultTargetSelection = enemies?.map(() => playerOptions[0]?.name);
     const defaultEnabledRows = enemies?.map(() => false);
 
     const [selectedAttacks, setSelectedAttacks] = useState(defaultAttackSelection ?? []);
@@ -19,14 +27,7 @@ function AttackModal({ currentEncounter, encounterOptions, onClose, onAttack, pl
     const [enabledRows, setEnabledRows] = useState(defaultEnabledRows ?? []);
     const [results, setResults] = useState([]);
 
-    useEffect(() => {
-        setSelectedAttacks(defaultAttackSelection);
-        setSelectedTargets(defaultTargetSelection);
-        setEnabledRows(defaultEnabledRows);
-        setResults([]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [currentEncounter, encounterOptions]);
-
+    // TODO Just... what was I thinking????????
     const doAttack = () => {
         const attackValues = selectedAttacks.map(attackJson => {
             if (isString(attackJson)) {
@@ -44,7 +45,25 @@ function AttackModal({ currentEncounter, encounterOptions, onClose, onAttack, pl
         }).filter(value => value !== undefined);
         
         setResults(newResults);
-        onAttack(newResults);
+        damagePlayers(newResults);
+    }
+
+    const damagePlayers = (attackData) => {
+        const autoDamageValues = [];
+        for (const attackValues of attackData) {
+            if (!attackValues.damages) {
+                continue;
+            }
+
+            const rawDamage = attackValues.damages.map(({ damage }) => damage);
+            const playerIndex = campaign.players.findIndex(({ name }) => name === attackValues.target);
+
+            autoDamageValues.push({
+                index: playerIndex,
+                value: rawDamage.reduce((a, b) => a + b, 0)
+            });
+        }
+        onAttackPlayers(autoDamageValues);
     }
 
     const parseResults = (index, attacks, targets) => {
@@ -53,7 +72,7 @@ function AttackModal({ currentEncounter, encounterOptions, onClose, onAttack, pl
         const attackerName = enemies[index].name;
 
         const hit = d(20);
-        const player = playerData.find(({name}) => name === target);
+        const player = playerOptions.find(({name}) => name === target);
         
         let damages = [];
         let str = `${attackerName} missed.`;
@@ -161,7 +180,7 @@ function AttackModal({ currentEncounter, encounterOptions, onClose, onAttack, pl
                 className='widget-input attack-modal-input'
                 value={selectedTargets[rowIndex]} 
                 onChange={event => selectOption(event, rowIndex, selectedTargets, setSelectedTargets)}>
-                    {playerData.map(({name}, index) => 
+                    {playerOptions.map(({name}, index) => 
                         <option key={index} value={name}>{name}</option>
                     )}
             </select>
@@ -204,6 +223,10 @@ function AttackModal({ currentEncounter, encounterOptions, onClose, onAttack, pl
         )
     }
 
+    const onClose = () => {
+
+    }
+
     return (
         <Modal 
             title='Enemy Attacks'
@@ -214,4 +237,4 @@ function AttackModal({ currentEncounter, encounterOptions, onClose, onAttack, pl
     );
 }
 
-export default AttackModal;
+export default AttackForm;
