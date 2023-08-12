@@ -40,7 +40,7 @@ function Selector({ options, currentSelection, onConfirm, disabled }) {
 
             <span id='selector-confirm-button'>
                 <button 
-                    className='widget-input'
+                    className='widget-btn'
                     onClick={() => onConfirm(selection)}
                     disabled={disabled}
                 >{selection === '' ? 'Create' : 'Confirm'}

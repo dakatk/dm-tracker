@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { FormContext } from '../app/Context';
 
 import Modal from './Modal';
-import { FormField } from './FormField';
+import { FormField, FormFooter } from './FormField';
 
 const findFormFieldProps = (children) => {
     if (!children) {
@@ -74,34 +74,19 @@ function Form({ title, submitText, closeText, submitToolTip, closeToolTip, onSub
         form.updateValidationErrors({});
     }
 
-    const modalFooter = () => {
-        return (
-            <>
-                <button
-                    className='widget-input form-field-modal-btn'
-                    title={submitToolTip ?? 'Save'}
-                    onClick={onAttemptSubmit}
-                >
-                    {submitText ?? 'Save'}
-                </button>
-
-                <button
-                    className='widget-input form-field-modal-btn'
-                    title={closeToolTip ?? 'Close'}
-                    onClick={onClose}
-                >
-                    {closeText ?? 'Close'}
-                </button>
-            </>
-        );
-    }
-
     return (
         <Modal 
             title={title}
             close={onClose}
             contents={children}
-            footer={modalFooter()}
+            footer={<FormFooter
+                saveText={submitText}
+                closeText={closeText}
+                saveToolTip={submitToolTip}
+                closeToolTip={closeToolTip}
+                onSave={onAttemptSubmit}
+                onClose={onClose}
+            />}
         />
     );
 }

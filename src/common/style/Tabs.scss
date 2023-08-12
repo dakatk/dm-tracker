@@ -2,6 +2,7 @@
 
 .tab-labels-container {
     display: flex;
+    justify-content: left;
     flex-direction: row-reverse;
 }
 
@@ -13,7 +14,7 @@
     border-radius: 0 !important;
     color: $widgetInputActiveTextColor !important;
     background-color: $widgetBackgroundColor !important;
-    //box-shadow: inset 0 0 5px 1px $widgetInputShadowColor !important;
+    box-shadow: none !important;
 }
 
 .tab-first {
@@ -38,5 +39,4 @@
 
 .tab-contents-container {
     background-color: $widgetBackgroundColor2;
-    // padding: 0.7em;
 }

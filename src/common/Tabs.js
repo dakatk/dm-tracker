@@ -10,21 +10,11 @@ function Tabs({ labels, value, content, onChange }) {
             return state;
         }
     };
-
     const [selectedTab, dispatchSelectedTab] = useReducer(changeTabReducer, labels[0]);//useState(value);
 
     useEffect(() => {
-        console.log(value);
         dispatchSelectedTab(value);
     }, [value]);
-    // useEffect(() => {
-    //     console.log(value);
-    //     // if (value in labels) {
-    //     //     updateSelectedTab(value);
-    //     // } else {
-    //     //     updateSelectedTab(labels[0]);
-    //     // }
-    // }, [value]);
 
     const onTabSelect = (label) => {
         if (selectedTab !== label) {
@@ -48,7 +38,6 @@ function Tabs({ labels, value, content, onChange }) {
         } else if (labels.indexOf(label) === labels.length - 1) {
             classNames.push('tab-last');
         }
-
         return classNames.join(' ');
     }
 
@@ -58,7 +47,7 @@ function Tabs({ labels, value, content, onChange }) {
                 {[...labels].reverse().map(label => 
                     <div
                         key={label}
-                        className={`widget-input ${tabClassNames(label)}`}
+                        className={`widget-btn ${tabClassNames(label)}`}
                         onClick={() => onTabSelect(label)}
                     >{label}
                     </div>

@@ -111,7 +111,7 @@ function NameList({ list, descriptorKeys, onAdd, onRemove, disabled }) {
             </table>
 
             <button 
-                className='widget-input name-list-add-btn'
+                className='widget-btn name-list-add-btn'
                 onClick={() => onAdd()}
                 disabled={disabled}
             >Add

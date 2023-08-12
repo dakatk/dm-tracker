@@ -1,15 +1,10 @@
 const _d = (sides) => {
-    const value = Math.round(Math.random() * (sides - 1)) + 1;
-    if (value > sides) {
-        return sides;
-    } else if (value < 1) {
-        return 1;
-    }
-    return value;
+    return Math.floor(Math.random() * sides) + 1;
 }
 
-const d = (sides, count=1, sum=true) => {
+export const d = (sides, count=1, sum=true) => {
     count = Math.min(count || 1, 1);
+    sides = Math.floor(sides);
 
     const rolls = new Array(count)
         .fill(s => _d(s))
@@ -21,4 +16,8 @@ const d = (sides, count=1, sum=true) => {
     return rolls;
 }
 
-export default d;
+export const diceOptions = [
+    3, 4, 5, 6, 7, 8, 9, 
+    10, 11, 12, 13, 14, 15, 
+    16, 17, 18, 19, 20
+];

@@ -17,7 +17,7 @@ const textInput = (id, value, updateValue) => {
     );
 }
 
-const numberInput = (id, value, updateValue) => {
+const numberInput = (id, value, updateValue, min, max) => {
     return (
         <input
             className='widget-input form-field-modal-input form-field-modal-number-input' 
@@ -25,6 +25,8 @@ const numberInput = (id, value, updateValue) => {
             id={id}
             name={id}
             value={value}
+            min={min}
+            max={max}
             onChange={(e) => updateValue(e.target.value)}
         />
     );
@@ -89,7 +91,7 @@ const renderInputType = (type, id, value, updateValue, metadata) => {
         case 'checkbox':
             return checkboxInput(id, value, updateValue);
         case 'number':
-            return numberInput(id, value, updateValue, 'number');
+            return numberInput(id, value, updateValue, metadata?.min, metadata?.max);
         default:
             return textInput(id, value, updateValue);
     }
@@ -133,23 +135,23 @@ function FormFields({ className, children }) {
     );
 }
 
-const FormFooter = ({ onSave, onClose, saveToolTip, closeToolTip }) => {
+const FormFooter = ({ saveText, closeText, saveToolTip, closeToolTip, onSave, onClose }) => {
     return (
         <>
             <button
-                className='widget-input form-field-modal-btn'
+                className='widget-btn form-field-modal-btn'
                 title={saveToolTip ?? 'Save'}
                 onClick={() => onSave()}
             >
-                Save
+                {saveText ?? 'Save'}
             </button>
 
             <button
-                className='widget-input form-field-modal-btn'
+                className='widget-btn form-field-modal-btn'
                 title={closeToolTip ?? 'Close'}
                 onClick={() => onClose()}
             >
-                Close
+                {closeText ?? 'Close'}
             </button>
         </>
     )

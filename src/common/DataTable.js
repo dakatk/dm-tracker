@@ -141,39 +141,39 @@ function DataTable({ data, updateHealth, updateInitiative, updateStarveDays, can
         <div className='widget-box'>
             {renderAllRows()}
             {canRest && <button
-                className='widget-input data-table-btn' 
+                className='widget-btn data-table-btn' 
                 onClick={() => allRest()}
                 disabled={disabled}
             >Rest
             </button>}
             {canAttack && <button
-                className='widget-input data-table-btn' 
+                className='widget-btn data-table-btn' 
                 onClick={() => onAttack()}
                 disabled={disabled}
             >Attack
             </button>}
             {canStarve && <>
                 <button 
-                    className='widget-input data-table-btn' 
+                    className='widget-btn data-table-btn' 
                     onClick={() => allStarve()}
                     disabled={disabled}
                 >All Starve
                 </button>
                 <button
-                    className='widget-input data-table-btn' 
+                    className='widget-btn data-table-btn' 
                     onClick={() => allEat()}
                     disabled={disabled}
                 >All Eat
                 </button>
             </>}
             {canAdd && <button
-                className='widget-input data-table-btn'
+                className='widget-btn data-table-btn'
                 onClick={() => onAdd()}
                 disabled={disabled}
             >Add
             </button>}
             {canEdit && <button
-                className='widget-input data-table-btn'
+                className='widget-btn data-table-btn'
                 onClick={() => onEdit()}
                 disabled={disabled}
             >Edit

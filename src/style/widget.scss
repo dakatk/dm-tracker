@@ -9,7 +9,7 @@
     min-width: 100%;
 }
 
-.widget-input {
+.widget-btn {
     padding: 0.4em 0.55em 0.4em 0.55em;
     color: $widgetInputTextColor;
     background-color: $widgetInputBackgroundColor;
@@ -20,13 +20,30 @@
     cursor: pointer;
 }
 
-.widget-input:hover:not([disabled]) {
+.widget-btn:hover:not([disabled]) {
     background-color: $widgetInputHoverBgColor;
 }
 
-.widget-input:active:not([disabled]) {
+.widget-btn:active:not([disabled]) {
     color: $widgetInputActiveTextColor;
     background-color: $widgetInputActiveBgColor;
+}
+
+.widget-btn:disabled {
+    color: $widgetInputDisabledTextColor;
+    background-color: $widgetInputDisabledBgColor;
+    cursor: default;
+}
+
+.widget-input {
+    padding: 0.4em 0.55em 0.4em 0.55em;
+    color: $widgetInputTextColor;
+    background-color: $widgetInputBackgroundColor;
+    font-size: 16px;
+    border: none;
+    box-shadow: 0 0 7px 2px $widgetInputShadowColor;
+    border-radius: 0.3em;
+    cursor: text;
 }
 
 .widget-input:disabled {

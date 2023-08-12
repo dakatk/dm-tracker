@@ -1,1 +1,36 @@
 @import '../../../common/style/FormField.scss';
+
+.new-encounter-form-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .new-encounter-input {
+        margin-left: 0.5em;
+        margin-right: 0.5em;
+    }
+
+    .new-encounter-contents {
+        padding: 0.5em;
+
+        .new-encounter-enemy-row {
+            margin-bottom: 0.5em;
+
+            .new-encounter-label {
+                display: block;
+                margin-left: 0.5em;
+            }
+
+            .new-encounter-add-btn {
+                font-weight: bold;
+            }
+        }
+    }
+
+    .new-encounter-tabs-wrapper {
+        border-top: 2px solid $widgetBorderColor;
+    }
+
+    .enemy-type-contents {
+        padding: 0.5em;
+    }
+}

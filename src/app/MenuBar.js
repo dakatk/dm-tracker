@@ -23,14 +23,14 @@ function MenuBar({ onSave, onLoad, disabled }) {
 
     return <div className='widget-box' id='menu-widget'>
         <button 
-            className='widget-input menu-button' 
+            className='widget-btn menu-button' 
             onClick={() => saveFile()}
             disabled={disabled}
         >Save
         </button>
 
         <button 
-            className='widget-input menu-button'
+            className='widget-btn menu-button'
             onClick={() => loadFile()}
             disabled={disabled}
         >Load

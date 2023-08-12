@@ -5,7 +5,7 @@ import { CampaignContext } from '../Context';
 import Modal from '../../common/Modal';
 
 import { isString, capitalize } from '../../util/string';
-import d from '../../util/roll';
+import { d } from '../../util/roll';
 
 import './style/AttackForm.scss';
 
@@ -217,7 +217,7 @@ function AttackForm({ onAttackPlayers }) {
     const modalFooter = () => {
         return (
             <button
-                className='widget-input attack-modal-input'
+                className='widget-btn attack-modal-input'
                 onClick={() => doAttack()}>Attack
             </button>
         )
