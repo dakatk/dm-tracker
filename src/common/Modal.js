@@ -3,22 +3,22 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 import './style/Modal.scss';
 
-function Modal({ title, close, contents, footer }) {
+function Modal({ title, contents, footer, onClose }) {
     return (
-        <div id='modal-parent' className='widget-box'>
-            <div id='modal-header'>
+        <div className='widget-box modal-container'>
+            <div className='modal-header'>
                 {title}
-                <FontAwesomeIcon 
-                    icon={faXmark} 
-                    id='modal-close-btn'
-                    onClick={() => close()} />
+                <FontAwesomeIcon
+                    icon={faXmark}
+                    className='modal-close-btn'
+                    onClick={() => onClose()} />
             </div>
 
-            <div id='modal-contents'>
+            <div className='modal-contents'>
                 {contents}
             </div>
 
-            <div id='modal-footer'>
+            <div className='modal-footer'>
                 {footer}
             </div>
         </div>

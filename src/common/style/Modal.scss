@@ -1,6 +1,6 @@
 @import '../../style/widget.scss';
 
-#modal-parent {
+.modal-container {
     margin: auto;
     left: 0; 
     right: 0;
@@ -13,32 +13,32 @@
     z-index: 999 !important;
     border-radius: 20px;
     padding: 1.3em;
-}
 
-#modal-header {
-    border: 2px solid $widgetBorderColor;
-    padding: 0.8em;
-    background-color: $widgetBackgroundColor2;
-}
+    .modal-header {
+        border: 2px solid $widgetBorderColor;
+        padding: 0.8em;
+        background-color: $widgetBackgroundColor2;
 
-#modal-close-btn {
-    font-weight: bold;
-    float: right;
-    cursor: pointer;
-    margin-right: 0.2em;
-    margin-top: 0.3em;
-    font-size: 20px;
-}
+        .modal-close-btn {
+            font-weight: bold;
+            float: right;
+            cursor: pointer;
+            margin-right: 0.2em;
+            margin-top: 0.3em;
+            font-size: 20px;
+        }
+    }
 
-#modal-contents {
-    border: 2px solid $widgetBorderColor;
-    border-top: none;
-    margin-bottom: 1.5em;
-    background-color: $widgetBackgroundColor2;
-    display: flex;
-}
+    .modal-contents {
+        border: 2px solid $widgetBorderColor;
+        border-top: none;
+        margin-bottom: 1.5em;
+        background-color: $widgetBackgroundColor2;
+        display: flex;
+    }
 
-#modal-footer {
-    min-width: 100%;
-    float: inline-start;
+    .modal-footer {
+        min-width: 100%;
+        float: inline-start;
+    }
 }

@@ -1,11 +1,15 @@
 @import '../../style/widget.scss';
 
-#menu-widget {
+.menu-container {
     display: flex;
     align-items: right;
     justify-content: right;
-}
 
-.menu-button {
-    margin-left: 0.8em;
+    .menu-button {
+        margin-left: 0.8em;
+    }
+
+    #menu-file-dialog {
+        display: none !important;
+    }
 }

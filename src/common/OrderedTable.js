@@ -35,12 +35,14 @@ function OrderedTable({ firstDataSet, secondDataSet, initiative }) {
         for (const index in orderedData()) {
             rows[index] = (
                 <tr className='ordered-table-row' key={index}>
-                    <td 
-                        className='ordered-table-bordered'
-                        id='ordered-table-index'>
-                            {Number(index) + 1}
+                    <td
+                        className='ordered-table-bordered ordered-table-index'
+                    >{Number(index) + 1}
                     </td>
-                    <td className='ordered-table-bordered'>{dataRows[index].name}</td>
+                    <td
+                        className='ordered-table-bordered'
+                    >{dataRows[index].name}
+                    </td>
                 </tr>
             );
         }
@@ -49,14 +51,14 @@ function OrderedTable({ firstDataSet, secondDataSet, initiative }) {
 
     return (
         <div className='widget-box'>
-            <table id='ordered-table-parent'>
+            <table className='ordered-table-container'>
                 <thead>
                     <tr className='ordered-table-header'>
                         <th className='ordered-table-bordered'>Order</th>
                         <th className='ordered-table-bordered'>Name</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody className='ordered-table-contents'>
                     {renderOrderedData()}
                 </tbody>
             </table>

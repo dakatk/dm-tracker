@@ -157,6 +157,7 @@ function AttackForm({ onAttackPlayers }) {
         );
     }
 
+    // TODO Make these two generic:
     const attackOptions = (attacks, rowIndex) => {
         return (
             <select 
@@ -198,6 +199,7 @@ function AttackForm({ onAttackPlayers }) {
             </select>
         );
     }
+    //
 
     const showResults = () => {
         return (

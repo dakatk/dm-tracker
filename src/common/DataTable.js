@@ -60,7 +60,10 @@ function DataTable({ data, updateHealth, updateInitiative, updateStarveDays, can
 
     const renderSingleRow = (name, ac, index) => {
         return (
-            <tr className='data-table-row' key={index}>
+            <tr 
+                className='data-table-row' 
+                key={index}
+            >
                 <td className='data-table-bordered'>{name}</td>
                 <td className='data-table-bordered'>{ac}</td>
                 <td className='data-table-bordered'>
@@ -93,7 +96,7 @@ function DataTable({ data, updateHealth, updateInitiative, updateStarveDays, can
                     ></input>
                 </td>
                 {canStarve && 
-                    <td id='data-table-starve-days' className='data-table-bordered'>
+                    <td className='data-table-bordered data-table-starve-days'>
                         <button 
                             title='Starve'
                             className='data-table-update-btn'
@@ -116,12 +119,8 @@ function DataTable({ data, updateHealth, updateInitiative, updateStarveDays, can
     }
 
     const renderAllRows = () => {
-        const rows = data.map((value, index) => 
-            renderSingleRow(value.name, value.ac, index)
-        );
-        
         return (
-            <table id='data-table-parent'>
+            <table className='data-table-container'>
                 <thead>
                     <tr className='data-table-header'>
                         <th className='data-table-bordered'>Name</th>
@@ -132,7 +131,11 @@ function DataTable({ data, updateHealth, updateInitiative, updateStarveDays, can
                             <th className='data-table-bordered'>Starve Days</th>}
                     </tr>
                 </thead>
-                <tbody>{rows}</tbody>
+                <tbody className='data-table-contents'>
+                    {data.map((value, index) => {
+                        return renderSingleRow(value.name, value.ac, index);
+                    })}
+                </tbody>
             </table>
         );
     }
@@ -141,26 +144,26 @@ function DataTable({ data, updateHealth, updateInitiative, updateStarveDays, can
         <div className='widget-box'>
             {renderAllRows()}
             {canRest && <button
-                className='widget-btn data-table-btn' 
+                className='widget-btn data-table-btn'
                 onClick={() => allRest()}
                 disabled={disabled}
             >Rest
             </button>}
             {canAttack && <button
-                className='widget-btn data-table-btn' 
+                className='widget-btn data-table-btn'
                 onClick={() => onAttack()}
                 disabled={disabled}
             >Attack
             </button>}
             {canStarve && <>
-                <button 
-                    className='widget-btn data-table-btn' 
+                <button
+                    className='widget-btn data-table-btn'
                     onClick={() => allStarve()}
                     disabled={disabled}
                 >All Starve
                 </button>
                 <button
-                    className='widget-btn data-table-btn' 
+                    className='widget-btn data-table-btn'
                     onClick={() => allEat()}
                     disabled={disabled}
                 >All Eat

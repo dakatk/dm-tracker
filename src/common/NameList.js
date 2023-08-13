@@ -71,12 +71,12 @@ function NameList({ list, descriptorKeys, onAdd, onRemove, disabled }) {
 
     const displayRow = (value, index) => {
         return (
-            <tr key={`tr-${index}`}>
-                <td key={`td-${index}`}>
-                    <div 
+            <tr key={`name-list-tr-${index}`}>
+                <td key={`name-list-td-${index}`}>
+                    <div
                         className={rowClassNames()}
                         onClick={() => toggleExpand(index)}
-                        key={`name-${index}`}
+                        key={`name-list-entry-${index}`}
                         disabled={disabled}
                     >
                         {value.name}
@@ -104,8 +104,8 @@ function NameList({ list, descriptorKeys, onAdd, onRemove, disabled }) {
 
     return (
         <div className='widget-box'>
-            <table id='name-list-table'>
-                <tbody>
+            <table className='name-list-container'>
+                <tbody className='name-list-contents'>
                     {list.map(displayRow)}
                 </tbody>
             </table>

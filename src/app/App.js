@@ -48,7 +48,7 @@ function App({ session }) {
     }
 
     const updateEncounters = (updatedEncounters) => {
-        dispatchEncounters({ type: 'set', value: updateEncounters });
+        dispatchEncounters({ type: 'set', value: updatedEncounters });
     }
 
     useEffect(() => {
@@ -154,7 +154,10 @@ function App({ session }) {
                     </div>
                 </div>
 
-                <div className={blurBackground('app-widgets', isFormOpen)}>
+                <div 
+                    className={blurBackground('app-widgets', isFormOpen)}
+                    id='app-encounter'
+                >
                     <Encounter
                         currentEncounter={currentEncounter}
                         setCurrentEncounter={setCurrentEncounter}
@@ -162,7 +165,10 @@ function App({ session }) {
                     />
                 </div>
 
-                <div className={blurBackground('app-widgets', isFormOpen)} id='app-name-lists'>
+                <div
+                    className={blurBackground('app-widgets', isFormOpen)}
+                    id='app-name-lists'
+                >
                     <div id='app-npcs'>
                         <Npcs
                             npcs={npcs}

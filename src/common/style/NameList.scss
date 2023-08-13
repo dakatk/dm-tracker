@@ -1,55 +1,56 @@
 @import '../../style/widget.scss';
 
-#name-list-table {
+$deleteIconColor: #a34040;
+
+.name-list-container {
     font-family: arial, sans-serif;
     border-collapse: collapse;
     width: 100%;
-}
 
-.name-list-entry {
-    padding: 7px 15px 7px 11px;
-    border: 2px solid $widgetBorderColor;
-    border-radius: 6px;
-    background-color: rgb(54, 54, 54);
-    margin-bottom: 0.4em;
-    font-weight: bold;
-    cursor: pointer;
-}
+    .name-list-contents {
+        .name-list-heading {
+            color: $widgetBoldTextColor;
+        }
 
-.name-list-entry.disabled {
-    cursor: default !important;
-}
+        .name-list-entry {
+            padding: 7px 15px 7px 11px;
+            border: 2px solid $widgetBorderColor;
+            border-radius: 6px;
+            background-color: $widgetBackgroundColor3;
+            margin-bottom: 0.4em;
+            font-weight: bold;
+            cursor: pointer;
 
-.name-list-heading {
-    color: #e0bc9f;
-}
+            .name-list-accordian-arrow {
+                float: right;
+                margin-top: 6px;
+                margin-left: 1em;
+            }
 
-.name-list-details {
-    margin-top: 4px;
-    cursor: default !important;
-}
+            .name-list-delete {
+                float: right;
+                margin-top: 6px;
+                color: $deleteIconColor;
+            }
+        }
 
-.name-list-delete {
-    float: right;
-    margin-top: 6px;
-    color: #a34040;
-}
+        .name-list-entry.disabled {
+            cursor: default !important;
+        }
 
-.name-list-accordian-arrow {
-    float: right;
-    margin-top: 6px;
-    margin-left: 1em;
-}
-
-$descriptionBorderColor: $widgetBorderColor;
-$descriptionBgColor: #313131;
-
-.name-list-description-line {
-    background-color: $descriptionBgColor;
-    border: 2px solid $descriptionBorderColor;
-    border-radius: 6px;
-    margin-bottom: 4px;
-    padding: 4px 6px 4px 6px;
+        .name-list-details {
+            margin-top: 4px;
+            cursor: default !important;
+        
+            .name-list-description-line {
+                background-color: $widgetBackgroundColor2;
+                border: 2px solid $widgetBorderColor;
+                border-radius: 6px;
+                margin-bottom: 4px;
+                padding: 4px 6px 4px 6px;
+            }
+        }
+    }
 }
 
 .name-list-add-btn {

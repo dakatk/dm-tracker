@@ -21,30 +21,33 @@ function MenuBar({ onSave, onLoad, disabled }) {
         }
     }
 
-    return <div className='widget-box' id='menu-widget'>
-        <button 
-            className='widget-btn menu-button' 
-            onClick={() => saveFile()}
-            disabled={disabled}
-        >Save
-        </button>
+    return (
+        <div className='widget-box menu-container'>
+            <button 
+                className='widget-btn menu-button' 
+                onClick={() => saveFile()}
+                disabled={disabled}
+            >
+                Save
+            </button>
 
-        <button 
-            className='widget-btn menu-button'
-            onClick={() => loadFile()}
-            disabled={disabled}
-        >Load
-        </button>
+            <button 
+                className='widget-btn menu-button'
+                onClick={() => loadFile()}
+                disabled={disabled}
+            >
+                Load
+            </button>
 
-        <input
-            style={{display: 'none'}}
-            id='menu-file-dialog'
-            type='file'
-            onChange={onFileChange}
-            ref={openFile}
-            disabled={disabled}
-        />
-    </div>
+            <input
+                id='menu-file-dialog'
+                type='file'
+                onChange={onFileChange}
+                ref={openFile}
+                disabled={disabled}
+            />
+        </div>
+    );
 }
 
 export default MenuBar;

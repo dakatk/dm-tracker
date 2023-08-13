@@ -74,7 +74,7 @@ const playerReducer = (state, action) => {
 }
 
 const encounterActions = {
-    set: (_, value) => value,
+    set: (_, { value }) => value,
     add: (state, { name, value }) => objectActions.setAt(state, { name, value }),
     updateProp: (state, { type, index, value, currentEncounter }) => {
         if (index === undefined) {

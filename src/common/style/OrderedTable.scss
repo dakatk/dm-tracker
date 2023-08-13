@@ -1,32 +1,36 @@
 @import '../../style/widget.scss';
 
-#ordered-table-parent {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
 .ordered-table-bordered {
     border: 2px solid $widgetBorderColor;
     text-align: center;
     padding: 8px;
 }
 
-.ordered-table-header {
-    background-color: #363636;
-    color: #e0bc9f;
-}
+.ordered-table-container {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
 
-.ordered-table-row:nth-child(even) {
-    background-color: #363636;
-}
+    .ordered-table-header {
+        background-color: $widgetBackgroundColor3;
+        color: $widgetBoldTextColor;
+    }
 
-.ordered-table-row:nth-child(odd) {
-    background-color: #303030;
-}
+    .ordered-table-contents {
+        .ordered-table-row {
+            .ordered-table-index {
+                font-weight: bold;
+                text-align: center;
+                color: $widgetBoldTextColor;
+            }
+        }
 
-#ordered-table-index {
-    font-weight: bold;
-    text-align: center;
-    color: #e0bc9f;
+        .ordered-table-row:nth-child(even) {
+            background-color: $widgetBackgroundColor3;
+        }
+        
+        .ordered-table-row:nth-child(odd) {
+            background-color: $widgetBackgroundColor2;
+        }
+    }
 }

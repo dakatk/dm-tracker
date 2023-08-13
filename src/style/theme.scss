@@ -4,27 +4,37 @@ $themeColor: var(--theme-color);
 // Theme background color
 $themeBackgroundColor: #1e1e1e;
 
-// Widget border color
+// Widget border colors
 $widgetBorderColor: #f6d8c09f;
+$widgetBorderColor2: #5a5a5a;
 
-// Widget input field colors
+// Widget bold text color
+$widgetBoldTextColor: #e0bc9f;
+
+// Widget input field text colors
 $widgetInputTextColor: #f3c49e;
 $widgetInputActiveTextColor: #d7b08f;
 $widgetInputDisabledTextColor: #f6d8c09f;
 
-// Widget background/shadow colors
+// Widget background colors
 $widgetBackgroundColor: #272727;
-$widgetBackgroundColor2: #303030;
-$widgetShadowColor: #0b0b0b;
+$widgetBackgroundColor2: #313131;
+$widgetBackgroundColor3: #363636;
+$widgetBackgroundColor4: #3a3a3a;
 
-// Widget input field background/shadow colors
+// Widget shadow colors
+$widgetShadowColor: #0b0b0b;
+$widgetShadowColor2: #2d2d2d;
+$widgetShadowColor3: #3b3b3b;
+
+// Widget input field colors
 $widgetInputBackgroundColor: #49494d;
+$widgetInputBackgroundColor2: #4e4e4b;
 $widgetInputShadowColor: #1a1a1a;
 $widgetInputHoverBgColor: #3f3f42;
 $widgetInputActiveBgColor: #363639;
 $widgetInputDisabledBgColor: #49494d82;
+$widgetInputBorderColor: #e7c9b0c3;
 
+// Widget error text color
 $widgetErrorTextColor: #ee3131;
-
-$attackRowBackgroundColor: #3a3a3a;
-$attackRowBorderColor: #5a5a5a;

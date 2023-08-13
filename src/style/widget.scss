@@ -36,8 +36,8 @@
 }
 
 .widget-dropdown:active:not([disabled]) {
-    color: #f3c49e !important;
-    background-color: #3f3f42 !important;
+    color: $widgetInputTextColor !important;
+    background-color: $widgetInputHoverBgColor !important;
 }
 
 .widget-input {

@@ -125,16 +125,6 @@ const FormField = ({ type, label, id, className, required, value, updateValue, m
     );
 }
 
-function FormFields({ className, children }) {
-    this.props = children.map(child => child.props);
-
-    return (
-        <div className={className}>
-            {children}
-        </div>
-    );
-}
-
 const FormFooter = ({ saveText, closeText, saveToolTip, closeToolTip, onSave, onClose }) => {
     return (
         <>
@@ -167,7 +157,6 @@ const validate = (value, prop, label) => {
 
 export {
     FormField,
-    FormFields,
     FormFooter,
     validate
 }

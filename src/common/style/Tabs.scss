@@ -1,42 +1,40 @@
 @import '../../style/widget.scss';
 
-.tab-labels-container {
-    display: flex;
-    justify-content: left;
-    flex-direction: row-reverse;
-}
+.tabs-container {
+    .tab-labels-container {
+        display: flex;
+        justify-content: left;
+        flex-direction: row-reverse;
 
-.tab-label {
-    flex-direction: column;
-    border: 1px solid $widgetBorderColor !important;
-    border-bottom: 2px solid $widgetBorderColor !important;
-    border-top: none !important;
-    border-radius: 0 !important;
-    color: $widgetInputActiveTextColor !important;
-    background-color: $widgetBackgroundColor !important;
-    box-shadow: none !important;
-}
+        .tab-label {
+            flex-direction: column;
+            border: 1px solid $widgetBorderColor !important;
+            border-bottom: 2px solid $widgetBorderColor !important;
+            border-top: none !important;
+            border-radius: 0 !important;
+            color: $widgetInputActiveTextColor !important;
+            background-color: $widgetBackgroundColor !important;
+            box-shadow: none !important;
+        }
+        
+        .tab-first {
+            border-left: none !important;
+        }
+        
+        .tab-last {
+            border-right: none !important;
+        }
+        
+        .tab-active {
+            color: $widgetInputTextColor !important;
+            background-color: $widgetBackgroundColor2 !important;
+            z-index: 999;
+            border-bottom: none !important;
+            box-shadow: none !important;
+        }
+    }
 
-.tab-first {
-    border-left: none !important;
-}
-
-.tab-last {
-    border-right: none !important;
-}
-
-.tab-label:active {
-    background-color: $widgetBackgroundColor !important;
-}
-
-.tab-active {
-    color: $widgetInputTextColor !important;
-    background-color: $widgetBackgroundColor2 !important;
-    z-index: 999;
-    border-bottom: none !important;
-    box-shadow: none !important;
-}
-
-.tab-contents-container {
-    background-color: $widgetBackgroundColor2;
+    .tab-contents-container {
+        background-color: $widgetBackgroundColor2;
+    }
 }

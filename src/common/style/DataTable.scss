@@ -1,36 +1,5 @@
 @import '../../style/widget.scss';
 
-#data-table-parent {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-.data-table-number-input {
-    max-width: 3.5em;
-    text-align: center;
-    color: #fdc597;
-    background-color: #4e4e4b;
-    box-shadow: 0 0 10px 2px #3b3b3b;
-    border: 2px solid $widgetBorderColor;
-    border-radius: 0.4em;
-    padding: 0.3em;
-}
-
-.data-table-number-input:active {
-    border: none !important;
-}
-
-.data-table-health {
-    max-width: 3.5em;
-    text-align: center;
-}
-
-.data-table-initiative {
-    max-width: 3.5em;
-    text-align: center;
-}
-
 .data-table-btn {
     margin-top: 1em;
     margin-right: 0.8em;
@@ -42,43 +11,68 @@
     padding: 0.6em;
 }
 
-.data-table-header {
-    background-color: #363636;
-    color: #e0bc9f;
-}
+.data-table-container {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
 
-.data-table-row:nth-child(even) {
-    background-color: #363636;
-}
+    .data-table-header {
+        background-color: $widgetBackgroundColor3;
+        color: $widgetBoldTextColor;
+    }
 
-.data-table-row:nth-child(even) .data-table-input {
-    box-shadow: 0 0 10px 2px #2d2d2d;
-}
+    .data-table-contents {
+        .data-table-row {
+            .data-table-update-btn {
+                color: $widgetInputTextColor;
+                background: none;
+                font-weight: bolder;
+                text-align: center;
+                margin: 0 0.4em 0 0.4em;
+                min-width: 1.5rem;
+                min-height: 1.5rem;
+                border: 2px solid $widgetInputBorderColor;
+                cursor: pointer;
+            }
 
-.data-table-row:nth-child(odd) {
-    background-color: #303030;
-}
+            .data-table-rest-btn {
+                margin-right: 1em;
+                font-size: 11px;
+                margin-bottom: 5px;
+            }
 
-#data-table-starve-days {
-    font-weight: bold;
-    text-align: center;
-    color: #e0bc9f;
-}
+            .data-table-number-input {
+                max-width: 3.5em;
+                text-align: center;
+                color: $widgetInputTextColor;
+                background-color: $widgetInputBackgroundColor2;
+                box-shadow: 0 0 10px 2px $widgetShadowColor3;
+                border: 2px solid $widgetInputBorderColor;
+                border-radius: 0.4em;
+                padding: 0.3em;
+            }
 
-.data-table-update-btn {
-    color: #f2c8a5;
-    background: none;
-    font-weight: bolder;
-    text-align: center;
-    margin: 0 0.4em 0 0.4em;
-    min-width: 1.5rem;
-    min-height: 1.5rem;
-    border: 2px solid #e7c9b0c3;
-    cursor: pointer;
-}
+            .data-table-number-input:active {
+                border: none !important;
+            }
 
-.data-table-rest-btn {
-    margin-right: 1em;
-    font-size: 11px;
-    margin-bottom: 5px;
+            .data-table-starve-days {
+                font-weight: bold;
+                text-align: center;
+                color: $widgetBoldTextColor;
+            }
+        }
+
+        .data-table-row:nth-child(even) {
+            background-color: $widgetBackgroundColor3;
+        }
+        
+        .data-table-row:nth-child(even) .data-table-input {
+            box-shadow: 0 0 10px 2px $widgetShadowColor2;
+        }
+        
+        .data-table-row:nth-child(odd) {
+            background-color: $widgetBackgroundColor2;
+        }
+    }
 }
