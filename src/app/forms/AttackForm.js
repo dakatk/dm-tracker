@@ -1,11 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useReducer, useState } from 'react';
+
+import { arrayReducer } from '../../util/reducers';
+import { isString, capitalize } from '../../util/string';
+import { d } from '../../util/roll';
 
 import { CampaignContext } from '../Context';
 
-import Modal from '../../common/Modal';
-
-import { isString, capitalize } from '../../util/string';
-import { d } from '../../util/roll';
+import Form from '../../common/Form';
 
 import './style/AttackForm.scss';
 
@@ -18,16 +19,15 @@ function AttackForm({ onAttackPlayers }) {
     
     const enemies = campaign.encounterOptions[campaign.currentEncounter];
     
-    const defaultAttackSelection = enemies?.map(value => value?.attacks[0]);
-    const defaultTargetSelection = enemies?.map(() => playerOptions[0]?.name);
-    const defaultEnabledRows = enemies?.map(() => false);
+    const defaultAttackSelection = enemies?.map(value => value?.attacks[0]) ?? [];
+    const defaultTargetSelection = enemies?.map(() => playerOptions[0]?.name) ?? [];
+    const defaultEnabledRows = enemies?.map(() => false) ?? [];
 
-    const [selectedAttacks, setSelectedAttacks] = useState(defaultAttackSelection ?? []);
-    const [selectedTargets, setSelectedTargets] = useState(defaultTargetSelection ?? []);
-    const [enabledRows, setEnabledRows] = useState(defaultEnabledRows ?? []);
+    const [selectedAttacks, dispatchSelectedAttacks] = useReducer(arrayReducer, defaultAttackSelection);
+    const [selectedTargets, dispatchSelectedTargets] = useReducer(arrayReducer, defaultTargetSelection);
+    const [enabledRows, dispatchEnabledRows] = useReducer(arrayReducer, defaultEnabledRows);
     const [results, setResults] = useState([]);
 
-    // TODO Just... what was I thinking????????
     const doAttack = () => {
         const attackValues = selectedAttacks.map(attackJson => {
             if (isString(attackJson)) {
@@ -36,34 +36,18 @@ function AttackForm({ onAttackPlayers }) {
             return attackJson;
         });
 
-        const newResults = enabledRows.map((value, index) => {
-            if (!value) {
-                return undefined;
-            } else {
-                return parseResults(index, attackValues, selectedTargets);
-            }
-        }).filter(value => value !== undefined);
+        const newResults = enabledRows.map(
+            (value, index) => {
+                if (!value) {
+                    return undefined;
+                } else {
+                    return parseResults(index, attackValues, selectedTargets);
+                }
+            })
+            .filter(value => value !== undefined);
         
         setResults(newResults);
         damagePlayers(newResults);
-    }
-
-    const damagePlayers = (attackData) => {
-        const autoDamageValues = [];
-        for (const attackValues of attackData) {
-            if (!attackValues.damages) {
-                continue;
-            }
-
-            const rawDamage = attackValues.damages.map(({ damage }) => damage);
-            const playerIndex = campaign.players.findIndex(({ name }) => name === attackValues.target);
-
-            autoDamageValues.push({
-                index: playerIndex,
-                value: rawDamage.reduce((a, b) => a + b, 0)
-            });
-        }
-        onAttackPlayers(autoDamageValues);
     }
 
     const parseResults = (index, attacks, targets) => {
@@ -72,7 +56,7 @@ function AttackForm({ onAttackPlayers }) {
         const attackerName = enemies[index].name;
 
         const hit = d(20);
-        const player = playerOptions.find(({name}) => name === target);
+        const player = playerOptions.find(({ name }) => name === target);
         
         let damages = [];
         let str = `${attackerName} missed.`;
@@ -117,12 +101,102 @@ function AttackForm({ onAttackPlayers }) {
             const type = (Array.isArray(damageTypes) && damageTypes[index]) || damageTypes;
 
             let damage = d(diceType, diceCount) + attackBonus;
+
             if (critical) {
                 damage *= 2;
             }
-            
             return { damage, type };
         });
+    }
+
+    const damagePlayers = (attackData) => {
+        const autoDamageValues = [];
+        for (const attackValues of attackData) {
+            if (!attackValues.damages) {
+                continue;
+            }
+
+            const rawDamage = attackValues.damages.map(({ damage }) => damage);
+            const playerIndex = campaign.players.findIndex(({ name }) => name === attackValues.target);
+
+            autoDamageValues.push({
+                index: playerIndex,
+                damageValue: rawDamage.reduce((a, b) => a + b, 0)
+            });
+        }
+        onAttackPlayers(autoDamageValues);
+    }
+
+    const attackRow = (enemy, index) => {
+        return (
+            <div 
+                className='attack-form-row' 
+                key={index}
+            >
+                <input
+                    className='widget-btn'
+                    id={`attack-form-row-chk-${index}`}
+                    name={`attack-form-row-chk-${index}`}
+                    checked={enabledRows[index]}
+                    onChange={e => dispatchEnabledRows({
+                        type: 'setAt', value: e.target.checked, index
+                    })}
+                    type='checkbox'
+                />
+
+                <label
+                    className='attack-form-label'
+                    htmlFor={`attack-form-row-chk-${index}`}
+                >
+                    {enemy.name}
+                </label>
+                
+                {attackOptions(enemy.attacks, index)}
+                {targetOptions(index)}
+            </div>
+        );
+    }
+
+    const attackOptions = (attacks, rowIndex) => {
+        return (
+            <select 
+                className='widget-btn widget-dropdown attack-form-input'
+                value={selectedAttacks[rowIndex]} 
+                onChange={e => dispatchSelectedAttacks({
+                    type: 'setAt', index: rowIndex, value: e.target.value
+                })}
+            >
+                {attacks.map((attack, index) =>
+                    <option
+                        key={`attack-option-${index}`}
+                        value={JSON.stringify(attack)}
+                    >
+                        {capitalize(attack.name)}
+                    </option>
+                )}
+            </select>
+        );
+    }
+
+    const targetOptions = (rowIndex) => {
+        return (
+            <select 
+                className='widget-btn widget-dropdown attack-form-input'
+                value={selectedTargets[rowIndex]} 
+                onChange={e => dispatchSelectedTargets(
+                    { type: 'setAt', index: rowIndex, value: e.target.value }
+                )}
+            >
+                {playerOptions.map(({name}, index) => 
+                    <option 
+                        key={`target-option-${index}`} 
+                        value={name}
+                    >
+                        {name}
+                    </option>
+                )}
+            </select>
+        );
     }
 
     const showResults = () => {
@@ -137,103 +211,39 @@ function AttackForm({ onAttackPlayers }) {
         );
     }
 
-    const attackRow = (enemy, index) => {
-        return (
-            <div className='attack-modal-row' key={index}>
-                <input 
-                    className='widget-input attack-modal-input'
-                    checked={enabledRows[index]}
-                    onChange={e => enableRow(e, index)} 
-                    type='checkbox' /> {enemy.name}&nbsp;&nbsp;&nbsp;{attackOptions(enemy.attacks, index)} {targetOptions(index)}
-            </div>
-        );
-    }
-
-    const enableRow = (event, index) => {
-        const nextEnabledRows = [...enabledRows];
-        nextEnabledRows[index] = event.target.checked;
-        setEnabledRows(nextEnabledRows);
-    }
-
-    const enableAllRows = (event) => {
-        const nextEnabledRows = [...enabledRows];
-        nextEnabledRows.fill(event.target.checked); 
-        setEnabledRows(nextEnabledRows);
-    }
-
-    const attackOptions = (attacks, rowIndex) => {
-        return (
-            <select 
-                className='widget-input attack-modal-input'
-                value={selectedAttacks[rowIndex]} 
-                onChange={event => selectOption(event, rowIndex, selectedAttacks, setSelectedAttacks)}>
-                    {attacks.map((attack, index) =>
-                        <option key={index} value={JSON.stringify(attack)}>{capitalize(attack.name)}</option>
-                    )}
-            </select>
-        );
-    }
-
-    const targetOptions = (rowIndex) => {
-        return (
-            <select 
-                className='widget-input attack-modal-input'
-                value={selectedTargets[rowIndex]} 
-                onChange={event => selectOption(event, rowIndex, selectedTargets, setSelectedTargets)}>
-                    {playerOptions.map(({name}, index) => 
-                        <option key={index} value={name}>{name}</option>
-                    )}
-            </select>
-        );
-    }
-
-    const selectOption = (event, index, prevState, setState) => {
-        const targetValue = event.target.value;
-        const nextState = [...prevState];
-
-        nextState[index] = targetValue;
-        setState(nextState);
-    }
-
-    const modalContents = () => {
-        return (
-            <>
-                <div id='attack-modal-target'>
-                    <div id='attack-modal-select-all'>
-                        <input
-                            className='widget-input'
-                            onChange={e => enableAllRows(e)}
-                            type='checkbox' />&nbsp;&nbsp;&nbsp;Select All
-                    </div>
-                    {enemies?.map(attackRow)}
-                </div>
-                <div id='attack-modal-results'>
-                    {showResults()}
-                </div>
-            </>
-        );
-    }
-
-    const modalFooter = () => {
-        return (
-            <button
-                className='widget-btn attack-modal-input'
-                onClick={() => doAttack()}>Attack
-            </button>
-        )
-    }
-
-    const onClose = () => {
-
-    }
-
     return (
-        <Modal 
+        <Form
             title='Enemy Attacks'
-            close={onClose}
-            contents={modalContents()}
-            footer={modalFooter()}
-        />
+            submitText='Attack'
+            submitToolTip='Attack'
+            onSubmit={doAttack}
+        >
+            <div className='attack-form-contents'>
+                <div className='attack-form-select-all'>
+                    <input
+                        className='widget-btn'
+                        id='attack-form-select-all-chk'
+                        name='attack-form-select-all-chk'
+                        onChange={e => dispatchEnabledRows({ 
+                            type: 'fill', value: e.target.checked
+                        })}
+                        type='checkbox'
+                    />
+                    
+                    <label 
+                        className='attack-form-label'
+                        htmlFor='attack-form-select-all-chk'
+                    >
+                        Select All
+                    </label>
+                </div>
+                {enemies?.map(attackRow)}
+            </div>
+
+            <div className='attack-form-results'>
+                {showResults()}
+            </div>
+        </Form>
     );
 }
 

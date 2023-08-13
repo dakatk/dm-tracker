@@ -44,8 +44,6 @@ document.documentElement.style.setProperty('--theme-color', theme.primary);
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <ThemeContext.Provider value={theme}>
-        <React.StrictMode>
-            <App session={loadFromSession()} />
-        </React.StrictMode>
+        <App session={loadFromSession()} />
     </ThemeContext.Provider>
 );

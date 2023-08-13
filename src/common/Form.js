@@ -22,15 +22,16 @@ const findFormFieldProps = (children) => {
     })
 }
 
-function Form({ title, submitText, closeText, submitToolTip, closeToolTip, onSubmit, onValidationError, children }) {
+function Form({ title, submitText, closeText, submitToolTip, closeToolTip, onSubmit, onValidationError, ignoreValidation, children }) {
     const form = useContext(FormContext);
 
-    const formFieldProps = findFormFieldProps(children)
-        .flat(2)
-        .filter(child => child !== null);
+    const formFieldProps = ignoreValidation !== false ?
+        findFormFieldProps(children)
+            .flat(2)
+            .filter(child => child !== null) : [];
 
     const onAttemptSubmit = () => {
-        if (!formFieldProps.length) {
+        if (ignoreValidation || !formFieldProps.length) {
             onSubmit();
             return;
         }

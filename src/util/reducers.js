@@ -1,21 +1,15 @@
-export const baseReducer = (_, { value }) => {
-    return value;
-}
-
-export const arrayAddReducer = (state, { value }) => {
-    return [...state, value];
-}
-
-export const arrayRemoveReducer = (state, { value }) => {
-    return state.filter(element => element !== value);
-}
-
 const arrayActions = {
-    add: (state, action) => arrayAddReducer(state, action),
-    remove: (state, action) => arrayRemoveReducer(state, action)
+    add: (state, { value }) => [...state, value],
+    remove: (state, { value }) => state.filter(element => element !== value),
+    fill: (state, { value }) => [...state].fill(value),
+    setAt: (state, { value, index }) => {
+        const updatedState = [...state];
+        updatedState[index] = value;
+        return updatedState;
+    } 
 };
 
-export const arrayReducer = (state, action) => {
+const arrayReducer = (state, action) => {
     if (action.type in arrayActions) {
         return arrayActions[action.type](state, action);
     } else {
@@ -23,22 +17,18 @@ export const arrayReducer = (state, action) => {
     }
 }
 
-export const objectAddReducer = (state, { name, value }) => {
-    return { ...state, [name]: value }
-}
-
-export const objectRemoveReducer = (state, { name }) => {
-    const updatedState = [...state];
-    delete updatedState[name];
-    return updatedState;
-}
-
 const objectActions = {
-    add: (state, action) => arrayAddReducer(state, action),
-    remove: (state, action) => arrayRemoveReducer(state, action)
+    remove: (state, { name }) => {
+        const updatedState = [...state];
+        delete updatedState[name];
+        return updatedState;
+    },
+    setAt: (state, { name, value }) => {
+        return { ...state, [name]: value };
+    }
 };
 
-export const objectReducer = (state, action) => {
+const objectReducer = (state, action) => {
     if (action.type in objectActions) {
         return objectActions[action.type](state, action);
     } else {
@@ -47,35 +37,35 @@ export const objectReducer = (state, action) => {
 }
 
 const playerActions = {
-    set: (state, action) => baseReducer(state, action),
-    add: (state, action) => arrayAddReducer(state, action),
-    damage: (state, action) => {
+    set: (_, { value }) => value,
+    add: (state, { value }) => arrayActions.add(state, { value }),
+    damage: (state, { value }) => {
         const updatedState = [...state];
-        for (const {index, value} of action.value) {
+        for (const { index, damageValue } of value) {
             const currHealth = updatedState[index].health;
-            updatedState[index].health = Math.max(0, currHealth - value);
+            updatedState[index].health = Math.max(0, currHealth - damageValue);
         }
         return updatedState;
     },
-    updateProp: (state, action) => {
+    updateProp: (state, { type, index, value }) => {
         const updatedState = [...state];
         
-        if (action.index === undefined) {
-            for (const [i, value] of Object.entries(action.value ?? {})) {
-                updatedState[i][action.type] = value;
+        if (index === undefined) {
+            for (const [i, valueAt] of Object.entries(value ?? {})) {
+                updatedState[i][type] = valueAt;
             }
-        } else if (Array.isArray(action.index)) {
-            for (const [i, value] of Object.entries(action.index)) {
-                updatedState[value][action.type] = action.value[i];
+        } else if (Array.isArray(index)) {
+            for (const [i, valueAt] of Object.entries(index)) {
+                updatedState[valueAt][type] = valueAt[i];
             }
         } else {
-            updatedState[action.index][action.type] = action.value;
+            updatedState[index][type] = value;
         }
         return updatedState;
     }
 };
 
-export const playerReducer = (state, action) => {
+const playerReducer = (state, action) => {
     if (action.type in playerActions) {
         return playerActions[action.type](state, action);
     } else {
@@ -84,26 +74,33 @@ export const playerReducer = (state, action) => {
 }
 
 const encounterActions = {
-    set: (state, action) => baseReducer(state, action),
-    add: (state, action) => objectAddReducer(state, action),
-    updateIndex: (state, action) => {
-        if (action.index === undefined) {
+    set: (_, value) => value,
+    add: (state, { name, value }) => objectActions.setAt(state, { name, value }),
+    updateProp: (state, { type, index, value, currentEncounter }) => {
+        if (index === undefined) {
             return state;
         }
-        const updatedEncounter = [...state[action.currentEncounter]];
-        updatedEncounter[action.index][action.type] = action.value;
+        const updatedEncounter = [...state[currentEncounter]];
+        updatedEncounter[index][type] = value;
 
         return {
             ...state,
-            [action.currentEncounter]: updatedEncounter
+            [currentEncounter]: updatedEncounter
         }
     }
 };
 
-export const encounterReducer = (state, action) => {
+const encounterReducer = (state, action) => {
     if (action.type in encounterActions) {
         return encounterActions[action.type](state, action);
     } else {
-        return encounterActions.updateIndex(state, action);
+        return encounterActions.updateProp(state, action);
     }
+}
+
+export {
+    arrayReducer,
+    objectReducer,
+    playerReducer,
+    encounterReducer
 }

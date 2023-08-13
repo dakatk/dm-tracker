@@ -1,27 +1,36 @@
 @import '../../../style/widget.scss';
 
-.attack-modal-input {
+.attack-form-input {
     margin-right: 0.8em;
 }
 
-.attack-modal-row {
-    margin-top: 0.8em;
-    background-color: #3a3a3a;
-    border: 2px solid #5a5a5a;
-    border-radius: 10px;
-    padding: 0.8em;
+.attack-form-label {
+    margin-left: 1em;
+    margin-right: 2em;
 }
 
-#attack-modal-select-all {
-    padding: 0.5em 0 0.5em 0.8em;
-}
-
-#attack-modal-target {
+.attack-form-contents {
     padding: 0.8em;
     border-right: 2px solid $widgetInputDisabledTextColor;
+
+    .attack-form-select-all {
+        padding: 0.5em 0 0.5em 0.8em;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .attack-form-row {
+        display: flex;
+        flex-direction: row;
+        margin-top: 0.8em;
+        background-color: $attackRowBackgroundColor;
+        border: 2px solid $attackRowBorderColor;
+        border-radius: 10px;
+        padding: 0.8em;
+    }
 }
 
-#attack-modal-results {
+.attack-form-results {
     overflow-y: scroll;
     padding: 0.8em;
     min-width: 20em;

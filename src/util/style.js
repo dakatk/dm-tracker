@@ -1,3 +1,7 @@
-export const blurBackground = (className, blur) => {
+const blurBackground = (className, blur) => {
     return `${className} ${blur ? 'app-blur' : ''}`;
+}
+
+export {
+    blurBackground
 }

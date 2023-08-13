@@ -23,11 +23,10 @@ function Selector({ options, currentSelection, onConfirm, disabled }) {
     }
     
     return (
-        <div className='widget-box' id='selector-widget'>
-            <span id='selection'>
+        <div className='widget-box selector-container'>
+            <span className='selection'>
                 <select
-                    id='selector-dropdown'
-                    className='widget-input'
+                    className='widget-btn widget-dropdown selector-dropdown'
                     value={selection}
                     title={selection}
                     onChange={updateSelection}
@@ -38,7 +37,7 @@ function Selector({ options, currentSelection, onConfirm, disabled }) {
                 </select>
             </span>
 
-            <span id='selector-confirm-button'>
+            <span className='selector-confirm-button'>
                 <button 
                     className='widget-btn'
                     onClick={() => onConfirm(selection)}

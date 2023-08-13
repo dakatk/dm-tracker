@@ -1,17 +1,14 @@
 @import '../../style/widget.scss';
 
-#selector-widget {
+.selector-container {
     display: flex;
     align-items: center;
     justify-content: center;
-}
 
-#selector-dropdown {
-    margin-right: 0.8em;
-    min-width: 60%;
-}
-
-#selector-dropdown:active:not([disabled]) {
-    color: #f3c49e !important;
-    background-color: #3f3f42 !important;
+    .selection {
+        .selector-dropdown {
+            margin-right: 0.8em;
+            min-width: 60%;
+        }
+    }
 }

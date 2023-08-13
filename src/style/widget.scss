@@ -35,6 +35,11 @@
     cursor: default;
 }
 
+.widget-dropdown:active:not([disabled]) {
+    color: #f3c49e !important;
+    background-color: #3f3f42 !important;
+}
+
 .widget-input {
     padding: 0.4em 0.55em 0.4em 0.55em;
     color: $widgetInputTextColor;

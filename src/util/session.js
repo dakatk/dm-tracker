@@ -1,4 +1,4 @@
-export const saveSession = ({ players, encounterOptions, currentEncounter, npcs, quests }) => {    
+const saveSession = ({ players, encounterOptions, currentEncounter, npcs, quests }) => {    
     if (players !== null && players !== undefined) {
         localStorage.setItem('PLAYERS_JSON', JSON.stringify(players));
     }
@@ -20,7 +20,7 @@ export const saveSession = ({ players, encounterOptions, currentEncounter, npcs,
     }
 }
 
-export const loadFromSession = () => {
+const loadFromSession = () => {
     const playersJson = localStorage.getItem('PLAYERS_JSON');
     const encounterOptionsJson = localStorage.getItem('ENCOUNTER_OPTIONS_JSON');
     const currentEncounterJson = localStorage.getItem('CURRENT_ENCOUNTER_JSON');
@@ -60,4 +60,9 @@ export const loadFromSession = () => {
         npcs,
         quests
     };
+}
+
+export {
+    saveSession,
+    loadFromSession
 }
