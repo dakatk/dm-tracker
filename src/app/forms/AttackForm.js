@@ -150,56 +150,26 @@ function AttackForm({ onAttackPlayers }) {
                 >
                     {enemy.name}
                 </label>
-                
-                {attackOptions(enemy.attacks, index)}
-                {targetOptions(index)}
+
+                <AttackRowDropdown
+                    value={selectedAttacks[index]}
+                    options={enemy.attacks}
+                    valueMap={JSON.stringify}
+                    onChange={e => dispatchSelectedAttacks({
+                        type: 'setAt', index, value: e.target.value
+                    })}
+                />
+
+                <AttackRowDropdown
+                    value={selectedTargets[index]}
+                    options={playerOptions}
+                    onChange={e => dispatchSelectedTargets({ 
+                        type: 'setAt', index, value: e.target.value
+                    })}
+                />
             </div>
         );
     }
-
-    // TODO Make these two generic:
-    const attackOptions = (attacks, rowIndex) => {
-        return (
-            <select 
-                className='widget-btn widget-dropdown attack-form-input'
-                value={selectedAttacks[rowIndex]} 
-                onChange={e => dispatchSelectedAttacks({
-                    type: 'setAt', index: rowIndex, value: e.target.value
-                })}
-            >
-                {attacks.map((attack, index) =>
-                    <option
-                        key={`attack-option-${index}`}
-                        value={JSON.stringify(attack)}
-                    >
-                        {capitalize(attack.name)}
-                    </option>
-                )}
-            </select>
-        );
-    }
-
-    const targetOptions = (rowIndex) => {
-        return (
-            <select 
-                className='widget-btn widget-dropdown attack-form-input'
-                value={selectedTargets[rowIndex]} 
-                onChange={e => dispatchSelectedTargets(
-                    { type: 'setAt', index: rowIndex, value: e.target.value }
-                )}
-            >
-                {playerOptions.map(({name}, index) => 
-                    <option 
-                        key={`target-option-${index}`} 
-                        value={name}
-                    >
-                        {name}
-                    </option>
-                )}
-            </select>
-        );
-    }
-    //
 
     const showResults = () => {
         return (
@@ -246,6 +216,25 @@ function AttackForm({ onAttackPlayers }) {
                 {showResults()}
             </div>
         </Form>
+    );
+}
+
+const AttackRowDropdown = (value, options, valueMap, onChange) => {
+    return (
+        <select 
+            className='widget-btn widget-dropdown attack-form-input'
+            value={value}
+            onChange={onChange}
+        >
+            {options.map(element => 
+                <option 
+                    key={`attack-row-option-${element.name}`}
+                    value={valueMap?.call ? valueMap(element) : element.name}
+                >
+                    {capitalize(element.name)}
+                </option>
+            )}
+        </select>
     );
 }
 

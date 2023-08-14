@@ -8,6 +8,7 @@
 
         .tab-label {
             flex-direction: column;
+            flex-grow: 1;
             border: 1px solid $widgetBorderColor !important;
             border-bottom: 2px solid $widgetBorderColor !important;
             border-top: none !important;

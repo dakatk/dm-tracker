@@ -5,7 +5,7 @@ import './style/Modal.scss';
 
 function Modal({ title, contents, footer, onClose }) {
     return (
-        <div className='widget-box modal-container'>
+        <div className='widget-box' id='modal-container'>
             <div className='modal-header'>
                 {title}
                 <FontAwesomeIcon

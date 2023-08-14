@@ -78,8 +78,8 @@ function Form({ title, submitText, closeText, submitToolTip, closeToolTip, onSub
     return (
         <Modal 
             title={title}
-            close={onClose}
             contents={children}
+            onClose={onClose}
             footer={<FormFooter
                 saveText={submitText}
                 closeText={closeText}

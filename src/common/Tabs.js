@@ -32,10 +32,10 @@ function Tabs({ labels, value, content, onChange }) {
         if (selectedTab === label) {
             classNames.push('tab-active');
         }
-
         if (labels.indexOf(label) === 0) {
             classNames.push('tab-first');
-        } else if (labels.indexOf(label) === labels.length - 1) {
+        }
+        if (labels.indexOf(label) === labels.length - 1) {
             classNames.push('tab-last');
         }
         return classNames.join(' ');

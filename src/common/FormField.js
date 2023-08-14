@@ -100,7 +100,6 @@ const renderInputType = (type, id, value, updateValue, metadata) => {
 const FormField = ({ type, label, id, className, required, value, updateValue, metadata }) => {
     const form = useContext(FormContext);
 
-    // TODO Render orange asterisk next to required field labels
     return (
         <div
             key={metadata?.key}
@@ -110,7 +109,7 @@ const FormField = ({ type, label, id, className, required, value, updateValue, m
                 className='form-field-modal-label'
                 htmlFor={id}
             >
-                {label}
+                {label}{required && <label className='form-field-label-required'>*</label>}
             </label>
 
             {renderInputType(type, id, value, updateValue, metadata)}

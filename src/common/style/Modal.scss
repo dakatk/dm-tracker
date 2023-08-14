@@ -1,6 +1,6 @@
 @import '../../style/widget.scss';
 
-.modal-container {
+#modal-container {
     margin: auto;
     left: 0; 
     right: 0;
@@ -36,7 +36,7 @@
         background-color: $widgetBackgroundColor2;
         display: flex;
     }
-
+    
     .modal-footer {
         min-width: 100%;
         float: inline-start;
