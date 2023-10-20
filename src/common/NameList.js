@@ -2,13 +2,13 @@ import { useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { faTrashCan, faPenToSquare } from '@fortawesome/free-regular-svg-icons';
 
 import { capitalize } from '../util/string';
 
 import './style/NameList.scss';
 
-function NameList({ list, descriptorKeys, onAdd, onRemove, disabled }) {
+function NameList({ list, descriptorKeys, disabled, onAdd, onRemove, onEdit }) {
     const [expanded, setExpanded] = useState([]);
 
     const toggleExpand = (index) => {
@@ -27,11 +27,18 @@ function NameList({ list, descriptorKeys, onAdd, onRemove, disabled }) {
         });
     };
 
-    const onRemoveClicked = (index) => {
-        if (disabled) {
-            return;
+    const onRemoveClicked = (e, index) => {
+        e.stopPropagation();
+        if (!disabled) {
+            onRemove(index);
         }
-        onRemove(index);
+    }
+
+    const onEditClicked = (e, index) => {
+        e.stopPropagation();
+        if (!disabled) {
+            onEdit(index);
+        }
     }
 
     const description = (key, value, bordered) => {
@@ -62,7 +69,6 @@ function NameList({ list, descriptorKeys, onAdd, onRemove, disabled }) {
 
     const rowClassNames = () => {
         let classNames = 'name-list-entry name-list-heading';
-
         if (disabled) {
             classNames += ' disabled';
         }
@@ -88,13 +94,21 @@ function NameList({ list, descriptorKeys, onAdd, onRemove, disabled }) {
                             className='name-list-accordian-arrow'
                         />
 
-                        <FontAwesomeIcon
+                        {onRemove?.call && <FontAwesomeIcon
                             title={`Delete ${value.name}`}
                             key={`delete-icon-${index}`}
                             icon={faTrashCan} 
                             className='name-list-delete'
-                            onClick={() => onRemoveClicked(index)}
-                        />
+                            onClick={e => onRemoveClicked(e, index)}
+                        />}
+
+                        {onEdit?.call && <FontAwesomeIcon
+                            title={`Edit ${value.name}`}
+                            key={`edit-icon-${index}`}
+                            icon={faPenToSquare}
+                            className='name-list-edit'
+                            onClick={e => onEditClicked(e, index)}
+                        />}
                     </div>
                     {expanded[index] && details(value, index)}
                 </td>
@@ -110,12 +124,12 @@ function NameList({ list, descriptorKeys, onAdd, onRemove, disabled }) {
                 </tbody>
             </table>
 
-            <button 
+            {onAdd?.call && <button 
                 className='widget-btn name-list-add-btn'
                 onClick={() => onAdd()}
                 disabled={disabled}
             >Add
-            </button>
+            </button>}
         </div>
     );
 }

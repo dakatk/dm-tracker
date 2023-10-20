@@ -16,9 +16,9 @@ function AttackForm({ onAttackPlayers }) {
     const playerOptions = campaign.players
         .filter(({ health }) => health > 0)
         .map(({ name, ac }) => { return { name, ac }; });
-    
+
     const enemies = campaign.encounterOptions[campaign.currentEncounter];
-    
+
     const defaultAttackSelection = enemies?.map(value => value?.attacks[0]) ?? [];
     const defaultTargetSelection = enemies?.map(() => playerOptions[0]?.name) ?? [];
     const defaultEnabledRows = enemies?.map(() => false) ?? [];
@@ -45,7 +45,7 @@ function AttackForm({ onAttackPlayers }) {
                 }
             })
             .filter(value => value !== undefined);
-        
+
         setResults(newResults);
         damagePlayers(newResults);
     }
@@ -57,7 +57,7 @@ function AttackForm({ onAttackPlayers }) {
 
         const hit = d(20);
         const player = playerOptions.find(({ name }) => name === target);
-        
+
         let damages = [];
         let str = `${attackerName} missed.`;
 
@@ -65,7 +65,7 @@ function AttackForm({ onAttackPlayers }) {
             str = `${attackerName} missed critically!`;
         } else if (hit === 20 || (hit + attack.hitBonus >= player.ac)) {
             const damageData = calcDamage(attack, hit === 20);
-            
+
             str = `${attackerName} hit ${target} for ${damageData.str}`;
             damages = damageData.values;
         }
@@ -78,7 +78,7 @@ function AttackForm({ onAttackPlayers }) {
     }
 
     const calcDamage = (attack, critical) => {
-        const {diceType, attackBonus, diceCount, damageType} = attack;
+        const { diceType, attackBonus, diceCount, damageType } = attack;
 
         let values = [];
         if (Array.isArray(diceType)) {
@@ -87,7 +87,7 @@ function AttackForm({ onAttackPlayers }) {
             values = rollAttackDice([diceType], [attackBonus], [diceCount], [damageType], critical);
         }
 
-        const str = values.map(value => 
+        const str = values.map(value =>
             `${value.damage} ${value.type} damage`
         ).join(',');
 
@@ -129,8 +129,8 @@ function AttackForm({ onAttackPlayers }) {
 
     const attackRow = (enemy, index) => {
         return (
-            <div 
-                className='attack-form-row' 
+            <div
+                className='attack-form-row'
                 key={index}
             >
                 <input
@@ -163,7 +163,7 @@ function AttackForm({ onAttackPlayers }) {
                 <AttackRowDropdown
                     value={selectedTargets[index]}
                     options={playerOptions}
-                    onChange={e => dispatchSelectedTargets({ 
+                    onChange={e => dispatchSelectedTargets({
                         type: 'setAt', index, value: e.target.value
                     })}
                 />
@@ -173,9 +173,9 @@ function AttackForm({ onAttackPlayers }) {
 
     const showResults = () => {
         return (
-            <div>Results: {results && 
+            <div>Results: {results &&
                 <ol>
-                    {results.map((value, index) => 
+                    {results.map((value, index) =>
                         <li key={index}>{value.str}</li>
                     )}
                 </ol>
@@ -196,17 +196,16 @@ function AttackForm({ onAttackPlayers }) {
                         className='widget-btn'
                         id='attack-form-select-all-chk'
                         name='attack-form-select-all-chk'
-                        onChange={e => dispatchEnabledRows({ 
+                        onChange={e => dispatchEnabledRows({
                             type: 'fill', value: e.target.checked
                         })}
                         type='checkbox'
                     />
-                    
-                    <label 
+
+                    <label
                         className='attack-form-label'
                         htmlFor='attack-form-select-all-chk'
-                    >
-                        Select All
+                    >Select All
                     </label>
                 </div>
                 {enemies?.map(attackRow)}
@@ -221,13 +220,13 @@ function AttackForm({ onAttackPlayers }) {
 
 const AttackRowDropdown = (value, options, valueMap, onChange) => {
     return (
-        <select 
+        <select
             className='widget-btn widget-dropdown attack-form-input'
             value={value}
             onChange={onChange}
         >
-            {options.map(element => 
-                <option 
+            {options.map(element =>
+                <option
                     key={`attack-row-option-${element.name}`}
                     value={valueMap?.call ? valueMap(element) : element.name}
                 >

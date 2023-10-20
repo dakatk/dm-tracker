@@ -5,11 +5,11 @@ import { FormField } from '../../common/FormField';
 
 import './style/NewQuestForm.scss';
 
-function NewQuestForm({ onCreateQuest }) {
-    const [name, updateName] = useState('');
-    const [type, updateType] = useState('');
-    const [reward, updateReward] = useState('');
-    const [description, updateDescription] = useState('');
+function NewQuestForm({ onCreateQuest, currentName, currentType, currentReward, currentDescription }) {
+    const [name, updateName] = useState(currentName || '');
+    const [type, updateType] = useState(currentType || '');
+    const [reward, updateReward] = useState(currentReward || '');
+    const [description, updateDescription] = useState(currentDescription || '');
 
     return (
         <Form

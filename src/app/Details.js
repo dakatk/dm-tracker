@@ -4,7 +4,7 @@ import { FormContext } from './Context';
 
 import NameList from '../common/NameList';
 
-function Details({ descriptorKeys, values, updateValues, onAdd, disabled }) {    
+function Details({ descriptorKeys, values, updateValues, disabled, onAdd, onEdit }) {    
     const onRemoveValue = (index) => {
         updateValues(prevState => {
             const updatedState = [...prevState];
@@ -13,14 +13,19 @@ function Details({ descriptorKeys, values, updateValues, onAdd, disabled }) {
         });
     }
 
+    const onEditValue = (index) => {
+        onEdit(values[index]);
+    }
+
     if (values?.length) {
         return (
             <NameList
                 list={values}
                 descriptorKeys={descriptorKeys}
                 onAdd={onAdd}
-                onRemove={onRemoveValue}
                 disabled={disabled}
+                onEdit={onEditValue}
+                onRemove={onRemoveValue}
             />
         );
     }
@@ -35,6 +40,7 @@ export function Npcs({ npcs, updateNpcs, disabled }) {
             values={npcs}
             updateValues={updateNpcs}
             onAdd={form.openNewNpcForm}
+            onEdit={() => {}} // TODO form.openNpcForm
             disabled={disabled}
         />
     );
@@ -49,6 +55,7 @@ export function Quests({ quests, updateQuests, disabled }) {
             values={quests}
             updateValues={updateQuests}
             onAdd={form.openNewQuestForm}
+            onEdit={() => {}} // TODO form.openQuestForm
             disabled={disabled}
         />
     );

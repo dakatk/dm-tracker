@@ -5,11 +5,11 @@ import { FormField } from '../../common/FormField';
 
 import './style/NewNpcForm.scss';
 
-function NewNpcForm({ onCreateNpc }) {
-    const [name, updateName] = useState('');
-    const [type, updateType] = useState('');
-    const [occupation, updateOccupation] = useState('');
-    const [description, updateDescription] = useState('');
+function NewNpcForm({ onCreateNpc, currentName, currentType, currentOccupation, currentDescription }) {
+    const [name, updateName] = useState(currentName || '');
+    const [type, updateType] = useState(currentType || '');
+    const [occupation, updateOccupation] = useState(currentOccupation || '');
+    const [description, updateDescription] = useState(currentDescription || '');
 
     return (
         <Form 

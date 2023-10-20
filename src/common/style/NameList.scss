@@ -1,6 +1,7 @@
 @import '../../style/widget.scss';
 
 $deleteIconColor: #a34040;
+$editIconColor: #9a8b6e;
 
 .name-list-container {
     font-family: arial, sans-serif;
@@ -31,6 +32,12 @@ $deleteIconColor: #a34040;
                 float: right;
                 margin-top: 6px;
                 color: $deleteIconColor;
+            }
+
+            .name-list-edit {
+                margin-top: 6px;
+                margin-left: 1em;
+                color: $editIconColor;
             }
         }
 
